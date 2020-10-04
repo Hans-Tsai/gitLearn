@@ -30,6 +30,17 @@ Git Learn
     * $ `sudo apt-get install gitk `
 
 ---
+### 設定Git
+- 所有Git相關的設定都會儲存在 `~/.gitconfig` 這個檔案裡
+- 設定使用者的Email＆username
+  + $ `git config --global user.name "Hans-Tsai"`
+  + $ `git config --global user.email "lgs840522@gmail.com"`
+- 檢視目前的設定
+  + $ `cat ~/.gitconfig`
+  + $ `git config --list`
+
+
+---
 ### 觀念介紹
 - Git是一種分散式的版本控制系統,而所謂的"版本控制系統"就是指會幫你記錄所有的狀態變化,隨時可以切換到過去某個版本的狀態
 - Git的優點
@@ -44,6 +55,7 @@ Git Learn
   + Commit物件
   + Tag物件
 - 在使用Git時,指令要在正確的目錄下才能正常運作
+- 
 
 ---
 ### 觀念補充
@@ -51,8 +63,10 @@ Git Learn
   +  終端機本身通常不是一部電腦,它本身沒有運算能力,僅用來顯示資料及輸入資料,所有的計算都是在主機上處理的
   +  其實終端機就是可以讓使用者輸入指令,來跟電腦進行互動
 - Vim 是Git的預設編輯器,Vim主要常用的兩種模式
-  + Normal模式
-  + Insert模式
+  + Normal模式:無法輸入文字,僅能複製,貼上,存檔,離開 動作
+  + Insert模式:需要先按下`I or A or O`,才能開始輸入文字
+  + 在Insert模式下,按`esc`可退回到Normal模式
+  + 在Normal模式下,按下`:wq!` ,代表強制存檔完成後直接關閉這個檔案
   + ![Vim操作介紹](/pic/Vim圖解操作說明.png)
 
 
