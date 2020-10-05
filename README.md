@@ -1,10 +1,17 @@
-Git Learn 
-以下是自主學習Git的觀念和指令後做的統整
+Git Learn<br>
+自主學習Git的觀念和指令後做的統整
 ===
 
 ## 目錄
-
-
+- [自主學習Git的觀念和指令後做的統整](#自主學習git的觀念和指令後做的統整)
+  - [目錄](#目錄)
+    - [安裝方式](#安裝方式)
+    - [設定Git](#設定git)
+    - [開始使用Git](#開始使用git)
+    - [觀念介紹](#觀念介紹)
+    - [觀念補充](#觀念補充)
+  
+  
 ---
 ### 安裝方式
 - Windows系統
@@ -31,6 +38,8 @@ Git Learn
 
 ---
 ### 設定Git
+> git-config - Get and set repository or global options<br>
+> git-log - Show commit logs
 - 所有Git相關的設定都會儲存在 `~/.gitconfig` 這個檔案裡
 - 設定使用者的Email＆username
   + $ `git config --global user.name "Hans-Tsai"`
@@ -38,6 +47,27 @@ Git Learn
 - 檢視目前的設定
   + $ `cat ~/.gitconfig`
   + $ `git config --list`
+- 設定Git要使用的編輯器(預設是使用Vim)
+  + $ `git config --global core.editor emacs`
+- 設定Git客製化縮寫指令
+  + $ `git config --global alias.co checkout`  
+  + $ `git config --global alias.br branch`
+  + $ `git config --global alias.st status`
+  + $ `git config --global alias.ls 'log --graph --pretty=format:"%h <%an> %ar %s"'`
+
+---
+### 開始使用Git
+> git-init - Create an empty Git repository or reinitialize an existing one<br>
+> git-status - Show the working tree status
+- 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
+  + $ `git init`
+  + 會在該目錄裡面建立一個 `.git/` 隱藏檔目錄,整個Git的精華都會在這個目錄裡面
+- 如果該目錄不想再被Git做版本控制,只要將`.git/`目錄整個刪除就可以 
+  + $ `rm -rf .git/` 
+  + 注意:整個專案目錄裡,什麼檔案或目錄刪了都救得回來,但 `.git/` 目錄只要刪了就沒辦法了 !
+- 查詢現在這個目錄的"狀態"
+  + $ `git status`
+  +  
 
 
 ---
@@ -55,7 +85,7 @@ Git Learn
   + Commit物件
   + Tag物件
 - 在使用Git時,指令要在正確的目錄下才能正常運作
-- 
+
 
 ---
 ### 觀念補充
@@ -64,7 +94,7 @@ Git Learn
   +  其實終端機就是可以讓使用者輸入指令,來跟電腦進行互動
 - Vim 是Git的預設編輯器,Vim主要常用的兩種模式
   + Normal模式:無法輸入文字,僅能複製,貼上,存檔,離開 動作
-  + Insert模式:需要先按下`I or A or O`,才能開始輸入文字
+  + Insert模式:需要先按下 `I or A or O` ,才能開始輸入文字
   + 在Insert模式下,按`esc`可退回到Normal模式
   + 在Normal模式下,按下`:wq!` ,代表強制存檔完成後直接關閉這個檔案
   + ![Vim操作介紹](/pic/Vim圖解操作說明.png)
