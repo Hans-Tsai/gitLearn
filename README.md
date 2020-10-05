@@ -9,6 +9,7 @@ Git Learn<br>
     - [設定Git](#設定git)
     - [開始使用Git](#開始使用git)
     - [觀念介紹](#觀念介紹)
+    - [實戰情境題](#實戰情境題)
     - [觀念補充](#觀念補充)
   
   
@@ -38,8 +39,8 @@ Git Learn<br>
 
 ---
 ### 設定Git
-> git-config - Get and set repository or global options<br>
-> git-log - Show commit logs
+> git config - Get and set repository or global options<br>
+> git log - Show commit logs
 - 所有Git相關的設定都會儲存在 `~/.gitconfig` 這個檔案裡
 - 設定使用者的Email＆username
   + $ `git config --global user.name "Hans-Tsai"`
@@ -57,8 +58,9 @@ Git Learn<br>
 
 ---
 ### 開始使用Git
-> git-init - Create an empty Git repository or reinitialize an existing one<br>
-> git-status - Show the working tree status
+> git init - Create an empty Git repository or reinitialize an existing one<br>
+> git status - Show the working tree status<br>
+> git add - Add file contents to the index
 - 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
   + 會在該目錄裡面建立一個 `.git/` 隱藏檔目錄,整個Git的精華都會在這個目錄裡面
@@ -67,7 +69,14 @@ Git Learn<br>
   + 注意:整個專案目錄裡,什麼檔案或目錄刪了都救得回來,但 `.git/` 目錄只要刪了就沒辦法了 !
 - 查詢現在這個目錄的"狀態"
   + $ `git status`
-  +  
+  + Untracked files => 代表這個檔案尚未被加到Git版控系統裡,還沒開始正式被"追蹤",它只是剛剛才加入到這個目錄裡而已
+  + ![Untracked_files圖解說明](/pic/Untracked_files圖解說明.png)
+- $ `git add welcome.html`
+  + 就可以把這個檔案交給Git來管控了
+  + 剛才的檔案 `welcome.html`從Untracked變成new file狀態 => 表示這個檔案已經被安置到暫存區(Staging Area),等待稍後跟其他檔案一起被存到儲存庫裡面
+  + ![git_add將檔案加入版控中圖解說明](/pic/git%20add將檔案加入版控中圖解說明.png)
+  + 如果想將全部檔案一口氣加入暫存區,可以使用--all參數;不論檔案狀態是Untracked files或是Changes not staged for commit,都會一口氣變成Changes to committed
+    * $ `git add --all` or $ `git add -A`
 
 
 ---
@@ -85,6 +94,12 @@ Git Learn<br>
   + Commit物件
   + Tag物件
 - 在使用Git時,指令要在正確的目錄下才能正常運作
+- 暫存區(Staging Area)又可稱為索引(index)
+
+---
+### 實戰情境題
+- 如果在git add之後又修改了那個檔案的內容呢?
+
 
 
 ---
@@ -97,7 +112,7 @@ Git Learn<br>
   + Insert模式:需要先按下 `I or A or O` ,才能開始輸入文字
   + 在Insert模式下,按`esc`可退回到Normal模式
   + 在Normal模式下,按下`:wq!` ,代表強制存檔完成後直接關閉這個檔案
-  + ![Vim操作介紹](/pic/Vim圖解操作說明.png)
+  + ![Vim圖解操作說明](/pic/Vim圖解操作說明.png)
 
 
 
