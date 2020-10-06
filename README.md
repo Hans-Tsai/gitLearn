@@ -76,7 +76,11 @@ Git Learn<br>
   + 剛才的檔案 `welcome.html`從Untracked變成new file狀態 => 表示這個檔案已經被安置到暫存區(Staging Area),等待稍後跟其他檔案一起被存到儲存庫裡面
   + ![git_add將檔案加入版控中圖解說明](/pic/git%20add將檔案加入版控中圖解說明.png)
   + 如果想將全部檔案一口氣加入暫存區,可以使用--all參數;不論檔案狀態是Untracked files或是Changes not staged for commit,都會一口氣變成Changes to committed
-    * $ `git add --all` or $ `git add -A`
+    * $ `git add --all` or $ `git add -A` 
+    * $ `git add .` =>會將整個專案裡的全部異動檔案加到暫存區,不受限這個指令在哪一層目錄執行
+    * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
+
+
 
 
 ---
@@ -98,8 +102,12 @@ Git Learn<br>
 
 ---
 ### 實戰情境題
-- 如果在git add之後又修改了那個檔案的內容呢?
-
+> 如果在git add之後又修改了那個檔案的內容呢?
+  + 新增了一個檔案叫做abc.txt
+  + 執行 $ `git add abc.txt` 把檔案加到暫存區
+  + 又再編輯了一次該檔案
+  + 正確做法:必須再將該檔案 $ `git add abc.txt` 到暫存區一遍
+  + ![git add後又編輯檔案圖解說明](/pic/git%20add後又編輯檔案圖解說明.png)
 
 
 ---
