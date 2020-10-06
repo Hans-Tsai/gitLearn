@@ -83,9 +83,11 @@ Git Learn<br>
     * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
 - 把暫存區(staging area)的檔案提交到倉庫存檔
   + $ `git commit -m "git commit練習"`
-  + -m = (--messge)參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好
-
-
+  + -m = (--messge)參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好; $ `git commit`預設-m參數是必填的
+  + ![git commit練習圖解說明](pic/git%20commit練習圖解說明.png)
+  + 可以不用二段式commit,也可以用$ `git commit -a -m "update content"`來達到$ `git add` + $ `git commit -m`
+- Git每次commit都只會處理暫存區(staging area)裡的內容,也就是說,如果在執行 $ `git commit` 之前還沒被加到暫存區裡的檔案,就不會被commit到儲存庫了
+- 提醒:要完成commit才算是完成整個流程喔!
 
 
 ---
@@ -104,6 +106,12 @@ Git Learn<br>
   + Tag物件
 - 在使用Git時,指令要在正確的目錄下才能正常運作
 - 暫存區(Staging Area)又可稱為索引(index)
+- 在Git裡,主要可以分成三個區域,透過不同的git指令可以把檔案移動往不同的區域
+  + 工作目錄(Working Directory)
+  + 暫存區域(Staging Area) or (index)
+  + 儲存庫(Repository)
+  + ![工作目錄_暫存區_儲存庫的關係圖解說明](pic/工作目錄_暫存區_儲存庫的關係圖解說明.png)
+- 可以想像你有一個倉庫,倉庫門口有個小廣場,這個廣場的概念就像跟暫存區一樣,你把要存放到倉庫的貨物先放到這邊($ `git add`),然後等收集的差不多了就可以打開倉庫門,把放在廣場上的貨物送進倉庫裡($ `git commit -m`,並記錄下來這批貨是什麼用途的? & 誰送來的?)
 
 ---
 ### 實戰情境題
