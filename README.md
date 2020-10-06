@@ -83,7 +83,7 @@ Git Learn<br>
     * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
 - 把暫存區(staging area)的檔案提交到倉庫存檔
   + $ `git commit -m "git commit練習"`
-  + -m 參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好
+  + -m = (--messge)參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好
 
 
 
