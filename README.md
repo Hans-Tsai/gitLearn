@@ -60,7 +60,9 @@ Git Learn<br>
 ### 開始使用Git
 > git init - Create an empty Git repository or reinitialize an existing one<br>
 > git status - Show the working tree status<br>
-> git add - Add file contents to the index
+> git add - Add file contents to the index<br>
+> git commit - Record changes to the repository<br>
+
 - 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
   + 會在該目錄裡面建立一個 `.git/` 隱藏檔目錄,整個Git的精華都會在這個目錄裡面
@@ -71,14 +73,17 @@ Git Learn<br>
   + $ `git status`
   + Untracked files => 代表這個檔案尚未被加到Git版控系統裡,還沒開始正式被"追蹤",它只是剛剛才加入到這個目錄裡而已
   + ![Untracked_files圖解說明](/pic/Untracked_files圖解說明.png)
-- $ `git add welcome.html`
-  + 就可以把這個檔案交給Git來管控了
+- 把這個檔案交給Git來控管
+  + $ `git add welcome.html`
   + 剛才的檔案 `welcome.html`從Untracked變成new file狀態 => 表示這個檔案已經被安置到暫存區(Staging Area),等待稍後跟其他檔案一起被存到儲存庫裡面
   + ![git_add將檔案加入版控中圖解說明](/pic/git%20add將檔案加入版控中圖解說明.png)
   + 如果想將全部檔案一口氣加入暫存區,可以使用--all參數;不論檔案狀態是Untracked files或是Changes not staged for commit,都會一口氣變成Changes to committed
     * $ `git add --all` or $ `git add -A` 
     * $ `git add .` =>會將整個專案裡的全部異動檔案加到暫存區,不受限這個指令在哪一層目錄執行
     * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
+- 把暫存區(staging area)的檔案提交到倉庫存檔
+  + $ `git commit -m "git commit練習"`
+  + -m 參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好
 
 
 
