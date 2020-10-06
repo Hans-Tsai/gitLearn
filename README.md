@@ -63,6 +63,7 @@ Git Learn<br>
 > git add - Add file contents to the index<br>
 > git commit - Record changes to the repository<br>
 > git log - Show commit logs<br>
+> git rm - Remove files from the working tree and from the index<br>
 
 - 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
@@ -113,6 +114,16 @@ Git Learn<br>
     * --since:"hham/pm"
     * --until:"hham/pm"
     * --after:"yyyy-mm"
+- 刪除Git檔案
+  + 刪除檔案對Git來說都是一種"修改" 
+  + 可以透過系統指令刪除檔案$ `rm welcome.html`
+    * 這時候的檔案會是deleted狀態
+    * ![rm刪除檔案顯示為deleted狀態](/pic/rm刪除檔案顯示為deleted狀態.png)
+    * 還需要再執行$ `git add xxx.txt` 才會將這個"刪除"加到暫存區
+  + 可以透過$ `git rm welcome.html`
+    * $ `git rm` = `rm xxx.txt` + `git add xxx.txt`
+    * $ `git rm` 相當於先rm刪除檔案後再$ `git add` 加入暫存區的兩段式動作
+    * ![git rm=rm+git add 圖解說明](pic/git%20rm=rm+git%20add%20圖解說明.png)
 
 
 ---
