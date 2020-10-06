@@ -62,6 +62,7 @@ Git Learn<br>
 > git status - Show the working tree status<br>
 > git add - Add file contents to the index<br>
 > git commit - Record changes to the repository<br>
+> git log - Show commit logs<br>
 
 - 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
@@ -86,8 +87,32 @@ Git Learn<br>
   + -m = (--messge)參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好; $ `git commit`預設-m參數是必填的
   + ![git commit練習圖解說明](pic/git%20commit練習圖解說明.png)
   + 可以不用二段式commit,也可以用$ `git commit -a -m "update content"`來達到$ `git add` + $ `git commit -m`
-- Git每次commit都只會處理暫存區(staging area)裡的內容,也就是說,如果在執行 $ `git commit` 之前還沒被加到暫存區裡的檔案,就不會被commit到儲存庫了
-- 提醒:要完成commit才算是完成整個流程喔!
+  + Git每次commit都只會處理暫存區(staging area)裡的內容,也就是說,如果在執行 $ `git commit` 之前還沒被加到暫存區裡的檔案,就不會被commit到儲存庫了
+  + 提醒:要完成commit才算是完成整個流程喔!
+- 想檢視Git紀錄
+  + 使用$ `git log`指令,越新的資訊會在越上面,並會得到以下三個資訊
+  + Commit作者是誰? => 人是誰殺的?
+  + 什麼時候commit的? => 什麼時候殺的?
+  + 每次的commit大概做了哪些事? => 怎麼殺的?
+  + ![git log圖解說明越新的資訊會在越上面](pic/git%20log圖解說明越新的資訊會在越上面.png)
+  + 也可以使用參數將$ `git log`輸出成不同的形式
+    * $ `git log --oneline --graph` 
+    * --oneline:每個commit物件僅顯示成一行
+    * --graph:用圖表來表示commit物件之間的線性關係
+    * ![git log --oneline --graph圖解說明](pic/git%20log%20--oneline%20--graph圖解說明.png)
+  + 可以透過$ `git log`尋找特定author的commit物件
+    * $ `git log --oneline --author="Hans"`
+    * 作者(author)是最初修改的人
+    * 提交者(committer)是最後套用該工作成果的人
+  + 可以透過$ `git log`尋找符合特定字串的commit"訊息(-m)"
+    * $ `git log --oneline --grep="initial"`
+  + 可以透過$ `git log`搜尋在所有commit物件中,有哪些符合特定條件的
+    * $ `git log -S "Ruby"`
+  + 可以透過$ `git log`搭配參數來查詢特定時間內的commit物件
+    * $ `git log --oneline --since "9am" --until "12am" --after="2017-01"`
+    * --since:"hham/pm"
+    * --until:"hham/pm"
+    * --after:"yyyy-mm"
 
 
 ---
@@ -112,6 +137,7 @@ Git Learn<br>
   + 儲存庫(Repository)
   + ![工作目錄_暫存區_儲存庫的關係圖解說明](pic/工作目錄_暫存區_儲存庫的關係圖解說明.png)
 - 可以想像你有一個倉庫,倉庫門口有個小廣場,這個廣場的概念就像跟暫存區一樣,你把要存放到倉庫的貨物先放到這邊($ `git add`),然後等收集的差不多了就可以打開倉庫門,把放在廣場上的貨物送進倉庫裡($ `git commit -m`,並記錄下來這批貨是什麼用途的? & 誰送來的?)
+- 在Git的Commit物件裡每串看起來像亂碼的文字,都是透過SHA-1演算法計算出來的結果,是一種重複率極低的演算法;Git使用這樣的字串作為識別,每個Commit物件都有一個這樣的值,你可以把它想像成是每個Commit物件的身分證字號,不會重複
 
 ---
 ### 實戰情境題
