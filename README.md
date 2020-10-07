@@ -66,6 +66,7 @@ Git Learn<br>
 > git rm - Remove files from the working tree and from the index<br>
 > git mv - Move or rename a file, a directory, or a symlink<br>
 
+
 - 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
   + 會在該目錄裡面建立一個 `.git/` 隱藏檔目錄,整個Git的精華都會在這個目錄裡面
@@ -140,6 +141,15 @@ Git Learn<br>
     * ![git mv=mv+git add圖解說明](/pic/git%20mv=mv+git%20add圖解說明.png)
     * 這樣`hans_world.html`就會直接變成`renamed file`
   + 其實Git是根據檔案的"內容"去算出SHA-1的值,所以Git不是很在乎你的檔案叫什麼名稱,只在乎檔案的內容是什麼。所以當進行更改檔名的時候,Git並沒有為此做出一個新的Blob物件,而僅是指向原來舊的那顆Blob物件;但因為檔案名稱改變了,所以會做出一顆新的Tree物件喔!
+- 修改Commit紀錄
+  + 想修改commit紀錄有以下4種方法
+    * 把`.git/`目錄整個刪除 -> 不建議,等於砍掉重練
+    * 使用$ `git rebase` 來修改歷史
+    * 先把commit用$ `git reset`拆掉,整理後再重新commit
+    * 使用`git commit --amend`參數來修改最後一次的commit物件
+  + 可以透過$ `git commit --amend -m "新的commit message"`來修改commit紀錄
+    * --amend:只能修改"最近一次"的commit紀錄
+    * ![git commit --amend -m修改最近一次commit message練習圖解說明](pic/git%20commit%20--amend%20-m修改最近一次commit%20message練習圖解說明.png)
 
 
 
