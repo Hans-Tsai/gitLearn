@@ -123,7 +123,7 @@ Git Learn<br>
     * 還需要再執行$ `git add xxx.txt` 才會將這個"刪除"加到暫存區
   + 可以透過$ `git rm welcome.html`
     * $ `git rm` = `rm xxx.txt` + `git add xxx.txt`
-    * $ `git rm` 相當於先rm刪除檔案後再$ `git add` 加入暫存區的兩段式動作
+    * $ `git rm` 相當於先$ `rm`刪除檔案後再$ `git add` 加入暫存區的兩段式動作
     * ![git rm=rm+git add 圖解說明](pic/git%20rm=rm+git%20add%20圖解說明.png)
     * 不管是系統指令的$ `rm`或是$ `git rm`都真的會把檔案從工作目錄刪掉,但如果只是不想讓檔案再被Git控管,可以加上`--cached`參數
     * $ `git rm xxx.html --cached`
@@ -134,9 +134,12 @@ Git Learn<br>
   + 雖然只是透過系統指令$ `rm` 來改名,但對Git來說會被認為是兩個動作,後續仍須使用$ `git add world.html`指令來把這些異動加入暫存區
     * 刪除~~hello.html~~檔案
     * 新增world.html檔案(變成Untracked file)
-  + 可以透過$ `git mv welcome.html test_mv_welcome.html`
+  + 可以透過$ `git mv world.html hans_world.html`
     * $ `git mv` = `mv 新檔名.html` + `git add 新檔名.html`
-    * $ `git mv` 相當於先mv修改檔名後再$ `git add` 加入暫存區的兩段式動作
+    * $ `git mv` 相當於先$ `mv`修改檔名後再$ `git add` 加入暫存區的兩段式動作
+    * ![git mv=mv+git add圖解說明](/pic/git%20mv=mv+git%20add圖解說明.png)
+    * 這樣`hans_world.html`就會直接變成`renamed file`
+  + 其實Git是根據檔案的"內容"去算出SHA-1的值,所以Git不是很在乎你的檔案叫什麼名稱,只在乎檔案的內容是什麼。所以當進行更改檔名的時候,Git並沒有為此做出一個新的Blob物件,而僅是指向原來舊的那顆Blob物件;但因為檔案名稱改變了,所以會做出一顆新的Tree物件喔!
 
 
 
