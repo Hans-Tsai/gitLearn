@@ -150,6 +150,9 @@ Git Learn<br>
   + 可以透過$ `git commit --amend -m "新的commit message"`來修改commit紀錄
     * --amend:只能修改"最近一次"的commit紀錄
     * ![git commit --amend -m修改最近一次commit message練習圖解說明](pic/git%20commit%20--amend%20-m修改最近一次commit%20message練習圖解說明.png)
+  + 提醒:即便"只是修改commit message",仍然會產生新的commit id,因為這樣對Git來說commit物件的內容是有"變動"的,所以Git會重新計算並產生一顆新的Commit物件,也就是說這其實算是一次全新的commit
+  + 如果想修改更早的commit紀錄,就必須使用$ `git rebase` 指令了
+  + 團隊開發守則:即便只是修改commit message,不管如何它就是修改了一次歷史,所以請盡量"不要"在已經`push`出去之後再修改,否則可能會造成其他人的困擾
 
 
 
