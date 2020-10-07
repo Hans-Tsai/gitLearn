@@ -124,6 +124,11 @@ Git Learn<br>
     * $ `git rm` = `rm xxx.txt` + `git add xxx.txt`
     * $ `git rm` 相當於先rm刪除檔案後再$ `git add` 加入暫存區的兩段式動作
     * ![git rm=rm+git add 圖解說明](pic/git%20rm=rm+git%20add%20圖解說明.png)
+    * 不管是系統指令的$ `rm`或是$ `git rm`都真的會把檔案從工作目錄刪掉,但如果只是不想讓檔案再被Git控管,可以加上`--cached`參數
+    * $ `git rm xxx.html --cached`
+    * --cached:不會真的將檔案刪除掉,僅將檔案脫離Git控管,成為Untracked file
+- 變更檔名
+  + 跟"刪除"檔案一樣,變更檔名也是一種"修改" 
 
 
 ---
