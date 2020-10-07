@@ -64,6 +64,7 @@ Git Learn<br>
 > git commit - Record changes to the repository<br>
 > git log - Show commit logs<br>
 > git rm - Remove files from the working tree and from the index<br>
+> git mv - Move or rename a file, a directory, or a symlink<br>
 
 - 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
@@ -128,7 +129,15 @@ Git Learn<br>
     * $ `git rm xxx.html --cached`
     * --cached:不會真的將檔案刪除掉,僅將檔案脫離Git控管,成為Untracked file
 - 變更檔名
-  + 跟"刪除"檔案一樣,變更檔名也是一種"修改" 
+  + 跟"刪除"檔案一樣,變更檔名也是一種"修改"
+  + ![mv檔名也算是一種修改圖解說明](pic/mv檔名也算是一種修改圖解說明.png)
+  + 雖然只是透過系統指令$ `rm` 來改名,但對Git來說會被認為是兩個動作,後續仍須使用$ `git add world.html`指令來把這些異動加入暫存區
+    * 刪除~~hello.html~~檔案
+    * 新增world.html檔案(變成Untracked file)
+  + 可以透過$ `git mv welcome.html test_mv_welcome.html`
+    * $ `git mv` = `mv 新檔名.html` + `git add 新檔名.html`
+    * $ `git mv` 相當於先mv修改檔名後再$ `git add` 加入暫存區的兩段式動作
+
 
 
 ---
