@@ -6,16 +6,30 @@ Git Learn<br>
 - [自主學習Git的觀念和指令後做的統整](#自主學習git的觀念和指令後做的統整)
   - [目錄](#目錄)
     - [安裝方式](#安裝方式)
+      - [Windows系統](#windows系統)
+      - [MacOS系統](#macos系統)
+      - [Linux系統](#linux系統)
     - [設定Git](#設定git)
     - [開始使用Git](#開始使用git)
+      - [初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制](#初始化該目錄主要目的是讓git開始對這個目錄進行版本控制)
+      - [把這個檔案交給Git來控管](#把這個檔案交給git來控管)
+      - [把暫存區(staging area)的檔案提交到倉庫存檔](#把暫存區staging-area的檔案提交到倉庫存檔)
+      - [想檢視Git紀錄](#想檢視git紀錄)
+      - [刪除Git檔案](#刪除git檔案)
+      - [變更檔名](#變更檔名)
+      - [修改Commit紀錄](#修改commit紀錄)
     - [觀念介紹](#觀念介紹)
+    - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
+      - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
     - [觀念補充](#觀念補充)
+      - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
+      - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
   
   
 ---
 ### 安裝方式
-- Windows系統
+#### Windows系統
   + 連結: https://git-scm.com/download/win
   + 安裝完後,使用Git Bash就可以操作Git了
   + $ `which git`    // /mingw/bin/git
@@ -23,14 +37,14 @@ Git Learn<br>
   + GUI client推薦: SourceTree, GitHub Desktop
     * 下載連結: https://git-scm.com/downloads/guis
   + 補充: Git Bash不同於Windows內建的"命令提示字元",它本身模擬了Linux的 Bash
-- MacOS系統
+#### MacOS系統
   + 連結: https://git-scm.com/download/mac
   + 或是利用Homebrew安裝
   + $ `brew install git`
   + 補充: Homebrew是一個MacOS專屬的套件管理包工具,有點像是Linux的apt-get之類的安裝工具,通常只要一行指令就可以完成下載.編譯.安裝
   + GUI client推薦: SourceTree, GitHub Desktop
     * 下載連結: https://git-scm.com/downloads/guis
-- Linux系統
+#### Linux系統
   + 連結: https://git-scm.com/download/linux
   + 利用apt-get安裝
   + $ `sudo apt-get install git`    // 在Linux系統中要安裝軟體要先切換成root權限
@@ -67,7 +81,7 @@ Git Learn<br>
 > git mv - Move or rename a file, a directory, or a symlink<br>
 
 
-- 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
+#### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
   + 會在該目錄裡面建立一個 `.git/` 隱藏檔目錄,整個Git的精華都會在這個目錄裡面
 - 如果該目錄不想再被Git做版本控制,只要將`.git/`目錄整個刪除就可以 
@@ -77,7 +91,7 @@ Git Learn<br>
   + $ `git status`
   + Untracked files => 代表這個檔案尚未被加到Git版控系統裡,還沒開始正式被"追蹤",它只是剛剛才加入到這個目錄裡而已
   + ![Untracked_files圖解說明](/pic/Untracked_files圖解說明.png)
-- 把這個檔案交給Git來控管
+#### 把這個檔案交給Git來控管
   + $ `git add welcome.html`
   + 剛才的檔案 `welcome.html`從Untracked變成new file狀態 => 表示這個檔案已經被安置到暫存區(Staging Area),等待稍後跟其他檔案一起被存到儲存庫裡面
   + ![git_add將檔案加入版控中圖解說明](/pic/git%20add將檔案加入版控中圖解說明.png)
@@ -85,14 +99,14 @@ Git Learn<br>
     * $ `git add --all` or $ `git add -A` 
     * $ `git add .` =>會將整個專案裡的全部異動檔案加到暫存區,不受限這個指令在哪一層目錄執行
     * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
-- 把暫存區(staging area)的檔案提交到倉庫存檔
+#### 把暫存區(staging area)的檔案提交到倉庫存檔
   + $ `git commit -m "git commit練習"`
   + -m = (--messge)參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好; $ `git commit`預設-m參數是必填的
   + ![git commit練習圖解說明](pic/git%20commit練習圖解說明.png)
   + 可以不用二段式commit,也可以用$ `git commit -a -m "update content"`來達到$ `git add` + $ `git commit -m`
   + Git每次commit都只會處理暫存區(staging area)裡的內容,也就是說,如果在執行 $ `git commit` 之前還沒被加到暫存區裡的檔案,就不會被commit到儲存庫了
   + 提醒:要完成commit才算是完成整個流程喔!
-- 想檢視Git紀錄
+#### 想檢視Git紀錄
   + 使用$ `git log`指令,越新的資訊會在越上面,並會得到以下三個資訊
   + Commit作者是誰? => 人是誰殺的?
   + 什麼時候commit的? => 什麼時候殺的?
@@ -116,7 +130,7 @@ Git Learn<br>
     * --since:"hham/pm"
     * --until:"hham/pm"
     * --after:"yyyy-mm"
-- 刪除Git檔案
+#### 刪除Git檔案
   + 刪除檔案對Git來說都是一種"修改" 
   + 可以透過系統指令刪除檔案$ `rm welcome.html`
     * 這時候的檔案會是deleted狀態
@@ -129,7 +143,7 @@ Git Learn<br>
     * 不管是系統指令的$ `rm`或是$ `git rm`都真的會把檔案從工作目錄刪掉,但如果只是不想讓檔案再被Git控管,可以加上`--cached`參數
     * $ `git rm xxx.html --cached`
     * --cached:不會真的將檔案刪除掉,僅將檔案脫離Git控管,成為Untracked file
-- 變更檔名
+#### 變更檔名
   + 跟"刪除"檔案一樣,變更檔名也是一種"修改"
   + ![mv檔名也算是一種修改圖解說明](pic/mv檔名也算是一種修改圖解說明.png)
   + 雖然只是透過系統指令$ `rm` 來改名,但對Git來說會被認為是兩個動作,後續仍須使用$ `git add world.html`指令來把這些異動加入暫存區
@@ -141,7 +155,7 @@ Git Learn<br>
     * ![git mv=mv+git add圖解說明](/pic/git%20mv=mv+git%20add圖解說明.png)
     * 這樣`hans_world.html`就會直接變成`renamed file`
   + 其實Git是根據檔案的"內容"去算出SHA-1的值,所以Git不是很在乎你的檔案叫什麼名稱,只在乎檔案的內容是什麼。所以當進行更改檔名的時候,Git並沒有為此做出一個新的Blob物件,而僅是指向原來舊的那顆Blob物件;但因為檔案名稱改變了,所以會做出一顆新的Tree物件喔!
-- 修改Commit紀錄
+#### 修改Commit紀錄
   + 想修改commit紀錄有以下4種方法
     * 把`.git/`目錄整個刪除 -> 不建議,等於砍掉重練
     * 使用$ `git rebase` 來修改歷史
@@ -181,8 +195,12 @@ Git Learn<br>
 - 在Git的Commit物件裡每串看起來像亂碼的文字,都是透過SHA-1演算法計算出來的結果,是一種重複率極低的演算法;Git使用這樣的字串作為識別,每個Commit物件都有一個這樣的值,你可以把它想像成是每個Commit物件的身分證字號,不會重複
 
 ---
+### 觀念釐清
+
+
+---
 ### 實戰情境題
-> 如果在git add之後又修改了那個檔案的內容呢?
+####  如果在git add之後又修改了那個檔案的內容呢?
   + 新增了一個檔案叫做abc.txt
   + 執行 $ `git add abc.txt` 把檔案加到暫存區
   + 又再編輯了一次該檔案
@@ -192,10 +210,10 @@ Git Learn<br>
 
 ---
 ### 觀念補充
-- 終端機(Terminal)是什麼?
+#### 終端機(Terminal)是什麼?
   +  終端機本身通常不是一部電腦,它本身沒有運算能力,僅用來顯示資料及輸入資料,所有的計算都是在主機上處理的
   +  其實終端機就是可以讓使用者輸入指令,來跟電腦進行互動
-- Vim 是Git的預設編輯器,Vim主要常用的兩種模式
+#### Vim 是Git的預設編輯器,Vim主要常用的兩種模式
   + Normal模式:無法輸入文字,僅能複製,貼上,存檔,離開 動作
   + Insert模式:需要先按下 `I or A or O` ,才能開始輸入文字
   + 在Insert模式下,按`esc`可退回到Normal模式
