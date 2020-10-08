@@ -160,10 +160,15 @@ Git Learn<br>
     * 把`.git/`目錄整個刪除 -> 不建議,等於砍掉重練
     * 使用$ `git rebase` 來修改歷史
     * 先把commit用$ `git reset`拆掉,整理後再重新commit
-    * 使用`git commit --amend`參數來修改最後一次的commit物件
+    * 使用`git commit --amend`參數來修改最後一次的commit物件 -> 較推薦此作法!
   + 可以透過$ `git commit --amend -m "新的commit message"`來修改commit紀錄
     * --amend:只能修改"最近一次"的commit紀錄
     * ![git commit --amend -m修改最近一次commit message練習圖解說明](pic/git%20commit%20--amend%20-m修改最近一次commit%20message練習圖解說明.png)
+  + 如果在完成commit後,卻發現有一個檔案忘了加到這次的commit中,但不想因為這個檔案再重新發送一次commit,想把這個檔案加入最近一次commit,此時有兩個做法
+    * 使用$ `git reset` 把最後一次的commit拆掉,加入新檔案後再重新commit
+    * 使用--amend參數進行commit
+      * $ 先 `git add pizza.html`,將Untracked file 加入追蹤
+      * $ 再 `git commit --amend --no-edit`,把這個檔案併入最後一次的commit中,而後面的`--no-edit`參數就是不要開啟vim編輯視窗來編輯commit message的意思    
   + 提醒:即便"只是修改commit message",仍然會產生新的commit id,因為這樣對Git來說commit物件的內容是有"變動"的,所以Git會重新計算並產生一顆新的Commit物件,也就是說這其實算是一次全新的commit
   + 如果想修改更早的commit紀錄,就必須使用$ `git rebase` 指令了
   + 團隊開發守則:即便只是修改commit message,不管如何它就是修改了一次歷史,所以請盡量"不要"在已經`push`出去之後再修改,否則可能會造成其他人的困擾
