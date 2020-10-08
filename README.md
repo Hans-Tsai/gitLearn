@@ -178,7 +178,11 @@ Git Learn<br>
 #### 如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中
   + 可以在專案中建立一個 `.gitignore` 的檔案,裡面可以設定想要忽略的規則
   + `.gitignore`只要一被建立並符合規則就會生效,即使這個檔案還沒被commit或是還沒被push到Git Server,這要一來整個專案的人都可以共享這個"忽略規則"的設定
-
+  + 想查詢在使⽤的⼯具或程式語⾔通常會忽略哪些檔案,可以到GitHub上有整理了⼀份各種程式語⾔常⾒的 `.gitignore` 檔案
+    * github/gitignore repository連結:<https://github.com/github/gitignore>
+  + 可以利用`-f`參數,來無視 `.gitignore`的忽略,強制將檔案加入Git追蹤範圍中
+    * $ `git add -f xxx.tmp`
+    * ![git add -f參數來無視gitignore的設定](/pic/git%20add%20-f參數來無視gitignore的設定.png)
 
 
 ---
