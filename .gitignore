@@ -1,0 +1,11 @@
+# 檔案名稱 .gitignore
+# 忽略 password.yml 檔案
+password.yml
+# 忽略 config ⽬錄下的 pgDB.yml 檔案
+config/pgDB.yml
+# 忽略所有 db ⽬錄下附檔名是 .sqlite3 的檔案
+/db/*.sqlite3
+# 忽略所有附檔名是 .tmp 的檔案
+*.tmp
+# 當然你要忽略⾃⼰也可以，只是通常不會這麼做
+# .gitignore

@@ -18,7 +18,7 @@ Git Learn<br>
       - [刪除Git檔案](#刪除git檔案)
       - [變更檔名](#變更檔名)
       - [修改Commit紀錄](#修改commit紀錄)
-      - [](#)
+      - [如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中](#如果有特定檔案不想放在git裡面一起備份或是上傳到git-server的話例如資料庫密碼雲端伺服器的金鑰可以加入-gitignore中)
     - [觀念介紹](#觀念介紹)
     - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
@@ -80,6 +80,7 @@ Git Learn<br>
 > git log - Show commit logs<br>
 > git rm - Remove files from the working tree and from the index<br>
 > git mv - Move or rename a file, a directory, or a symlink<br>
+> gitignore - Specifies intentionally untracked files to ignore<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -174,7 +175,9 @@ Git Learn<br>
   + 提醒:即便"只是修改commit message",仍然會產生新的commit id,因為這樣對Git來說commit物件的內容是有"變動"的,所以Git會重新計算並產生一顆新的Commit物件,也就是說這其實算是一次全新的commit
   + 如果想修改更早的commit紀錄,就必須使用$ `git rebase` 指令了
   + 團隊開發守則:即便只是修改commit message,不管如何它就是修改了一次歷史,所以請盡量"不要"在已經`push`出去之後再修改,否則可能會造成其他人的困擾
-#### 
+#### 如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中
+  + 可以在專案中建立一個 `.gitignore` 的檔案,裡面可以設定想要忽略的規則
+  + `.gitignore`只要一被建立並符合規則就會生效,即使這個檔案還沒被commit或是還沒被push到Git Server,這要一來整個專案的人都可以共享這個"忽略規則"的設定
 
 
 
