@@ -19,6 +19,7 @@ Git Learn<br>
       - [變更檔名](#變更檔名)
       - [修改Commit紀錄](#修改commit紀錄)
       - [如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中](#如果有特定檔案不想放在git裡面一起備份或是上傳到git-server的話例如資料庫密碼雲端伺服器的金鑰可以加入-gitignore中)
+      - [檢視特定檔案的commit紀錄](#檢視特定檔案的commit紀錄)
     - [觀念介紹](#觀念介紹)
     - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
@@ -54,8 +55,8 @@ Git Learn<br>
 
 ---
 ### 設定Git
-> git config - Get and set repository or global options<br>
-> git log - Show commit logs
+> `git config` - Get and set repository or global options<br>
+> `git log` - Show commit logs
 - 所有Git相關的設定都會儲存在 `~/.gitconfig` 這個檔案裡
 - 設定使用者的Email＆username
   + $ `git config --global user.name "Hans-Tsai"`
@@ -73,15 +74,15 @@ Git Learn<br>
 
 ---
 ### 開始使用Git
-> git init - Create an empty Git repository or reinitialize an existing one<br>
-> git status - Show the working tree status<br>
-> git add - Add file contents to the index<br>
-> git commit - Record changes to the repository<br>
-> git log - Show commit logs<br>
-> git rm - Remove files from the working tree and from the index<br>
-> git mv - Move or rename a file, a directory, or a symlink<br>
-> gitignore - Specifies intentionally untracked files to ignore<br>
-
+> `git init` - Create an empty Git repository or reinitialize an existing one<br>
+> `git status` - Show the working tree status<br>
+> `git add` - Add file contents to the index<br>
+> `git commit` - Record changes to the repository<br>
+> `git log` - Show commit logs<br>
+> `git rm` - Remove files from the working tree and from the index<br>
+> `git mv` - Move or rename a file, a directory, or a symlink<br>
+> `gitignore` - Specifies intentionally untracked files to ignore<br>
+> `git clean` - Remove untracked files from the working tree
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
@@ -183,6 +184,17 @@ Git Learn<br>
   + 可以利用`-f`參數,來無視 `.gitignore`的忽略,強制將檔案加入Git追蹤範圍中
     * $ `git add -f xxx.tmp`
     * ![git add -f參數來無視gitignore的設定](/pic/git%20add%20-f參數來無視gitignore的設定.png)
+    * 提醒: `.gitignore` 檔案設定的規則,只對"在規則設定之後"的檔案有效
+  + 想一次將被 `.gitignore` 忽略的檔案們一次刪除,可以使用$ `git clean`來完成
+    * $ `git clean` 可以將工作目錄(working directory)中的所有Untracked files都一次刪除
+    * $ `$ git clean -fX`
+      * -f: 強制執行
+      * -X: 只移除被Git忽略的檔案(有在.gitignore中提到的)
+#### 檢視特定檔案的commit紀錄
+  + $ `git log -p xxx.html`
+    * -p: 可以更詳細的檢視每一次的commit到底做了哪些修改
+    * 補充: 前面的"+"是新增,"-"是刪除
+    * ![git log -p 檢視特定檔案詳細的每一筆commit紀錄](/pic/git%20log%20-p%20檢視特定檔案詳細的每一筆commit紀錄.gif)
 
 
 ---
@@ -217,6 +229,9 @@ Git Learn<br>
   + 如果還是想讓空目錄被Git追蹤,只要在空目錄中隨便放一個檔案就行了,慣例上習慣放`.keep` 或是 `.gitkeep` 的空檔案,讓Git能"感應"到這個目錄的存在
   + ![加入.gitkeep檔案到空目錄讓Git能感應到](/pic/加入.gitkeep檔案到空目錄讓Git能感應到.png)
   + 利用$ `git status` 就可以看到Git感應到這個目錄(empty_dir)的存在了,其實是感應到裡⾯那個 `.gitkeep` 檔案的存在
+- $ `git rm --cached` V.S. `.gitignore` 比較
+  + $ `git rm xxx.html --cached`:並不會將檔案真的刪除掉,僅把暫存區(staging area)該檔案從Git控管中移除,脫離Git控管,變為Untracked file狀態;若原本在工作目錄(working directory)中的檔案,不管是否有做過修改(modified)都將留下
+  + $ `.gitignore`:是開發者指定好要Git版控"忽略"掉的檔案和規則,設定好後,Git就不會控管這些檔案了
 
 ---
 ### 實戰情境題
