@@ -21,6 +21,7 @@ Git Learn<br>
       - [如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中](#如果有特定檔案不想放在git裡面一起備份或是上傳到git-server的話例如資料庫密碼雲端伺服器的金鑰可以加入-gitignore中)
       - [檢視特定檔案的commit紀錄](#檢視特定檔案的commit紀錄)
       - [想要知道某個檔案的某一行是誰寫的](#想要知道某個檔案的某一行是誰寫的)
+      - [在工作目錄(working directory)想要復原不小心透過 `rm` 指令刪除的檔案](#在工作目錄working-directory想要復原不小心透過-rm-指令刪除的檔案)
     - [觀念介紹](#觀念介紹)
     - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
@@ -85,6 +86,9 @@ Git Learn<br>
 > `gitignore` - Specifies intentionally untracked files to ignore<br>
 > `git clean` - Remove untracked files from the working tree<br>
 > `git blame` - Show what revision and author last modified each line of a file<br>
+> `git checkout` - Switch branches or restore working tree files<br>
+> `git switch` - Switch branches<br>
+> `git restore` - Restore working tree files<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -205,6 +209,20 @@ Git Learn<br>
   + ![git blame圖解說明](pic/git%20blame圖解說明.gif)
   + $ `git blame -L xxx.html`
     * -L <start>,<end>: 可以只顯示指定行數的內容
+#### 在工作目錄(working directory)想要復原不小心透過 `rm` 指令刪除的檔案
+  + $ `git checkout`可以用來 (在Git `Version 2.23.0` 之後)
+    * 切換分支(= $ `git switch`)
+    * 恢復工作目錄(working directory)裡的文件(= $ `git restore`)
+    * 當$ `git checkout "分支名稱"` 時,就會切換到指定的分支
+    * 當$ `git checkout "檔案名稱 or 路徑"` 時,Git就會到 `.git/` 目錄裡拉一份到目前的工作目錄(working directory)
+  + $ `git checkout xxx.html` 可以將工作目錄(working directory)中不小心刪除(`rm`)掉的指定檔案復原回來
+  + 例如: `pizza.html` 從deleted status變回原本的狀態
+  + 也可以利用 $ `git checkout .` 一口氣把所有工作目錄(working directory)中被刪掉的檔案救回來
+  + ![git checkout復原工作目錄不小心rm的檔案圖解說明](/pic/git%20checkout復原工作目錄不小心rm的檔案圖解說明.png)
+  + $ `git checkout HEAD~2 xxx.html`
+    * 這樣就會到 `.git/` 裡拿距離現在兩個版本以前的那個xxx.html來覆蓋現在工作目錄(working directory)裡的xxx.html,但要注意的是,這同時也會更新暫存區(staging area)的狀態喔
+  + 以此類推, $ `git checkout HEAD~2`
+    * 這樣就會拿距離現在兩個版本以前的檔案來覆蓋現在工作目錄(working directory)裡的檔案,同時也更新暫存區(staging area)裡的狀態 
 
 
 ---
@@ -242,6 +260,7 @@ Git Learn<br>
 - $ `git rm --cached` V.S. `.gitignore` 比較
   + $ `git rm xxx.html --cached`:並不會將檔案真的刪除掉,僅把暫存區(staging area)該檔案從Git控管中移除,脫離Git控管,變為Untracked file狀態;若原本在工作目錄(working directory)中的檔案,不管是否有做過修改(modified)都將留下
   + $ `.gitignore`:是開發者指定好要Git版控"忽略"掉的檔案和規則,設定好後,Git就不會控管這些檔案了
+- 當檔案被刪除時都還能就回來,因為整個Git紀錄都是放在該專案的根目錄 `.git/` 目錄裡面,所以如果真的不小心把 `.git/` 刪掉的話,就表示歷史紀錄也被刪掉了,就真的沒救了... 
 
 ---
 ### 實戰情境題
