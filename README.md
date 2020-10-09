@@ -20,6 +20,7 @@ Git Learn<br>
       - [修改Commit紀錄](#修改commit紀錄)
       - [如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中](#如果有特定檔案不想放在git裡面一起備份或是上傳到git-server的話例如資料庫密碼雲端伺服器的金鑰可以加入-gitignore中)
       - [檢視特定檔案的commit紀錄](#檢視特定檔案的commit紀錄)
+      - [想要知道某個檔案的某一行是誰寫的](#想要知道某個檔案的某一行是誰寫的)
     - [觀念介紹](#觀念介紹)
     - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
@@ -82,7 +83,9 @@ Git Learn<br>
 > `git rm` - Remove files from the working tree and from the index<br>
 > `git mv` - Move or rename a file, a directory, or a symlink<br>
 > `gitignore` - Specifies intentionally untracked files to ignore<br>
-> `git clean` - Remove untracked files from the working tree
+> `git clean` - Remove untracked files from the working tree<br>
+> `git blame` - Show what revision and author last modified each line of a file<br>
+
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
   + $ `git init`
@@ -187,7 +190,7 @@ Git Learn<br>
     * 提醒: `.gitignore` 檔案設定的規則,只對"在規則設定之後"的檔案有效
   + 想一次將被 `.gitignore` 忽略的檔案們一次刪除,可以使用$ `git clean`來完成
     * $ `git clean` 可以將工作目錄(working directory)中的所有Untracked files都一次刪除
-    * $ `$ git clean -fX`
+    * $ `git clean -fX`
       * -f: 強制執行
       * -X: 只移除被Git忽略的檔案(有在.gitignore中提到的)
 #### 檢視特定檔案的commit紀錄
@@ -195,6 +198,12 @@ Git Learn<br>
     * -p: 可以更詳細的檢視每一次的commit到底做了哪些修改
     * 補充: 前面的"+"是新增,"-"是刪除
     * ![git log -p 檢視特定檔案詳細的每一筆commit紀錄](/pic/git%20log%20-p%20檢視特定檔案詳細的每一筆commit紀錄.gif)
+#### 想要知道某個檔案的某一行是誰寫的
+  + $ `git blame xxx.html`
+  + 可以詳細地看出來每一行是誰在什麼時候寫的
+  + 每一行前面的SHA-1值就是每一個Commit物件的識別代碼
+  + $ `git blame -L xxx.html`
+    * -L <start>,<end>: 可以只顯示指定行數的內容
 
 
 ---
