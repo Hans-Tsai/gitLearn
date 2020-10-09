@@ -220,7 +220,7 @@ Git Learn<br>
   + 也可以利用 $ `git checkout .` 一口氣把所有工作目錄(working directory)中被刪掉的檔案救回來
   + ![git checkout復原工作目錄不小心rm的檔案圖解說明](/pic/git%20checkout復原工作目錄不小心rm的檔案圖解說明.png)
   + $ `git checkout HEAD~2 xxx.html`
-    * 這樣就會到 `.git/` 裡拿距離現在兩個版本以前的那個xxx.html來覆蓋現在工作目錄(working directory)裡的xxx.html,但要注意的是,這同時也會更新暫存區(staging area)的狀態喔
+    * 這樣就會到 `.git/` 裡拿距離現在兩個版本以前的那個 xxx.html 來覆蓋現在工作目錄(working directory)裡的 xxx.html,但要注意的是,這同時也會更新暫存區(staging area)的狀態喔
   + 以此類推, $ `git checkout HEAD~2`
     * 這樣就會拿距離現在兩個版本以前的檔案來覆蓋現在工作目錄(working directory)裡的檔案,同時也更新暫存區(staging area)裡的狀態 
 
