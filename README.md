@@ -202,6 +202,7 @@ Git Learn<br>
   + $ `git blame xxx.html`
   + 可以詳細地看出來每一行是誰在什麼時候寫的
   + 每一行前面的SHA-1值就是每一個Commit物件的識別代碼
+  + ![git blame圖解說明](pic/git%20blame圖解說明.gif)
   + $ `git blame -L xxx.html`
     * -L <start>,<end>: 可以只顯示指定行數的內容
 
