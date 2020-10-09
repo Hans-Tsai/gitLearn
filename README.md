@@ -92,6 +92,7 @@ Git Learn<br>
 > `git switch` - Switch branches<br>
 > `git restore` - Restore working tree files<br>
 > `git reset` - Reset current HEAD to the specified state<br>
+> `git reflog` - Manage reflog information<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -299,7 +300,17 @@ Git Learn<br>
   + 正確做法:必須再將該檔案 $ `git add abc.txt` 到暫存區一遍
   + ![git add後又編輯檔案圖解說明](/pic/git%20add後又編輯檔案圖解說明.png)
 ####  如果不小心使用$ `git reset --hard` 模式,能救回來嗎?
-  + 
+  + 假如不小心$ `git reset HEAD~2 --hard`,
+  + $ `git reflog` 是當HEAD有移動的時候(例如切換分支or $ `git reset` 時,Git都會在 `Reflog` 上面做記錄),在 `Reflog` 中,越新的紀錄寫在越上面
+    * > 官方定義: Reference logs, or "reflogs", record when the tips of branches and other references were updated in the local repository. 
+  + 可以利用$ `git reflog` 來檢視`HEAD`的變化紀錄
+    +  當切換分支時,HEAD會變動
+    +  當$ `git reset` 時,HEAD會變動
+  + 解決方法:直接回到正確(=>reset錯誤前的那一次)的commit物件上
+    * $ `git reset c015c1f --hard`
+    * 就可以把剛剛的東西救回來了
+    * ![git reset --hard後透過git reflog+git reset來挽救的圖解說明](/pic/git%20reset%20--hard後透過git%20reflog+git%20reset來挽救的圖解說明.gif)
+    * 補充: $ `git reflog` = $ `git log -g`
 
 
 ---
