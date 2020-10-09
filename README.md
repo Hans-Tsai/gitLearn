@@ -22,6 +22,7 @@ Git Learn<br>
       - [檢視特定檔案的commit紀錄](#檢視特定檔案的commit紀錄)
       - [想要知道某個檔案的某一行是誰寫的](#想要知道某個檔案的某一行是誰寫的)
       - [在工作目錄(working directory)想要復原不小心透過 `rm` 指令刪除的檔案](#在工作目錄working-directory想要復原不小心透過-rm-指令刪除的檔案)
+      - [如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
     - [觀念介紹](#觀念介紹)
     - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
@@ -89,6 +90,7 @@ Git Learn<br>
 > `git checkout` - Switch branches or restore working tree files<br>
 > `git switch` - Switch branches<br>
 > `git restore` - Restore working tree files<br>
+> `git reset` - Reset current HEAD to the specified state<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -222,8 +224,28 @@ Git Learn<br>
   + $ `git checkout HEAD~2 yyy.html`
     * 這樣就會到 `.git/` 裡拿距離現在兩個版本以前的 yyy.html 來覆蓋現在工作目錄(working directory)的 yyy.html ,但要注意的是,這同時也會更新暫存區(staging area)的狀態喔 
   + 以此類推, $ `git checkout HEAD~2`
-    * 這樣就會拿距離現在兩個版本以前的檔案來覆蓋現在工作目錄(working directory)裡的檔案,同時也更新暫存區(staging area)裡的狀態 
-
+    * 這樣就會拿距離現在兩個版本以前的檔案來覆蓋現在工作目錄(working directory)裡的檔案,同時也更新暫存區(staging area)裡的狀態
+#### 如果想重新編輯剛才的commit
+  + $ `git log --oneline` 顯示的歷史commit紀錄是由新到舊(上到下)
+    * ![git log由新到舊的歷史commit紀錄](/pic/git%20log由新到舊的歷史commit紀錄.png)
+  + 利用 $ `git reset f06546a` 來回溯到過去指定的Commit物件中
+    * 可以使用"相對"或是"絕對"的表示方式
+      * `^` : 前一次
+      * `~次數` : 要倒退至幾次commit以前
+      * `SHA-1值`: 絕對的表示方式
+      * 所以$ `git reset f06546a^^` = $ `git reset f06546a~2`
+    * 例如: $ `git reset f06546a^ ` =>代表回到該commit的前一次commit紀錄中
+    * 例如: $ `git reset master^ ` =>代表回到master分支的前一次commit紀錄中
+    * 例如: $ `git reset HEAD^ ` =>代表回到HEAD目前指向的分支(該分支指向的commit)的前一次commit紀錄中
+  + $ `git reset <模式>` ,有三種模式可以選擇,預設為 `mixed`模式
+    * `mixed` 模式: 這模式下的`reset`會把暫存區(staging area)的檔案丟掉,但不會動到工作目錄(working directory)的檔案,也就是說commit拆出來的檔案會留在工作目錄,但不會留在暫存區
+    * `soft` 模式: 這模式下的`reset`,工作目錄(working directory)和暫存區(staging area)的檔案都不會被丟掉,因此看起來就只有`HEAD`在移動而已; 所以commit拆出來的檔案都會直接被存放在暫存區
+    * `hard` 模式: 這模式下的`reset`,不管是暫存區(staging area)和工作目錄(working directory)都會被丟掉
+    * 小統整: ![git reset <三種模式>統整圖解說明](pic/git%20reset%20<三種模式>統整圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/>
+      * `mixed` 模式=> `index移除staged標記`,變成Modified或是Untracked file,內容是新版的
+      * `soft` 模式=> `僅移除commit變成新版"未"commit`,內容仍是新版的
+      * `hard` 模式=> 回到上一版本,`這期間的所有變更完全移除`,內容及狀態皆是上一版
 
 ---
 ### 觀念介紹
@@ -261,7 +283,11 @@ Git Learn<br>
 - $ `git rm --cached` V.S. `.gitignore` 比較
   + $ `git rm xxx.html --cached`:並不會將檔案真的刪除掉,僅把暫存區(staging area)該檔案從Git控管中移除,脫離Git控管,變為Untracked file狀態;若原本在工作目錄(working directory)中的檔案,不管是否有做過修改(modified)都將留下
   + $ `.gitignore`:是開發者指定好要Git版控"忽略"掉的檔案和規則,設定好後,Git就不會控管這些檔案了
-- 當檔案被刪除時都還能就回來,因為整個Git紀錄都是放在該專案的根目錄 `.git/` 目錄裡面,所以如果真的不小心把 `.git/` 刪掉的話,就表示歷史紀錄也被刪掉了,就真的沒救了... 
+- 當檔案被刪除時都還能就回來,因為整個Git紀錄都是放在該專案的根目錄 `.git/` 目錄裡面,所以如果真的不小心把 `.git/` 刪掉的話,就表示歷史紀錄也被刪掉了,就真的沒救了...
+- $ `git reset`的Reset這個英文單字在中文翻譯是"重新設定",但事實上$ `git reset`指令比較像是"前往"或是"變成",也就是"go to"或是"become"的概念
+  + 例如: $ `git reset HEAD~2`
+  + 這個指令應該要解讀成,"我要前往兩個commit之前的狀態" 或是 "我要變成兩個commit之前的狀態",而隨著使用不同的參數模式(`mixed or soft or hard`),原本的這些檔案就會被丟到不同的區域
+  + 實際上$ `git reset`指令也不是真的刪除或是重新設定commit,只是"前往"到指定的commit物件中,那些看起來好像不見的東西只是暫時看不到,但其實隨時都可以再撿回來
 
 ---
 ### 實戰情境題
