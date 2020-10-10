@@ -251,6 +251,8 @@ Git Learn<br>
 
 ---
 ### 觀念介紹
+> `The HEAD`: HEAD is the pointer to the current branch reference, which is in turn a pointer to the last commit made on that branch. That means HEAD will be the parent of the next commit that is created. It’s generally simplest to think of HEAD as the snapshot of your last commit on that branch.<br>
+> `git branch` - List, create, or delete branches<br>
 - Git是一種分散式的版本控制系統,而所謂的"版本控制系統"就是指會幫你記錄所有的狀態變化,隨時可以切換到過去某個版本的狀態
 - Git的優點
   + 免費.開源
@@ -273,7 +275,18 @@ Git Learn<br>
     參考圖片出處<https://gitbook.tw/>
 - 可以想像你有一個倉庫,倉庫門口有個小廣場,這個廣場的概念就像跟暫存區一樣,你把要存放到倉庫的貨物先放到這邊($ `git add`),然後等收集的差不多了就可以打開倉庫門,把放在廣場上的貨物送進倉庫裡($ `git commit -m`,並記錄下來這批貨是什麼用途的? & 誰送來的?)
 - 在Git的Commit物件裡每串看起來像亂碼的文字,都是透過SHA-1演算法計算出來的結果,是一種重複率極低的演算法;Git使用這樣的字串作為識別,每個Commit物件都有一個這樣的值,你可以把它想像成是每個Commit物件的身分證字號,不會重複
-
+- `HEAD` 是一個指標,會指向某一個分支,我們通常可以把`HEAD`當作"目前分支"來; 也可以在`.git/HEAD`這個檔案裡看到記錄著`HEAD`的內容
+  + $ `cat .git/HEAD`: 顯示目前`HEAD`指向的分支 
+    * ![在.git/HEAD中檢視目前HEAD指向的分支](pic/在.git:HEAD中檢視目前HEAD指向的分支.png)
+  + $ `cat .git/refs/<分支名稱>`: 檢視目前HEAD指向的分支的commit物件
+    * ![檢視目前HEAD指向的分支的commit物件](/pic/檢視目前HEAD指向的分支的commit物件.png)
+  + 當切換分支時,HEAD指向的分支也會轉變
+    * $ `git branch`: 檢視目前所有的分支有哪些
+    * $ `git branch bird`: 建立一個新的分支名稱為`bird`
+    * $ `git checkout bird`:切換到`bird`分支
+    * $ `cat .git/HEAD` : 檢視目前HEAD指向的是哪個分支名稱 //
+      * // ref: refs/heads/bird 
+    * 總結: `.git/HEAD`的內容(`.git/refs/heads/<目前所在分支的名稱>`會隨著$ `git checkout <分支名稱>` 而改變)
 ---
 ### 觀念釐清
 - Git在產生物件時,只在乎"檔案內容",所以如果只是新增一個"空的目錄",Git是沒有辦法處理該空目錄的
@@ -310,7 +323,7 @@ Git Learn<br>
     * $ `git reset c015c1f --hard`
     * 就可以把剛剛的東西救回來了
     * ![git reset --hard後透過git reflog+git reset來挽救的圖解說明](/pic/git%20reset%20--hard後透過git%20reflog+git%20reset來挽救的圖解說明.gif)
-    * 補充: $ `git reflog` = $ `git log -g`
+    * 補充: $ `git reflog` = $ `git log -g` = $ `git log --walk-reflogs`
 
 
 ---
