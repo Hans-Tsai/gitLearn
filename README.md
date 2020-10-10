@@ -255,6 +255,7 @@ Git Learn<br>
 ### 觀念介紹
 > `The HEAD`: HEAD is the pointer to the current branch reference, which is in turn a pointer to the last commit made on that branch. That means HEAD will be the parent of the next commit that is created. It’s generally simplest to think of HEAD as the snapshot of your last commit on that branch.<br>
 > `git branch` - List, create, or delete branches<br>
+> `git cat-file` - Provide content or type and size information for repository object<br>
 - Git是一種分散式的版本控制系統,而所謂的"版本控制系統"就是指會幫你記錄所有的狀態變化,隨時可以切換到過去某個版本的狀態
 - Git的優點
   + 免費.開源
@@ -262,8 +263,22 @@ Git Learn<br>
   + Git是一款分散式的版控系統(Distributed Version Control),雖然也會有共同的伺服器,但即使在沒有伺服器或是沒有網路的環境,依舊可以使用Git來進行版控,待伺服器恢復正常運作或是在有網路的環境後再同步,不會受影響
   + 註: Git和SVN相比,最大的不同點就是,Git可以在local端做一些修改,然後commit到本地的版本庫,最後push到伺服器; 而SVN只要一commit,更改就已經提交到伺服器了
 - Git在每次版本變化的時候,有點像拍照(snapshot)一樣,Git會更新並記錄整個目錄跟檔案的樹狀結構
-- Git的四大物件結構: 在.git/ 的資料結裡面會有
+- Git的四大物件結構: 在`.git/` 的資料結構裡面會有
   + Blob物件
+    * `情境說明` 
+    * 當檔案被加入暫存區(staging area)時,Git便會在`.git/`目錄裡產生一個`Blob`(Binary large object)物件,並且依照它的"規則"擺放到它的目錄裡,這個`Blob物件`是用來存放該檔案的"內容"
+    * 接下來,就會到 `.git/objects/`目錄裡存放該檔案,Git會用`SHA-1`的40個字中的`前2個字`作為目錄,剩餘的38個就是檔案名稱
+    * ![檢視.git/objects/中的Blob物件的SHA-1值](/pic/檢視.git:objects:中的Blob物件的SHA-1值.gif)
+    * 透過$ `git cat-file`來檢視Git repository內各物件的 `值` or `型態` or `大小` or `相關詳細資訊`
+      * -t: 顯示該物件的型態(type)
+      * -p: 顯示該物件的內容(content)
+      * -s: 顯示該物件的大小(size)
+      * ![git cat-file檢視該檔案的型態or內容or大小圖解說明](/pic/git%20cat-file檢視該檔案的型態or內容or大小圖解說明.png)
+    * 統整: 
+      * 步驟一: 當使用$ `git add`把檔案加入至暫存區時,Git會根據這個物件的"內容"計算出`SHA-1`值
+      * 步驟二: Git接著會用這個`SHA-1`值的前`2`個字當作`目錄名稱`,後38個字當作檔案名稱;接著Git會把目錄及檔案建立在`.git/objects/` 目錄裡面
+      * 步驟三: 該檔案的內容則是Git使用壓縮演算法,把原本的"內容"壓縮之後的結果
+    * 補充: `Blob物件`的`檔名`是由`SHA-1`演算法決定的,Blob物件的`內容`則是壓縮演算法決定的
   + Tree物件
   + Commit物件
   + Tag物件
