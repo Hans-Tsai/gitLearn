@@ -268,12 +268,12 @@ Git Learn<br>
     * `情境說明` 
     * 當檔案被加入暫存區(staging area)時,Git便會在`.git/`目錄裡產生一個`Blob`(Binary large object)物件,並且依照它的"規則"擺放到它的目錄裡,這個`Blob物件`是用來存放該檔案的"內容"
     * 接下來,就會到 `.git/objects/`目錄裡存放該檔案,Git會用`SHA-1`的40個字中的`前2個字`作為目錄,剩餘的38個就是檔案名稱
-    * ![檢視.git/objects/中的Blob物件的SHA-1值](/pic/檢視.git:objects:中的Blob物件的SHA-1值.gif)
+    * ![檢視.git/objects/中的Blob物件的SHA-1值-新](/pic/檢視.git:objects:中的Blob物件的SHA-1值-新.gif)
     * 透過$ `git cat-file`來檢視Git repository內各物件的 `值` or `型態` or `大小` or `相關詳細資訊`
       * -t: 顯示該物件的型態(type)
       * -p: 顯示該物件的內容(content)
       * -s: 顯示該物件的大小(size)
-      * ![檢視.git/objects/中的Blob物件的SHA-1值-新](/pic/檢視.git:objects:中的Blob物件的SHA-1值-新.gif)
+      * ![git cat-file檢視該檔案的型態or內容or大小圖解說明](/pic/git%20cat-file檢視該檔案的型態or內容or大小圖解說明.png)
     * 統整: 
       * 步驟一: 當使用$ `git add`把檔案加入至暫存區時,Git會根據這個物件的"內容"計算出`SHA-1`值
       * 步驟二: Git接著會用這個`SHA-1`值的前`2`個字當作`目錄名稱`,後38個字當作檔案名稱;接著Git會把目錄及檔案建立在`.git/objects/` 目錄裡面
