@@ -23,6 +23,7 @@ Git Learn<br>
       - [想要知道某個檔案的某一行是誰寫的](#想要知道某個檔案的某一行是誰寫的)
       - [在工作目錄(working directory)想要復原不小心透過 `rm` 指令刪除的檔案](#在工作目錄working-directory想要復原不小心透過-rm-指令刪除的檔案)
       - [如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
+      - [新增`Tag物件`到`Commmit物件`](#新增tag物件到commmit物件)
     - [觀念介紹](#觀念介紹)
     - [觀念釐清](#觀念釐清)
     - [實戰情境題](#實戰情境題)
@@ -95,6 +96,7 @@ Git Learn<br>
 > `git restore` - Restore working tree files<br>
 > `git reset` - Reset current HEAD to the specified state<br>
 > `git reflog` - Manage reflog information<br>
+> `git tag` - Create, list, delete or verify a tag object signed with GPG<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -250,6 +252,12 @@ Git Learn<br>
       * `mixed` 模式=> `index移除staged標記`,變成Modified或是Untracked file,內容是新版的
       * `soft` 模式=> `僅移除commit變成新版"未"commit`,內容仍是新版的
       * `hard` 模式=> 回到上一版本,`這期間的所有變更完全移除`,內容及狀態皆是上一版
+#### 新增`Tag物件`到`Commmit物件`
+  + $ `git tag -a wow -m "Tag物件-annotated tag 練習"`
+    * $ `git cat-file -t <`Tag物件`的SHA-1值>`
+    * ![Tag物件介紹](/pic/Tag物件介紹.png)
+  + 統整: `Tag物件`中的有附註Tag(Annotated Tag)會指向某個`Commit物件`
+
 
 ---
 ### 觀念介紹
@@ -302,6 +310,20 @@ Git Learn<br>
       * `Tree物件`會指向`某個`或是`某些Blob物件`,或是其他`Tree物件`
       * 除了第一個`Commit物件`以外,所有的`Commit物件`都會指向它的前一次的`Commit物件`
   + Tag物件
+    * $ `git tag -a wow -m "Tag物件 annotated tag 練習"`
+    * $ `git cat-file -t <`Tag物件`的SHA-1值>`
+    * ![Tag物件介紹](/pic/Tag物件介紹.png)
+    * 統整:
+      * `Tag物件`中的有附註Tag(Annotated Tag)會指向某個`Commit物件`
+  + Git四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念整合:
+    * 把檔案加入Git之後,檔案的內容會被轉成`Blob物件`儲存
+    * 目錄以及檔名會存放在`Tree物件`內,`Tree物件`會指向`Blob物件`,或是其它的`Tree物件`
+    * `Commit物件`會指向某個`Tree物件`;除了第一個`Commit物件`以外,其它的commit都會指向前一次的`Commit物件`
+    * `Tag物件`(Annotated Tag)會指向某個`Commit物件`
+    * `分支`(branch)雖然不屬於四個物件之一,但它會指向某個`Commit物件`
+    * 當開始往Git Server上推送之後,在 `.git/refs/` 底下就會多出一個 `remote/目錄`,裡面放的是遠端的分支,基本上跟本地的分支是差不多的概念,同樣也會指向某個`Commit物件`
+      * ![透過檢視.git/refs/remotes/ 來看遠端分支有哪些](pic/透過檢視.git:refs:remotes:%20來看遠端分支有哪些.png) 
+    * `HEAD`也不屬於Git四大物件之一,它會指向某個`分支`(branch)
 - $ `git count-objects`: 可以檢視目前有多少物件和用掉多少儲存空間的圖解說明
   + ![git count-objects可以檢視目前有多少物件和用掉多少儲存空間的圖解說明](pic/git%20count-objects可以檢視目前有多少物件和用掉多少儲存空間的圖解說明.png)
   + `-v` (=> `--verbose`): 顯示這個Git管控的專案中所有物件的更多詳細資訊
