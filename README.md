@@ -273,7 +273,7 @@ Git Learn<br>
       * -t: 顯示該物件的型態(type)
       * -p: 顯示該物件的內容(content)
       * -s: 顯示該物件的大小(size)
-      * ![git cat-file檢視該檔案的型態or內容or大小圖解說明](/pic/git%20cat-file檢視該檔案的型態or內容or大小圖解說明.png)
+      * ![檢視.git/objects/中的Blob物件的SHA-1值-新](/pic/檢視.git:objects:中的Blob物件的SHA-1值-新.gif)
     * 統整: 
       * 步驟一: 當使用$ `git add`把檔案加入至暫存區時,Git會根據這個物件的"內容"計算出`SHA-1`值
       * 步驟二: Git接著會用這個`SHA-1`值的前`2`個字當作`目錄名稱`,後38個字當作檔案名稱;接著Git會把目錄及檔案建立在`.git/objects/` 目錄裡面
