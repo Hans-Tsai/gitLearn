@@ -130,8 +130,8 @@ Git Learn<br>
   + ![git log圖解說明越新的資訊會在越上面](pic/git%20log圖解說明越新的資訊會在越上面.png)
   + 也可以使用參數將$ `git log`輸出成不同的形式
     * $ `git log --oneline --graph` 
-    * --oneline:每個commit物件僅顯示成一行
-    * --graph:用圖表來表示commit物件之間的線性關係
+    * `--oneline`:每個commit物件僅顯示成一行
+    * `--graph`:用圖表來表示commit物件之間的線性關係
     * ![git log --oneline --graph圖解說明](pic/git%20log%20--oneline%20--graph圖解說明.png)
   + 可以透過$ `git log`尋找特定author的commit物件
     * $ `git log --oneline --author="Hans"`
@@ -143,9 +143,9 @@ Git Learn<br>
     * $ `git log -S "Ruby"`
   + 可以透過$ `git log`搭配參數來查詢特定時間內的commit物件
     * $ `git log --oneline --since "9am" --until "12am" --after="2017-01"`
-    * --since:"hham/pm"
-    * --until:"hham/pm"
-    * --after:"yyyy-mm"
+    * `--since`:"hham/pm"
+    * `--until`:"hham/pm"
+    * `--after`:"yyyy-mm"
 #### 刪除Git檔案
   + 刪除檔案對Git來說都是一種"修改" 
   + 可以透過系統指令刪除檔案$ `rm welcome.html`
@@ -158,7 +158,7 @@ Git Learn<br>
     * ![git rm=rm+git add 圖解說明](pic/git%20rm=rm+git%20add%20圖解說明.png)
     * 不管是系統指令的$ `rm`或是$ `git rm`都真的會把檔案從工作目錄刪掉,但如果只是不想讓檔案再被Git控管,可以加上`--cached`參數
     * $ `git rm xxx.html --cached`
-    * --cached:不會真的將檔案刪除掉,僅將檔案脫離Git控管,成為Untracked file
+    * `--cached`:不會真的將檔案刪除掉,僅將檔案脫離Git控管,成為Untracked file
 #### 變更檔名
   + 跟"刪除"檔案一樣,變更檔名也是一種"修改"
   + ![mv檔名也算是一種修改圖解說明](pic/mv檔名也算是一種修改圖解說明.png)
@@ -178,11 +178,11 @@ Git Learn<br>
     * 先把commit用$ `git reset`拆掉,整理後再重新commit
     * 使用`git commit --amend`參數來修改最後一次的commit物件 -> 較推薦此作法!
   + 可以透過$ `git commit --amend -m "新的commit message"`來修改commit紀錄
-    * --amend:只能修改"最近一次"的commit紀錄
+    * `--amend`:只能修改"最近一次"的commit紀錄
     * ![git commit --amend -m修改最近一次commit message練習圖解說明](pic/git%20commit%20--amend%20-m修改最近一次commit%20message練習圖解說明.png)
   + 如果在完成commit後,卻發現有一個檔案忘了加到這次的commit中,但不想因為這個檔案再重新發送一次commit,想把這個檔案加入最近一次commit,此時有兩個做法
     * 使用$ `git reset` 把最後一次的commit拆掉,加入新檔案後再重新commit
-    * 使用--amend參數進行commit
+    * 使用`--amend`參數進行commit
       * $ 先 `git add pizza.html`,將Untracked file 加入追蹤
       * $ 再 `git commit --amend --no-edit`,把這個檔案併入最後一次的commit中,而後面的`--no-edit`參數就是不要開啟vim編輯視窗來編輯commit message的意思
       * ![git commit --amend --no-edit參數圖解說明](pic/git%20commit%20--amend%20--no-edit參數圖解說明.png)
@@ -256,6 +256,7 @@ Git Learn<br>
 > `The HEAD`: HEAD is the pointer to the current branch reference, which is in turn a pointer to the last commit made on that branch. That means HEAD will be the parent of the next commit that is created. It’s generally simplest to think of HEAD as the snapshot of your last commit on that branch.<br>
 > `git branch` - List, create, or delete branches<br>
 > `git cat-file` - Provide content or type and size information for repository object<br>
+> `git count-objects` - Count unpacked number of objects and their disk consumption<br>
 - Git是一種分散式的版本控制系統,而所謂的"版本控制系統"就是指會幫你記錄所有的狀態變化,隨時可以切換到過去某個版本的狀態
 - Git的優點
   + 免費.開源
@@ -291,15 +292,20 @@ Git Learn<br>
   + Commit物件
     * 通常包含以下 4 項資訊 
       * 某個`Tree物件`
-      * 該次的commit時間
-      * 作者跟這次commit的人
+      * parent: 會指向前一次的Commit物件
+      * 作者跟這次commit的人&該次的commit時間
       * 本次的commit訊息($ `git commit -m`)
     * ![Git官方網站提供的Commit物件與Tree物件和Blob物件的關係圖解說明](/pic/Git官方網站提供的Commit物件與Tree物件和Blob物件的關係圖解說明.png)<br>
       參考圖片出處: <https://git-scm.com/book/en/v2/Git-Internals-Git-Objects>
     * 統整`Commit物件`的規則:
       * `Commit物件`會指向某個`Tree物件`
       * `Tree物件`會指向`某個`或是`某些Blob物件`,或是其他`Tree物件`
+      * 除了第一個`Commit物件`以外,所有的`Commit物件`都會指向它的前一次的`Commit物件`
   + Tag物件
+- $ `git count-objects`: 可以檢視目前有多少物件和用掉多少儲存空間的圖解說明
+  + ![git count-objects可以檢視目前有多少物件和用掉多少儲存空間的圖解說明](pic/git%20count-objects可以檢視目前有多少物件和用掉多少儲存空間的圖解說明.png)
+  + `-v` (=> `--verbose`): 顯示這個Git管控的專案中所有物件的更多詳細資訊
+  + `-H` (=> `--human-readable`): 將所有在這個Git管控的專案中所有物件所佔用的儲存空間用人類可閱讀的格式來顯示(MB)
 - 在使用Git時,指令要在正確的目錄下才能正常運作
 - 暫存區(Staging Area)又可稱為索引(index)
 - 在Git裡,主要可以分成三個區域,透過不同的git指令可以把檔案移動往不同的區域
@@ -322,6 +328,11 @@ Git Learn<br>
     * $ `cat .git/HEAD` : 檢視目前HEAD指向的是哪個分支名稱 //
       * // ref: refs/heads/bird 
     * 總結: `.git/HEAD`的內容(`.git/refs/heads/<目前所在分支的名稱>`會隨著$ `git checkout <分支名稱>` 而改變)
+- 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
+  + 所以`HEAD`會指向一個`分支(branch)`,並且`分支`會指向一個`Commit物件`
+    
+
+
 ---
 ### 觀念釐清
 - Git在產生物件時,只在乎"檔案內容",所以如果只是新增一個"空的目錄",Git是沒有辦法處理該空目錄的
@@ -388,7 +399,7 @@ Git Learn<br>
   + 在Git裡,不同種類的Git物件,`SHA-1`值的計算方式會有些不同
   + 可以利用Git內建的$ `git hash-object` 指令來幫忙算`SHA-1值`,也可以得到相同的結果
       * $ `git hash-object`: 計算出物件的ID(`SHA-1值`),並選擇性地從一個指定的檔案,來建立一個Blob物件
-        * --stdin: 讀取物件來自標準輸入,而不是來自一個檔案
+        * `--stdin`: 讀取物件來自標準輸入,而不是來自一個檔案
     * 例如: `Blob`物件的`SHA-1`值計算公式為
       * `blob字樣` (若為`commit物件`,則為`commit`字樣;若為`Tree物件`,則改為`Tree`字樣)
       * `一個空白字元`
