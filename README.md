@@ -280,6 +280,14 @@ Git Learn<br>
       * 步驟三: 該檔案的內容則是Git使用壓縮演算法,把原本的"內容"壓縮之後的結果
     * 補充: `Blob物件`的`檔名`是由`SHA-1`演算法決定的,Blob物件的`內容`則是壓縮演算法決定的
   + Tree物件
+    * `Tree物件`會指向`某個`或是`某些Blob物件`,或是其他`Tree物件`
+    * ![Git官方網站提供的Tree物件和Blob物件的關係圖解說明](pic/Git官方網站提供的Tree物件和Blob物件的關係圖解說明.png)<br>
+      參考圖片出處: <https://git-scm.com/book/zh-tw/v2/Git-Internals-Git-Objects> 
+    * ![Tree物件介紹](/pic/Tree物件介紹.png)
+    * 統整:
+      * 步驟一: `檔案`在Git裡會以`Blob物件`的方式存放
+      * 步驟二: `目錄`及檔案名稱會以`Tree物件`的形式存放
+      * 步驟三: `Tree物件`會指向`某個`或是`某些Blob物件`,或是其他`Tree物件`
   + Commit物件
   + Tag物件
 - 在使用Git時,指令要在正確的目錄下才能正常運作
@@ -307,7 +315,8 @@ Git Learn<br>
 ---
 ### 觀念釐清
 - Git在產生物件時,只在乎"檔案內容",所以如果只是新增一個"空的目錄",Git是沒有辦法處理該空目錄的
-  + 空的目錄也不會被commit 
+  + 原因: Git會對檔案的"內容"使用`SHA-1`演算法計算然後再`.git/objects/`目錄裡,建立對應的目錄及檔案,如果是一個空目錄的話,就沒有"內容"可以計算,所以Git連感應都感應不到,因此`空目錄`對Git來說連`Untracked file`都稱不上喔
+  + 空的目錄也不會被commit
   + ![git不會追蹤空目錄](/pic/git不會追蹤空目錄.png)
   + 如果還是想讓空目錄被Git追蹤,只要在空目錄中隨便放一個檔案就行了,慣例上習慣放`.keep` 或是 `.gitkeep` 的空檔案,讓Git能"感應"到這個目錄的存在
   + ![加入.gitkeep檔案到空目錄讓Git能感應到](/pic/加入.gitkeep檔案到空目錄讓Git能感應到.png)
@@ -320,6 +329,7 @@ Git Learn<br>
   + 例如: $ `git reset HEAD~2`
   + 這個指令應該要解讀成,"我要前往兩個commit之前的狀態" 或是 "我要變成兩個commit之前的狀態",而隨著使用不同的參數模式(`mixed or soft or hard`),原本的這些檔案就會被丟到不同的區域
   + 實際上$ `git reset`指令也不是真的刪除或是重新設定commit,只是"前往"到指定的commit物件中,那些看起來好像不見的東西只是暫時看不到,但其實隨時都可以再撿回來
+- Git的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間是"沒有"階層或是目錄,子目錄的關係,大家都是平行的關係,此關係鏈稱為DAG(Directed Acyclic Graph),中文上稱為"有向無循環圖"
 
 ---
 ### 實戰情境題
