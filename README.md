@@ -32,6 +32,7 @@ Git Learn<br>
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
+      - [SHA-1(安全散列演算法) 介紹](#sha-1安全散列演算法-介紹)
   
   
 ---
@@ -333,6 +334,7 @@ Git Learn<br>
 
 ---
 ### 觀念補充
+> `git hash-object` - Compute object ID and optionally creates a blob from a file
 #### 終端機(Terminal)是什麼?
   +  終端機本身通常不是一部電腦,它本身沒有運算能力,僅用來顯示資料及輸入資料,所有的計算都是在主機上處理的
   +  其實終端機就是可以讓使用者輸入指令,來跟電腦進行互動
@@ -343,6 +345,26 @@ Git Learn<br>
   + 在Normal模式下,按下`:wq!` ,代表強制存檔完成後直接關閉這個檔案
   + ![Vim圖解操作說明](/pic/Vim圖解操作說明.png)<br>
     參考圖片出處<https://gitbook.tw/>
+#### SHA-1(安全散列演算法) 介紹
+  + `SHA-1` (Secure Hash Algorithm 1)是一種雜湊演算法,計算之後的結果通常會以`40`個`16進位`的數字方式來呈現
+  + `SHA-1`: 該演算法的特性之一就是,當輸入的值相同,就會有相同的輸出值
+  + 在Git中,所有物件的"編號"的計算,主要都是透過這個演算法算出來的
+  + 碰撞(collision): 代表輸入兩個不同的值(不同的檔案),卻得到相同的結果(相同的SHA-1值),這種情況稱為碰撞(collision)
+  + 在Git裡,不同種類的Git物件,`SHA-1`值的計算方式會有些不同
+    * 例如: `Blob`物件的`SHA-1`值計算公式為
+      * `blob字樣` (若為`commit物件`,則為`commit`字樣;若為`Tree物件`,則改為`Tree`字樣)
+      * `一個空白字元`
+      * `輸入內容的長度`
+      * `Null結束符號`
+      * `輸入內容`
+    * 從上列公式可以看出,第1~5項都沒有跟`時間`或是`亂碼`有關的內容,只跟`要計算的內容`有關
+    * 但是`Commit物件`和`Tag物件`則除外,因為這兩個物件本身就`有包括時間`
+    * 所以,以`Blob物件`來說,不管是在什麼時間或不同的電腦上,一樣的輸入值,就會有一樣的內容
+    * 可以利用Git內建的$ `git hash-object` 指令來幫忙算`SHA-1值`,也可以得到相同的結果
+      * $ `git hash-object`: 計算出物件的ID(`SHA-1值`),並選擇性地從一個指定的檔案,來建立一個Blob物件
+        * --stdin: 讀取物件來自標準輸入,而不是來自一個檔案  
+      * 例如: $ `printf "Hello, Hans Tsai" | git hash-object --stdin` 
+      * ![git hash-object --stdin可以計算SHA-1的值](/pic/git%20hash-object%20--stdin可以計算SHA-1的值.png)
 
 
 
