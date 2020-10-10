@@ -289,6 +289,16 @@ Git Learn<br>
       * 步驟二: `目錄`及檔案名稱會以`Tree物件`的形式存放
       * 步驟三: `Tree物件`會指向`某個`或是`某些Blob物件`,或是其他`Tree物件`
   + Commit物件
+    * 通常包含以下 4 項資訊 
+      * 某個`Tree物件`
+      * 該次的commit時間
+      * 作者跟這次commit的人
+      * 本次的commit訊息($ `git commit -m`)
+    * ![Git官方網站提供的Commit物件與Tree物件和Blob物件的關係圖解說明](/pic/Git官方網站提供的Commit物件與Tree物件和Blob物件的關係圖解說明.png)<br>
+      參考圖片出處: <https://git-scm.com/book/en/v2/Git-Internals-Git-Objects>
+    * 統整`Commit物件`的規則:
+      * `Commit物件`會指向某個`Tree物件`
+      * `Tree物件`會指向`某個`或是`某些Blob物件`,或是其他`Tree物件`
   + Tag物件
 - 在使用Git時,指令要在正確的目錄下才能正常運作
 - 暫存區(Staging Area)又可稱為索引(index)
