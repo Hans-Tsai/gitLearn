@@ -399,6 +399,24 @@ Git Learn<br>
     * ![git checkout到過去的Commit物件造成Deatched HEAD的官方圖解說明](/pic/git%20checkout到過去的Commit物件造成Deatched%20HEAD的官方圖解說明.gif)
       參考圖片出處<https://git-scm.com/docs/git-checkout>
     * 注意! 這時候可能會發生`Detached HEAD`的情況!
+  + $ `git branch`: 檢視目前所有的分支有哪些
+    * ![用git branch來檢視目前的分支(master)](/pic/用git%20branch來檢視目前的分支(master).gif) 
+  + $ `git branch bird`: 建立一個新的分支名稱為`bird`
+    * ![用git branch <新的分支名稱> 來新增新的分支](/pic/用git%20branch%20<新的分支名稱>%20來新增新的分支.gif)
+  + $ `git checkout bird`:切換到`bird`分支
+  + $ `git branch -m bird fish`: 將`bird分支`更名為`fish分支`
+    * `-m` (=> `--move`): 移動or更名 `分支`(branch)和其相對應的`reflog`
+    * ![git branch -m 修改分支名稱的圖解說明](/pic/git%20branch%20-m%20修改分支名稱的圖解說明.gif)
+  + $ `git branch -d fish`: 將`fish`分支刪除
+    * `-d` (=> `--delete`): 刪除該分支
+    * 補充: 只有目前所在的分支不能刪除,只要先$ `git checkout` 切換到別的分支後也可以刪除原本所在的那個分支(儘管是master分支)
+    * ![git branch -d 刪除分支後的圖解說明](/pic/git%20branch%20-d%20刪除分支後的圖解說明.gif)
+  + 或是 $ `git branch -D fish`:強制將尚未合併(merged)的分支刪除
+    * `-D` = `-d` + `-f` (=> `--delete --force` 的縮寫): 強制刪除該分支( 不管該分支是否已經合併(merged)到其上游分支(upstream branch) )
+
+
+
+
 
 #### `Detached HEAD` (斷頭) 是什麼?
 - `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
@@ -450,19 +468,19 @@ Git Learn<br>
   + Git的`資源回收機制`,當這個機制"觸發"的時候( 通常會在Git覺得該專案的物件(objects)太多時 ),Git會以非常有效率的方式壓縮物件以及製作索引 
     * `情境說明`:
     * $ `git ls-files -s`: 檢視暫存區(staging area)和工作目錄(working directory)中的檔案情況
-      * -s (=> `--stage`): 顯示暫存區(staging area)的檔案資訊
+      * `-s` (=> `--stage`): 顯示暫存區(staging area)的檔案資訊
       * ![git ls-files 顯示暫存區或是工作目錄中的檔案資訊](pic/git%20ls-files%20顯示暫存區或是工作目錄中的檔案資訊.png)
     * $ `git gc`: 清除非必要(unnecessary)的檔案和優化本地端儲存庫(local repository)的空間 
       * ![git gc資源回收機制的圖解說明](/pic/git%20gc資源回收機制的圖解說明.png)
       * 這個指令會把原本放在 `.git/objects/` 目錄下的那些物件全部打包到 `.git/objects/pack/` 目錄下
       * ![git gc後打包的物件會儲存在 .git/objects/pack](/pic/git%20gc後打包的物件會儲存在%20.git:objects:pack.png)
     * $ `git verify-pack -v` <`.git/objects/pack/pack-xxxxxx.idx`>: 確認Git打包(packed)好的檔案情況
-      * -v(=> `--verbose`): 顯示打包過後的檔案詳細資訊 
+      * `-v`(=> `--verbose`): 顯示打包過後的檔案詳細資訊 
       * 第一欄: `SHA-1值`
       * 第二欄: `物件的型態`
       * 第三欄: `檔案大小`
   + 統整: Git什麼時候會自動觸發`資源回收機制`呢?
-    * 當在 .git/objects/ 目錄下的物件或是打包過的packfile數量過多的時候,Git會`自動觸發資源回收指令`
+    * 當在 `.git/objects/` 目錄下的物件或是打包過的packfile數量過多的時候,Git會`自動觸發資源回收指令`
     * 當執行 $ `git push` 指令把內容推至遠端伺服器時
 
 ---
