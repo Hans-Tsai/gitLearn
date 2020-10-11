@@ -370,6 +370,8 @@ Git Learn<br>
 
 ---
 ### 觀念釐清
+> `git ls-files` - Show information about files in the index and the working tree<br>
+> `git verify-pack` - Validate packed Git archive files<br>
 - Git在產生物件時,只在乎"檔案內容",所以如果只是新增一個"空的目錄",Git是沒有辦法處理該空目錄的
   + 原因: Git會對檔案的"內容"使用`SHA-1`演算法計算然後再`.git/objects/`目錄裡,建立對應的目錄及檔案,如果是一個空目錄的話,就沒有"內容"可以計算,所以Git連感應都感應不到,因此`空目錄`對Git來說連`Untracked file`都稱不上喔
   + 空的目錄也不會被commit
@@ -386,6 +388,26 @@ Git Learn<br>
   + 這個指令應該要解讀成,"我要前往兩個commit之前的狀態" 或是 "我要變成兩個commit之前的狀態",而隨著使用不同的參數模式(`mixed or soft or hard`),原本的這些檔案就會被丟到不同的區域
   + 實際上$ `git reset`指令也不是真的刪除或是重新設定commit,只是"前往"到指定的commit物件中,那些看起來好像不見的東西只是暫時看不到,但其實隨時都可以再撿回來
 - Git的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間是"沒有"階層或是目錄,子目錄的關係,大家都是平行的關係,此關係鏈稱為DAG(Directed Acyclic Graph),中文上稱為"有向無循環圖"
+- Git 不是在做差異備份,而是`為當時的專案資料建立快照(Snapshot)`,如果專案內沒有變更的檔案就不會多儲存一份來佔用磁碟空間,而只是增加了一筆這個檔案的對應連結,開發者開啟新版本存取這個檔案時,還是開啟先前的舊版檔案,而不是開啟內容相同的新副本
+  + 因此,只要該檔案的內容改了一個字,因為計算出來的`SHA-1值`不同,Git就會為它做出一顆全新的`Blob物件`,而"不是只記錄差異"
+  + Git在製作新的`Blob物件`時會先進行壓縮,但為了因應"其實只修改了一點點就要整個檔案重新備份一遍"的作法而有點浪費硬碟的儲存空間,`Git有一套自己的資源回收機制`
+  + Git的`資源回收機制`,當這個機制"觸發"的時候( 通常會在Git覺得該專案的物件(objects)太多時 ),Git會以非常有效率的方式壓縮物件以及製作索引 
+    * `情境說明`:
+    * $ `git ls-files -s`: 檢視暫存區(staging area)和工作目錄(working directory)中的檔案情況
+      * -s (=> `--stage`): 顯示暫存區(staging area)的檔案資訊
+      * ![git ls-files 顯示暫存區或是工作目錄中的檔案資訊](pic/git%20ls-files%20顯示暫存區或是工作目錄中的檔案資訊.png)
+    * $ `git gc`: 清除非必要(unnecessary)的檔案和優化本地端儲存庫(local repository)的空間 
+      * ![git gc資源回收機制的圖解說明](/pic/git%20gc資源回收機制的圖解說明.png)
+      * 這個指令會把原本放在 `.git/objects/` 目錄下的那些物件全部打包到 `.git/objects/pack/` 目錄下
+      * ![git gc後打包的物件會儲存在 .git/objects/pack](/pic/git%20gc後打包的物件會儲存在%20.git:objects:pack.png)
+    * $ `git verify-pack -v` <`.git/objects/pack/pack-xxxxxx.idx`>: 確認Git打包(packed)好的檔案情況
+      * -v(=> `--verbose`): 顯示打包過後的檔案詳細資訊 
+      * 第一欄: `SHA-1值`
+      * 第二欄: `物件的型態`
+      * 第三欄: `檔案大小`
+  + 統整: Git什麼時候會自動觸發`資源回收機制`呢?
+    * 當在 .git/objects/ 目錄下的物件或是打包過的packfile數量過多的時候,Git會`自動觸發資源回收指令`
+    * 當執行 $ `git push` 指令把內容推至遠端伺服器時
 
 ---
 ### 實戰情境題
