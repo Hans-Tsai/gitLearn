@@ -352,6 +352,19 @@ Git Learn<br>
     * 總結: `.git/HEAD`的內容(`.git/refs/heads/<目前所在分支的名稱>`會隨著$ `git checkout <分支名稱>` 而改變)
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
   + 所以`HEAD`會指向一個`分支(branch)`,並且`分支`會指向一個`Commit物件`
+  + 當 $ `git checkout <分支名稱orCommit物件>`時,Git會依據當下的這個`commit`來還原工作目錄(`working directory`)的內容,並參考 `.git/objects/` 目錄裡的內容像拎葡萄一樣整串從頭的地方拎起來 
+    * ![git checkout到過去的Commit物件造成Deatched HEAD的官方圖解說明](/pic/git%20checkout到過去的Commit物件造成Deatched%20HEAD的官方圖解說明.gif)
+      參考圖片出處<https://git-scm.com/docs/git-checkout>
+    * 注意! 這時候可能會發生`Detached HEAD`的情況!
+- `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
+  + 以下是3種常見的原因可能會造成`Detached HEAD`的狀態
+    + 使用 $ `git checkout <Commit物件的id>` 後,該`Commit物件`剛好目前沒有分支(branch)指向它
+    + $ `git rebase` 的過程其實也是不斷地處於`Detached HEAD`的狀態
+    + 切換到某個遠端分支(remote branch)的時候
+      * 例如: $ `git checkout -b test origin/test` 
+  + ![git checkout切換到之前的Commit物件造成Detached HEAD官方圖解](/pic/git%20checkout切換到之前的Commit物件造成Detached%20HEAD官方圖解.png)
+    參考圖片出處<https://git-scm.com/docs/git-checkout>
+  + 在 `Detached HEAD` 狀態下其實跟平常一樣操作Git,也可以進行commit
     
 
 
