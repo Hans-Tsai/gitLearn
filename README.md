@@ -10,7 +10,7 @@ Git Learn<br>
       - [MacOS系統](#macos系統)
       - [Linux系統](#linux系統)
     - [設定Git](#設定git)
-    - [開始使用Git](#開始使用git)
+    - [Git 基礎常用指令](#git-基礎常用指令)
       - [初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制](#初始化該目錄主要目的是讓git開始對這個目錄進行版本控制)
       - [把這個檔案交給Git來控管](#把這個檔案交給git來控管)
       - [把暫存區(staging area)的檔案提交到倉庫存檔](#把暫存區staging-area的檔案提交到倉庫存檔)
@@ -25,7 +25,26 @@ Git Learn<br>
       - [如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
       - [新增`Tag物件`到`Commmit物件`](#新增tag物件到commmit物件)
     - [觀念介紹](#觀念介紹)
+      - [Git 其實是一種分散式的版本控制系統](#git-其實是一種分散式的版本控制系統)
+      - [Git 的優點](#git-的優點)
+      - [Git 是用快照(snapshot)在做版本控制的](#git-是用快照snapshot在做版本控制的)
+      - [Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹](#git-的四大物件blobtreecommittag觀念介紹)
+      - [$ `git count-objects`: 可以檢視目前有多少物件和用掉多少儲存空間](#-git-count-objects-可以檢視目前有多少物件和用掉多少儲存空間)
+      - [在使用Git時,指令要在正確的目錄下才能正常運作](#在使用git時指令要在正確的目錄下才能正常運作)
+      - [在Git術語中,暫存區(staging area)=索引(index)](#在git術語中暫存區staging-area索引index)
+      - [Git 世界裡的的三大區域---`工作目錄(working directory)`,`暫存區(staging area)`,`儲存庫(repository)`](#git-世界裡的的三大區域---工作目錄working-directory暫存區staging-area儲存庫repository)
+      - [為什麼每次都要先$ `git add` 再 $ `git commit`](#為什麼每次都要先-git-add-再--git-commit)
+      - [Git物件的id是怎麼計算出來的? (`SHA-1演算法`)](#git物件的id是怎麼計算出來的-sha-1演算法)
+      - [`HEAD`是什麼?](#head是什麼)
+      - [`分支(branch)`是什麼?](#分支branch是什麼)
+      - [`Detached HEAD` (斷頭) 是什麼?](#detached-head-斷頭-是什麼)
     - [觀念釐清](#觀念釐清)
+      - [Git無法控管 `空目錄/`](#git無法控管-空目錄)
+      - [$ `git rm --cached` V.S. `.gitignore` 比較](#-git-rm---cached-vs-gitignore-比較)
+      - [在專案中的整個`.git/` 目錄是Git版控的核心檔案](#在專案中的整個git-目錄是git版控的核心檔案)
+      - [$ `git reset` 是用來"前往"到指定的`Commit物件`上的](#-git-reset-是用來前往到指定的commit物件上的)
+      - [Git四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間其實是平行關係](#git四大物件blobtreecommittag彼此之間其實是平行關係)
+      - [Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
@@ -80,7 +99,7 @@ Git Learn<br>
   + $ `git config --global alias.ls 'log --graph --pretty=format:"%h <%an> %ar %s"'`
 
 ---
-### 開始使用Git
+### Git 基礎常用指令
 > `git init` - Create an empty Git repository or reinitialize an existing one<br>
 > `git status` - Show the working tree status<br>
 > `git add` - Add file contents to the index<br>
@@ -265,13 +284,21 @@ Git Learn<br>
 > `git branch` - List, create, or delete branches<br>
 > `git cat-file` - Provide content or type and size information for repository object<br>
 > `git count-objects` - Count unpacked number of objects and their disk consumption<br>
+
+#### Git 其實是一種分散式的版本控制系統
 - Git是一種分散式的版本控制系統,而所謂的"版本控制系統"就是指會幫你記錄所有的狀態變化,隨時可以切換到過去某個版本的狀態
+
+#### Git 的優點
 - Git的優點
   + 免費.開源
   + Git是記錄檔案內容的快照(snapshot),而不是記錄版本之間的差異,它可以讓Git更快速地切換版本
   + Git是一款分散式的版控系統(Distributed Version Control),雖然也會有共同的伺服器,但即使在沒有伺服器或是沒有網路的環境,依舊可以使用Git來進行版控,待伺服器恢復正常運作或是在有網路的環境後再同步,不會受影響
   + 註: Git和SVN相比,最大的不同點就是,Git可以在local端做一些修改,然後commit到本地的版本庫,最後push到伺服器; 而SVN只要一commit,更改就已經提交到伺服器了
+
+#### Git 是用快照(snapshot)在做版本控制的
 - Git在每次版本變化的時候,有點像拍照(snapshot)一樣,Git會更新並記錄整個目錄跟檔案的樹狀結構
+
+#### Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹
 - Git的四大物件結構: 在`.git/` 的資料結構裡面會有
   + Blob物件
     * `情境說明` 
@@ -324,20 +351,34 @@ Git Learn<br>
     * 當開始往Git Server上推送之後,在 `.git/refs/` 底下就會多出一個 `remote/目錄`,裡面放的是遠端的分支,基本上跟本地的分支是差不多的概念,同樣也會指向某個`Commit物件`
       * ![透過檢視.git/refs/remotes/ 來看遠端分支有哪些](pic/透過檢視.git:refs:remotes:%20來看遠端分支有哪些.png) 
     * `HEAD`也不屬於Git四大物件之一,它會指向某個`分支`(branch)
-- $ `git count-objects`: 可以檢視目前有多少物件和用掉多少儲存空間的圖解說明
+
+#### $ `git count-objects`: 可以檢視目前有多少物件和用掉多少儲存空間
+- $ `git count-objects`: 可以檢視目前有多少物件和用掉多少儲存空間
   + ![git count-objects可以檢視目前有多少物件和用掉多少儲存空間的圖解說明](pic/git%20count-objects可以檢視目前有多少物件和用掉多少儲存空間的圖解說明.png)
   + `-v` (=> `--verbose`): 顯示這個Git管控的專案中所有物件的更多詳細資訊
   + `-H` (=> `--human-readable`): 將所有在這個Git管控的專案中所有物件所佔用的儲存空間用人類可閱讀的格式來顯示(MB)
+
+#### 在使用Git時,指令要在正確的目錄下才能正常運作
 - 在使用Git時,指令要在正確的目錄下才能正常運作
+
+#### 在Git術語中,暫存區(staging area)=索引(index)
 - 暫存區(Staging Area)又可稱為索引(index)
+
+#### Git 世界裡的的三大區域---`工作目錄(working directory)`,`暫存區(staging area)`,`儲存庫(repository)`
 - 在Git裡,主要可以分成三個區域,透過不同的git指令可以把檔案移動往不同的區域
   + 工作目錄(Working Directory)
   + 暫存區域(Staging Area) or (index)
   + 儲存庫(Repository)
   + ![工作目錄_暫存區_儲存庫的關係圖解說明](pic/工作目錄_暫存區_儲存庫的關係圖解說明.png)<br>
     參考圖片出處<https://gitbook.tw/>
+
+#### 為什麼每次都要先$ `git add` 再 $ `git commit`
 - 可以想像你有一個倉庫,倉庫門口有個小廣場,這個廣場的概念就像跟暫存區一樣,你把要存放到倉庫的貨物先放到這邊($ `git add`),然後等收集的差不多了就可以打開倉庫門,把放在廣場上的貨物送進倉庫裡($ `git commit -m`,並記錄下來這批貨是什麼用途的? & 誰送來的?)
+
+#### Git物件的id是怎麼計算出來的? (`SHA-1演算法`)
 - 在Git的Commit物件裡每串看起來像亂碼的文字,都是透過SHA-1演算法計算出來的結果,是一種重複率極低的演算法;Git使用這樣的字串作為識別,每個Commit物件都有一個這樣的值,你可以把它想像成是每個Commit物件的身分證字號,不會重複
+
+#### `HEAD`是什麼?
 - `HEAD` 是一個指標,會指向某一個分支,我們通常可以把`HEAD`當作"目前分支"來; 也可以在`.git/HEAD`這個檔案裡看到記錄著`HEAD`的內容
   + $ `cat .git/HEAD`: 顯示目前`HEAD`指向的分支 
     * ![在.git/HEAD中檢視目前HEAD指向的分支](pic/在.git:HEAD中檢視目前HEAD指向的分支.png)
@@ -350,12 +391,16 @@ Git Learn<br>
     * $ `cat .git/HEAD` : 檢視目前HEAD指向的是哪個分支名稱 //
       * // ref: refs/heads/bird 
     * 總結: `.git/HEAD`的內容(`.git/refs/heads/<目前所在分支的名稱>`會隨著$ `git checkout <分支名稱>` 而改變)
+
+####  `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
   + 所以`HEAD`會指向一個`分支(branch)`,並且`分支`會指向一個`Commit物件`
   + 當 $ `git checkout <分支名稱orCommit物件>`時,Git會依據當下的這個`commit`來還原工作目錄(`working directory`)的內容,並參考 `.git/objects/` 目錄裡的內容像拎葡萄一樣整串從頭的地方拎起來 
     * ![git checkout到過去的Commit物件造成Deatched HEAD的官方圖解說明](/pic/git%20checkout到過去的Commit物件造成Deatched%20HEAD的官方圖解說明.gif)
       參考圖片出處<https://git-scm.com/docs/git-checkout>
     * 注意! 這時候可能會發生`Detached HEAD`的情況!
+
+#### `Detached HEAD` (斷頭) 是什麼?
 - `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
   + 以下是3種常見的原因可能會造成`Detached HEAD`的狀態
     + 使用 $ `git checkout <Commit物件的id>` 後,該`Commit物件`剛好目前沒有分支(branch)指向它
@@ -365,13 +410,14 @@ Git Learn<br>
   + ![git checkout切換到之前的Commit物件造成Detached HEAD官方圖解](/pic/git%20checkout切換到之前的Commit物件造成Detached%20HEAD官方圖解.png)
     參考圖片出處<https://git-scm.com/docs/git-checkout>
   + 在 `Detached HEAD` 狀態下其實跟平常一樣操作Git,也可以進行commit
-    
 
 
 ---
 ### 觀念釐清
 > `git ls-files` - Show information about files in the index and the working tree<br>
 > `git verify-pack` - Validate packed Git archive files<br>
+
+#### Git無法控管 `空目錄/`
 - Git在產生物件時,只在乎"檔案內容",所以如果只是新增一個"空的目錄",Git是沒有辦法處理該空目錄的
   + 原因: Git會對檔案的"內容"使用`SHA-1`演算法計算然後再`.git/objects/`目錄裡,建立對應的目錄及檔案,如果是一個空目錄的話,就沒有"內容"可以計算,所以Git連感應都感應不到,因此`空目錄`對Git來說連`Untracked file`都稱不上喔
   + 空的目錄也不會被commit
@@ -379,15 +425,25 @@ Git Learn<br>
   + 如果還是想讓空目錄被Git追蹤,只要在空目錄中隨便放一個檔案就行了,慣例上習慣放`.keep` 或是 `.gitkeep` 的空檔案,讓Git能"感應"到這個目錄的存在
   + ![加入.gitkeep檔案到空目錄讓Git能感應到](/pic/加入.gitkeep檔案到空目錄讓Git能感應到.png)
   + 利用$ `git status` 就可以看到Git感應到這個目錄(empty_dir)的存在了,其實是感應到裡⾯那個 `.gitkeep` 檔案的存在
+
+#### $ `git rm --cached` V.S. `.gitignore` 比較
 - $ `git rm --cached` V.S. `.gitignore` 比較
   + $ `git rm xxx.html --cached`:並不會將檔案真的刪除掉,僅把暫存區(staging area)該檔案從Git控管中移除,脫離Git控管,變為Untracked file狀態;若原本在工作目錄(working directory)中的檔案,不管是否有做過修改(modified)都將留下
   + $ `.gitignore`:是開發者指定好要Git版控"忽略"掉的檔案和規則,設定好後,Git就不會控管這些檔案了
+
+#### 在專案中的整個`.git/` 目錄是Git版控的核心檔案
 - 當檔案被刪除時都還能就回來,因為整個Git紀錄都是放在該專案的根目錄 `.git/` 目錄裡面,所以如果真的不小心把 `.git/` 刪掉的話,就表示歷史紀錄也被刪掉了,就真的沒救了...
+  
+#### $ `git reset` 是用來"前往"到指定的`Commit物件`上的
 - $ `git reset`的Reset這個英文單字在中文翻譯是"重新設定",但事實上$ `git reset`指令比較像是"前往"或是"變成",也就是"go to"或是"become"的概念
   + 例如: $ `git reset HEAD~2`
   + 這個指令應該要解讀成,"我要前往兩個commit之前的狀態" 或是 "我要變成兩個commit之前的狀態",而隨著使用不同的參數模式(`mixed or soft or hard`),原本的這些檔案就會被丟到不同的區域
   + 實際上$ `git reset`指令也不是真的刪除或是重新設定commit,只是"前往"到指定的commit物件中,那些看起來好像不見的東西只是暫時看不到,但其實隨時都可以再撿回來
+
+#### Git四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間其實是平行關係
 - Git的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間是"沒有"階層或是目錄,子目錄的關係,大家都是平行的關係,此關係鏈稱為DAG(Directed Acyclic Graph),中文上稱為"有向無循環圖"
+
+#### Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)
 - Git 不是在做差異備份,而是`為當時的專案資料建立快照(Snapshot)`,如果專案內沒有變更的檔案就不會多儲存一份來佔用磁碟空間,而只是增加了一筆這個檔案的對應連結,開發者開啟新版本存取這個檔案時,還是開啟先前的舊版檔案,而不是開啟內容相同的新副本
   + 因此,只要該檔案的內容改了一個字,因為計算出來的`SHA-1值`不同,Git就會為它做出一顆全新的`Blob物件`,而"不是只記錄差異"
   + Git在製作新的`Blob物件`時會先進行壓縮,但為了因應"其實只修改了一點點就要整個檔案重新備份一遍"的作法而有點浪費硬碟的儲存空間,`Git有一套自己的資源回收機制`
