@@ -397,7 +397,8 @@ Git Learn<br>
   + 所以`HEAD`會指向一個`分支(branch)`,並且`分支`會指向一個`Commit物件`
     * 通常來說`HEAD`所指的那個`分支(branch)`,會跟著新的`Commit物件`前進(而`HEAD`也會跟著一起前進) 
     * ![git分支是什麼_圖解說明---by官方文件](pic/git分支是什麼_圖解說明---by官方文件.png)
-  + 當 $ `git checkout <分支名稱orCommit物件>`時,Git會依據當下的這個`commit`來還原工作目錄(`working directory`)的內容,並參考 `.git/objects/` 目錄裡的內容像拎葡萄一樣整串從頭的地方拎起來 
+      參考圖片出處<https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell> 
+  + 當 $ `git checkout <分支名稱orCommit物件>`時,Git會依據當下的這個`Commit物件`來還原工作目錄(`working directory`)的內容,並參考 `.git/objects/` 目錄裡的內容像拎葡萄一樣整串從頭的地方拎起來,只要從源頭的`Commit物件`拎起來,整串內容都可以被拿出來
     * ![git checkout到過去的Commit物件造成Deatched HEAD的官方圖解說明](/pic/git%20checkout到過去的Commit物件造成Deatched%20HEAD的官方圖解說明.gif)
       參考圖片出處<https://git-scm.com/docs/git-checkout>
     * 注意! 這時候有可能會發生`Detached HEAD`的情況!
@@ -407,6 +408,9 @@ Git Learn<br>
   + $ `git branch bird`: 建立一個新的分支名稱為`bird`
     * ![用git branch <新的分支名稱> 來新增新的分支](/pic/用git%20branch%20<新的分支名稱>%20來新增新的分支.gif)
   + $ `git checkout bird`: 切換到`bird`分支
+    * 當Git在切換分支 ($ `git checkout <branch name>`) 的時候會做以下兩件事情
+      * 用該分支指向的那個`Commit物件`的內容來"更新"暫存區(staging area)以及工作目錄(working directory),<font color=yellow>當切換分支"之前"所做的修改內容仍會留在工作目錄(working directory)不受影響</font>
+      * 同時`HEAD`也會跟著一起前進,指向剛剛切換過去的那個分支(branch)
   + $ `git branch -m bird fish`: 將`bird分支`更名為`fish分支`
     * `-m` (=> `--move`): 移動or更名 `分支`(branch)和其相對應的`reflog`
     * ![git branch -m 修改分支名稱的圖解說明](/pic/git%20branch%20-m%20修改分支名稱的圖解說明.gif)
