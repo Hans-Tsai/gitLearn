@@ -49,6 +49,7 @@ Git Learn<br>
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
       - [如果這次只想commit一個檔案中的部份內容的話,該怎麼做呢?](#如果這次只想commit一個檔案中的部份內容的話該怎麼做呢)
+      - [如果修改專案的某些檔案到一半,卻不小心先切換到別的分支(branch),該怎麼辦?](#如果修改專案的某些檔案到一半卻不小心先切換到別的分支branch該怎麼辦)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -241,6 +242,8 @@ Git Learn<br>
     * 切換分支(= $ `git switch`)
     * 恢復工作目錄(working directory)裡的文件(= $ `git restore`)
     * 當$ `git checkout "分支名稱"` 時,就會切換到指定的分支
+      * 例如:$ `git checkout -b tiger`: 切換到`tiger`分支,如果沒有該分支的話,就新增一個`tiger`分支
+        * `-b <新的分支名稱>`: (=> `branch`): 切換到`<新的分支名稱>`,如果沒有的話,就新增一個`<該分支>`
     * 當$ `git checkout "檔案名稱 or 路徑"` 時,Git就會到 `.git/` 目錄裡拉一份到目前的工作目錄(working directory)
   + $ `git checkout xxx.html` 可以將工作目錄(working directory)中不小心刪除(`rm`)掉的指定檔案復原回來
   + 例如: `pizza.html` 從deleted status變回原本的狀態
@@ -420,12 +423,6 @@ Git Learn<br>
     * ![git branch -d 刪除分支後的圖解說明](/pic/git%20branch%20-d%20刪除分支後的圖解說明.gif)
   + 或是 $ `git branch -D fish`:強制將尚未合併(merged)的分支刪除
     * `-D` = `-d` + `-f` (=> `--delete --force` 的縮寫): 強制刪除該分支( 不管該分支是否已經合併(merged)到其上游分支(upstream branch) )
-  + $ `git branch -b tiger`: 切換到`tiger`分支,如果沒有該分支的話,就新增一個`tiger`分支
-    * `-b <新的分支名稱>` (=> `branch`): 切換到`<新的分支名稱>`,如果沒有的話,就新增一個`<該分支>`
-
-
-
-
 
 #### `Detached HEAD` (斷頭) 是什麼?
 - `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
@@ -516,7 +513,15 @@ Git Learn<br>
   + `git add -p xxx.hmtl`: 在$ `git add`將檔案加入暫存區(staging area)的時候,加上 `-p` 參數,透過互動式介面,選擇要$ `git add`的範圍
     * `-p` (=> `--patch`): 可以互動式地選擇該檔案的哪些部分要加入暫存區(staging area),哪些不用(留在工作目錄就好)
       * `e` (=> edit): 編輯該檔案中的哪些部分要新增到暫存區(staging area)
-    * ![git add -p選擇要新增到暫存區的範圍](/pic/git%20add%20-p選擇要新增到暫存區的範圍.gif) 
+    * ![git add -p選擇要新增到暫存區的範圍](/pic/git%20add%20-p選擇要新增到暫存區的範圍.gif)
+#### 如果修改專案的某些檔案到一半,卻不小心先切換到別的分支(branch),該怎麼辦?
+  + $ `git checkout -b tiger`: 先切換到tiger分支
+  + $ `echo tiger 123 >  tiger_test.html`: 新增一個檔案`tiger_test.html`,並在裡面輸入一串文字
+  + 也編輯`pizza.html`,新增一行文字
+  + 此時,切換到`master`分支,會發現剛剛新增的檔案(`tiger_test.html`)以及修改的檔案(`pizza.html`)都還是會留在工作目錄(working directory)不受影響
+  + ![檔案修改到一半卻git checkout分支的圖解說明-part_總結](pic/檔案修改到一半卻git%20checkout分支的圖解說明-part_總結.gif)
+  + 總結: Git切換分支( `$ git checkout <branch name>` )時,並不會影響到已經在工作目錄(working directory)的那些修改喔!
+  
 
 ---
 ### 觀念補充
