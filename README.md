@@ -403,7 +403,7 @@ Git Learn<br>
     * ![用git branch來檢視目前的分支(master)](/pic/用git%20branch來檢視目前的分支(master).gif) 
   + $ `git branch bird`: 建立一個新的分支名稱為`bird`
     * ![用git branch <新的分支名稱> 來新增新的分支](/pic/用git%20branch%20<新的分支名稱>%20來新增新的分支.gif)
-  + $ `git checkout bird`:切換到`bird`分支
+  + $ `git checkout bird`: 切換到`bird`分支
   + $ `git branch -m bird fish`: 將`bird分支`更名為`fish分支`
     * `-m` (=> `--move`): 移動or更名 `分支`(branch)和其相對應的`reflog`
     * ![git branch -m 修改分支名稱的圖解說明](/pic/git%20branch%20-m%20修改分支名稱的圖解說明.gif)
@@ -413,6 +413,8 @@ Git Learn<br>
     * ![git branch -d 刪除分支後的圖解說明](/pic/git%20branch%20-d%20刪除分支後的圖解說明.gif)
   + 或是 $ `git branch -D fish`:強制將尚未合併(merged)的分支刪除
     * `-D` = `-d` + `-f` (=> `--delete --force` 的縮寫): 強制刪除該分支( 不管該分支是否已經合併(merged)到其上游分支(upstream branch) )
+  + $ `git branch -b tiger`: 切換到`tiger`分支,如果沒有該分支的話,就新增一個`tiger`分支
+    * `-b <新的分支名稱>` (=> `branch`): 切換到`<新的分支名稱>`,如果沒有的話,就新增一個`<該分支>`
 
 
 
