@@ -409,7 +409,7 @@ Git Learn<br>
     * ![用git branch <新的分支名稱> 來新增新的分支](/pic/用git%20branch%20<新的分支名稱>%20來新增新的分支.gif)
   + $ `git checkout bird`: 切換到`bird`分支
     * 當Git在切換分支 ($ `git checkout <branch name>`) 的時候會做以下兩件事情
-      * 用該分支指向的那個`Commit物件`的內容來"更新"暫存區(staging area)以及工作目錄(working directory),<font color=yellow>當切換分支"之前"所做的修改內容仍會留在工作目錄(working directory)不受影響</font>
+      * 用該分支指向的那個`Commit物件`的內容來"更新"暫存區(staging area)以及工作目錄(working directory),**當切換分支"之前"所做的修改內容仍會留在工作目錄(working directory)不受影響**
       * 同時`HEAD`也會跟著一起前進,指向剛剛切換過去的那個分支(branch)
   + $ `git branch -m bird fish`: 將`bird分支`更名為`fish分支`
     * `-m` (=> `--move`): 移動or更名 `分支`(branch)和其相對應的`reflog`
