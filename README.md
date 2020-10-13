@@ -395,10 +395,13 @@ Git Learn<br>
 ####  `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
   + 所以`HEAD`會指向一個`分支(branch)`,並且`分支`會指向一個`Commit物件`
+    * 通常來說`HEAD`所指的那個`分支(branch)`,會跟著新的`Commit物件`前進(而`HEAD`也會跟著一起前進) 
+    * ![git分支是什麼?圖解說明---by官方文件](pic/git分支是什麼?圖解說明---by官方文件.png) 
   + 當 $ `git checkout <分支名稱orCommit物件>`時,Git會依據當下的這個`commit`來還原工作目錄(`working directory`)的內容,並參考 `.git/objects/` 目錄裡的內容像拎葡萄一樣整串從頭的地方拎起來 
     * ![git checkout到過去的Commit物件造成Deatched HEAD的官方圖解說明](/pic/git%20checkout到過去的Commit物件造成Deatched%20HEAD的官方圖解說明.gif)
       參考圖片出處<https://git-scm.com/docs/git-checkout>
-    * 注意! 這時候可能會發生`Detached HEAD`的情況!
+    * 注意! 這時候有可能會發生`Detached HEAD`的情況!
+      * 當使用 $ `git checkout <Commit物件的id>` 後,該`Commit物件`剛好目前沒有分支(branch)指向它 
   + $ `git branch`: 檢視目前所有的分支有哪些
     * ![用git branch來檢視目前的分支(master)](/pic/用git%20branch來檢視目前的分支(master).gif) 
   + $ `git branch bird`: 建立一個新的分支名稱為`bird`
