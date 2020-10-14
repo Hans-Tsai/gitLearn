@@ -293,7 +293,7 @@ Git Learn<br>
     * 要先切回`master分支`
       * $ `git checkout master`
     * $ `git merge pig`: 將`pig分支`合併到`master分支`
-
+      * ![將pig分支合併回到master分支](/pic/將pig分支合併回到master分支.png)
 
 ---
 ### 觀念介紹
