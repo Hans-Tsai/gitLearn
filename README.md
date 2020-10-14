@@ -24,6 +24,7 @@ Git Learn<br>
       - [在工作目錄(working directory)想要復原不小心透過 `rm` 指令刪除的檔案](#在工作目錄working-directory想要復原不小心透過-rm-指令刪除的檔案)
       - [如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
       - [新增`Tag物件`到`Commmit物件`](#新增tag物件到commmit物件)
+      - [分支(branch)操作](#分支branch操作)
     - [觀念介紹](#觀念介紹)
       - [Git 其實是一種分散式的版本控制系統](#git-其實是一種分散式的版本控制系統)
       - [Git 的優點](#git-的優點)
@@ -117,6 +118,7 @@ Git Learn<br>
 > `git reset` - Reset current HEAD to the specified state<br>
 > `git reflog` - Manage reflog information<br>
 > `git tag` - Create, list, delete or verify a tag object signed with GPG<br>
+> `git merge` - Join two or more development histories together<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -279,6 +281,12 @@ Git Learn<br>
     * $ `git cat-file -t <`Tag物件`的SHA-1值>`
     * ![Tag物件介紹](/pic/Tag物件介紹.png)
   + 統整: `Tag物件`中的有附註Tag(Annotated Tag)會指向某個`Commit物件`
+#### 分支(branch)操作
+  + [分支基礎操作可參考](`分支(branch)`是什麼?)
+  + $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
+    * `情境說明`
+    * 先新增一個分支(branch): `sheep`
+    * 建立一個新的檔案: `sheep.html`
 
 
 ---
