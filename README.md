@@ -286,7 +286,9 @@ Git Learn<br>
   + $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
     * `情境說明`
     * 先新增一個分支(branch): `sheep`
-    * 建立一個新的檔案: `sheep.html`
+    * 建立一個新的檔案,並commit: `sheep.html`
+    * 新增一行文字後,再commit一次: `hello, sheep`
+    * git merge練習前先建立兩次commit的圖解說明
 
 
 ---
