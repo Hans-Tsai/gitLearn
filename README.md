@@ -46,6 +46,7 @@ Git Learn<br>
       - [$ `git reset` 是用來"前往"到指定的`Commit物件`上的](#-git-reset-是用來前往到指定的commit物件上的)
       - [Git四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間其實是平行關係](#git四大物件blobtreecommittag彼此之間其實是平行關係)
       - [Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)
+      - ["把`pig分支`合併到`master分支`" 跟 "把`master分支`合併到`pig分支`" 有什麼不同呢?](#把pig分支合併到master分支-跟-把master分支合併到pig分支-有什麼不同呢)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
@@ -292,7 +293,8 @@ Git Learn<br>
     * ![git merge分支練習統整的圖解說明](pic/git%20merge分支練習統整的圖解說明.gif)
     * 要先切回`master分支`
       * $ `git checkout master`
-    * $ `git merge pig`: 將`pig分支`合併到`master分支`
+    * $ `git merge pig`: 將`pig分支`合併回到`master分支`
+      * 本來落後`pig分支`兩次commit紀錄的`master分支`,現在也已經跟上`pig分支`的進度了 
       * ![將pig分支合併回到master分支](/pic/將pig分支合併回到master分支.png)
 
 ---
@@ -502,6 +504,23 @@ Git Learn<br>
   + 統整: Git什麼時候會自動觸發`資源回收機制`呢?
     * 當在 `.git/objects/` 目錄下的物件或是打包過的packfile數量過多的時候,Git會`自動觸發資源回收指令`
     * 當執行 $ `git push` 指令把內容推至遠端伺服器時
+
+#### "把`pig分支`合併到`master分支`" 跟 "把`master分支`合併到`pig分支`" 有什麼不同呢?
+- 在Git中,合併分支是`哪個分支`合併掉`哪個分支`其實沒有太大差異
+  + `情境說明`
+    * ![A合併B分支＆B合併A分支的圖解說明](pic/A合併B分支＆B合併A分支的圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/>
+    * 當`cat分支`和`dog分支`都是來自`master分支`時
+    * 假設這次是`cat分支`要合併掉`dog分支`,為了要進行這次的合併,Git會做出一個新的`Commit物件`,而這個新的`Commit物件`會分別指向`cat分支`和`dog分支`,而`HEAD`會繼續隨著`cat分支`往前,而`dog分支`會留在原地
+    * ![當A合併掉B分支後的圖解說明](pic/當A合併掉B分支後的圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/>
+  + 結論: 其實以"結果"來看,誰合併誰其實沒差,因為合併後產生的新的`Commit物件`的內容都包含了兩個原來的分支(`cat` & `dog`)
+    * 細節提醒: 這兩個分支都是平等關係,細微的差異是`cat`合併掉`dog`分支的話,`cat分支`會往前移動
+    * 細節提醒: 合併分支後而產生的新的`Commit物件`其實裡面會紀錄誰是誰的老爸,當`cat`合併`dog分支`的話,`cat分支`就會寫在前面
+      * 可以用$ `git cat-file -p <物件id>` 來檢視該`Commit物件`的`Parent`(通常會指向前一次的`Commit物件`)是指向哪個`Commit物件`
+      * 可參考[Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹](#git四大物件blobtreecommittag彼此之間其實是平行關係)
+      * ![git cat-file -p <Commit物件>可以用來檢視該Commit物件的Parent是誰_統整](/pic/git%20cat-file%20-p%20<Commit物件>可以用來檢視該Commit物件的Parent是誰_統整.gif)
+
 
 ---
 ### 實戰情境題
