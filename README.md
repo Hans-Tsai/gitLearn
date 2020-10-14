@@ -284,11 +284,15 @@ Git Learn<br>
 #### 分支(branch)操作
   + [分支基礎操作可參考](`分支(branch)`是什麼?)
   + $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
-    * `情境說明`
+    * `情境說明`(要用`master分支`來合併`pig分支`)
     * 先新增一個分支(branch): `pig`
     * 建立一個新的檔案,並commit: `pig.html`
     * 新增一行文字後,再commit一次: `hello, pig`
-    * git merge練習前先建立兩次commit的圖解說明
+    * $ `git log`: 檢視一下目前的commit歷史紀錄(確認目前是在`pig分支`並且有`兩次commit的紀錄`)
+    * ![git merge分支練習統整的圖解說明](pic/git%20merge分支練習統整的圖解說明.gif)
+    * 要先切回`master分支`
+      * $ `git checkout master`
+    * $ `git merge pig`: 將`pig分支`合併到`master分支`
 
 
 ---
