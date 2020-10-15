@@ -284,7 +284,20 @@ Git Learn<br>
   + 統整: `Tag物件`中的有附註Tag(Annotated Tag)會指向某個`Commit物件`
 #### 分支(branch)操作
   + [分支基礎操作可參考](`分支(branch)`是什麼?)
-  + $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
+  + 合併分支
+    * $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
+      * 若要合併掉別人的分支是從要被合併掉的分支的開出來的,若要被合併掉的分支沒有修改的話,Git會預設使用快轉模式(fast-forward)來做合併 
+        * $ `git merge --ff <要合併到的分支名稱>`
+          * `--ff` (=> 此為Git預設`fast-forward`模式)
+        * ![git merge --ff 快轉模式來合併分支的圖解說明](/pic/git%20merge%20--ff%20快轉模式來合併分支的圖解說明.png)<br>
+      參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
+      * 但若原本的那個分支有修改過的話,這時候Git就不會使用快轉模式(`fast-forward`),此時Git會額外再做出一個新的`Commit物件`來合併這兩個分支
+        * $ `git merge --no-ff <要合併到的分支名稱>`
+          * `--no-ff` (=> 強制"不要"使用fast-forward模式)
+          * ![git merge --no-ff 強制不要使用快轉模式來合併分支的圖解說明](/pic/git%20merge%20--no-ff%20強制不要使用快轉模式來合併分支的圖解說明.png)<br>
+      參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
+      * $ `git merge --ff-only <要合併到的分支名稱>`
+        * `--ff-only` (=> 盡可能的優先使用fast-forward模式合併,此時如果無法做到使用fast-forward模式合併的話,Git就會拒絕這次的指令並回傳一個"失敗"的錯誤狀態) 
     * `情境說明`(要用`master分支`來合併`pig分支`)
     * 先新增一個分支(branch): `pig`
     * 建立一個新的檔案,並commit: `pig.html`
@@ -439,6 +452,8 @@ Git Learn<br>
     * ![git branch -d 刪除分支後的圖解說明](/pic/git%20branch%20-d%20刪除分支後的圖解說明.gif)
   + 或是 $ `git branch -D fish`:強制將尚未合併(merged)的分支刪除
     * `-D` = `-d` + `-f` (=> `--delete --force` 的縮寫): 強制刪除該分支( 不管該分支是否已經合併(merged)到其上游分支(upstream branch) )
+  + 合併過後的分支,想刪除就可以刪除,因為分支只是一個`40`字元的檔案而已,它會標記出它目前是指向哪一個`Commit物件`; 所以`刪除分支`這個動作就像是把一張貼紙撕起來的概念而已,原來被這張貼紙貼著的東西並"不會"因此而不見
+
 
 #### `Detached HEAD` (斷頭) 是什麼?
 - `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
