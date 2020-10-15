@@ -47,11 +47,13 @@ Git Learn<br>
       - [Git四大物件(`Blob`,`Tree`,`Commit`,`Tag`)彼此之間其實是平行關係](#git四大物件blobtreecommittag彼此之間其實是平行關係)
       - [Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)
       - [把`cat分支`合併到`dog分支`&把`dog分支`合併到`cat分支`有什麼不同呢?](#把cat分支合併到dog分支把dog分支合併到cat分支有什麼不同呢)
+      - [合併分支其實不是真的在合併分支!](#合併分支其實不是真的在合併分支)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
       - [如果這次只想commit一個檔案中的部份內容的話,該怎麼做呢?](#如果這次只想commit一個檔案中的部份內容的話該怎麼做呢)
       - [如果修改專案的某些檔案到一半,卻不小心先切換到別的分支(branch),該怎麼辦?](#如果修改專案的某些檔案到一半卻不小心先切換到別的分支branch該怎麼辦)
+      - [如果不小心把還沒合併的分支刪掉了,該怎麼挽救?](#如果不小心把還沒合併的分支刪掉了該怎麼挽救)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -273,7 +275,7 @@ Git Learn<br>
     * `soft` 模式: 這模式下的`reset`,工作目錄(working directory)和暫存區(staging area)的檔案都不會被丟掉,因此看起來就只有`HEAD`在移動而已; 所以commit拆出來的檔案都會直接被存放在暫存區
     * `hard` 模式: 這模式下的`reset`,不管是暫存區(staging area)和工作目錄(working directory)都會被丟掉
     * 小統整: ![git reset <三種模式>統整圖解說明](pic/git%20reset%20<三種模式>統整圖解說明.png)<br>
-    參考圖片出處<https://gitbook.tw/>
+             參考圖片出處<https://gitbook.tw/>
       * `mixed` 模式=> `index移除staged標記`,變成Modified或是Untracked file,內容是新版的
       * `soft` 模式=> `僅移除commit變成新版"未"commit`,內容仍是新版的
       * `hard` 模式=> 回到上一版本,`這期間的所有變更完全移除`,內容及狀態皆是上一版
@@ -290,12 +292,12 @@ Git Learn<br>
         * $ `git merge --ff <要合併到的分支名稱>`
           * `--ff` (=> 此為Git預設`fast-forward`模式)
         * ![git merge --ff 快轉模式來合併分支的圖解說明](/pic/git%20merge%20--ff%20快轉模式來合併分支的圖解說明.png)<br>
-      參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
+          參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
       * 但若原本的那個分支有修改過的話,這時候Git就不會使用快轉模式(`fast-forward`),此時Git會額外再做出一個新的`Commit物件`來合併這兩個分支
         * $ `git merge --no-ff <要合併到的分支名稱>`
           * `--no-ff` (=> 強制"不要"使用fast-forward模式)
           * ![git merge --no-ff 強制不要使用快轉模式來合併分支的圖解說明](/pic/git%20merge%20--no-ff%20強制不要使用快轉模式來合併分支的圖解說明.png)<br>
-      參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
+            參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
       * $ `git merge --ff-only <要合併到的分支名稱>`
         * `--ff-only` (=> 盡可能的優先使用fast-forward模式合併,此時如果無法做到使用fast-forward模式合併的話,Git就會拒絕這次的指令並回傳一個"失敗"的錯誤狀態) 
     * `情境說明`(要用`master分支`來合併`pig分支`)
@@ -524,11 +526,11 @@ Git Learn<br>
 - 在Git中,合併分支是`哪個分支`合併掉`哪個分支`其實沒有太大差異
   + `情境說明`
     * ![A合併B分支＆B合併A分支的圖解說明](pic/A合併B分支＆B合併A分支的圖解說明.png)<br>
-    參考圖片出處<https://gitbook.tw/>
+      參考圖片出處<https://gitbook.tw/>
     * 當`cat分支`和`dog分支`都是來自`master分支`時
     * 假設這次是`cat分支`要合併掉`dog分支`,為了要進行這次的合併,Git會做出一個新的`Commit物件`,而這個新的`Commit物件`會分別指向`cat分支`和`dog分支`,而`HEAD`會繼續隨著`cat分支`往前,而`dog分支`會留在原地
     * ![當A合併掉B分支後的圖解說明](pic/當A合併掉B分支後的圖解說明.png)<br>
-    參考圖片出處<https://gitbook.tw/>
+      參考圖片出處<https://gitbook.tw/>
   + 結論: 其實以"結果"來看,誰合併誰其實沒差,因為合併後產生的新的`Commit物件`的內容都包含了兩個原來的分支(`cat` & `dog`)
     * 細節提醒: 這兩個分支都是平等關係,細微的差異是`cat`合併掉`dog`分支的話,`cat分支`會往前移動
     * 細節提醒: 合併分支後而產生的新的`Commit物件`其實裡面會紀錄誰是誰的老爸,當`cat`合併`dog分支`的話,`cat分支`就會寫在前面
@@ -536,7 +538,12 @@ Git Learn<br>
       * 可參考[Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹](#git四大物件blobtreecommittag彼此之間其實是平行關係)
       * ![git cat-file -p <Commit物件>可以用來檢視該Commit物件的Parent是誰_統整](/pic/git%20cat-file%20-p%20<Commit物件>可以用來檢視該Commit物件的Parent是誰_統整.gif)
 
-
+#### 合併分支其實不是真的在合併分支!
+- 所謂的"合併分支"其實是在合併兩個分支分別指向的兩個`Commit物件`
+- 畢竟分支只是一張貼紙而已,它是沒辦法被"合併"的,我們通常用"合併分支"這個說法只是比較好想像和溝通而已
+- ![其實合併分支是在合併兩個分支分別指向的兩個Commit物件的圖解說明-統整](/pic/其實合併分支是在合併兩個分支分別指向的兩個Commit物件的圖解說明-統整.gif)<br>
+  參考圖片出處<https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging>
+  
 ---
 ### 實戰情境題
 ####  如果在git add之後又修改了那個檔案的內容呢?
@@ -569,8 +576,16 @@ Git Learn<br>
   + 此時,切換到`master`分支,會發現剛剛新增的檔案(`tiger_test.html`)以及修改的檔案(`pizza.html`)都還是會留在工作目錄(working directory)不受影響
   + ![檔案修改到一半卻git checkout分支的圖解說明-part_總結](pic/檔案修改到一半卻git%20checkout分支的圖解說明-part_總結.gif)
   + 總結: Git切換分支( `$ git checkout <branch name>` )時,並不會影響到已經在工作目錄(working directory)的那些修改喔!
-  
-
+#### 如果不小心把還沒合併的分支刪掉了,該怎麼挽救?
+  + 可先參考 [`分支(branch)`是什麼?](#分支branch是什麼) 的刪除分支篇
+  + $ `git branch -D <尚未合併的分支名稱>`: 強制刪除該分支( 不管該分支是否已經合併(merged)到其上游分支(upstream branch) )
+    * 此時會顯示"被刪除的分支"當下是指向哪個`Commit物件`,可以先記下來這個`Commit物件`的id
+    * ![不小心刪掉尚未合併的分支的圖解說明](/pic/不小心刪掉尚未合併的分支的圖解說明.png)
+    * 補充:`分支(branch)`只是一個指向某個`Commit物件`的貼紙,刪除這個貼紙"並不會"造成那些`Commit物件`消失
+    * 所以既然刪掉分支後,那些`Commit物件`都還在的話,只是因為我們當下通常沒有記下那些`Commit物件的id`,所以比較不容易再拿回來使用,這時我們可以創造一個`新的分支(new branch)`來把這些`Commit物件`都接回來!
+      * $ `git branch <新的分支名稱> <剛剛被刪掉的分支當下指向的Commit物件的id>`: 建立一個`新的分支(new branch)`並讓該分支指向這個`Commit物件`,相當於再拿一張新的貼紙貼回去的意思
+    * 補充: 若當下刪除"尚未合併分支"的時候,沒有記下該分支當下指向的`Commit物件`的id,可以用git reflog來找找看,因為Git的Reflog會預設保留`30`天
+      * 可參考 [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎) 
 ---
 ### 觀念補充
 > `git hash-object` - Compute object ID and optionally creates a blob from a file
