@@ -331,8 +331,10 @@ Git Learn<br>
       * 可以先在互動式模式編輯哪些`Commit物件`要被`Rebase`
         * 可以使用像是`pick`、`edit`、`squash`、`drop` 等相關Git指令來編輯這些`Commit物件` 
       * `-i` (=> `--interactive`): 利用互動式模式來"預先"編輯要`被rebased的那些Commit物件`
-      * ![git rebase -i 參考動圖1](/pic/git%20rebase%20-i%20參考動圖1.gif)
-      * ![git rebase -i 參考動圖2](/pic/git%20rebase%20-i%20參考動圖2.gif)
+      * ![git rebase -i 參考動圖1](/pic/git%20rebase%20-i%20參考動圖1.gif)<br>
+        參考圖片出處: <https://dev.to/lydiahallie/cs-visualized-useful-git-commands-37p1?fbclid=IwAR22RpLWxsCk1qKLdJynK4BCMyD5FSTvRHta8GvAyJO2ALi4WObsdQ-UWNU>
+      * ![git rebase -i 參考動圖2](/pic/git%20rebase%20-i%20參考動圖2.gif)<br>
+        參考圖片出處: <https://dev.to/lydiahallie/cs-visualized-useful-git-commands-37p1?fbclid=IwAR22RpLWxsCk1qKLdJynK4BCMyD5FSTvRHta8GvAyJO2ALi4WObsdQ-UWNU>
     * $ `git rebase` 是一種會修改到歷史紀錄的指令,盡量不要隨便對已經推出去給別人內容進行`rebase`,這樣很容易造成其他人的困擾
     * 用$ `git rebase` 的方式合併分支 & 用$ `git merge` 的方式合併分支,有一個很明顯的差別是用`Rebase方式`合併分支的話,Git並不會特別做出一個專門用來合併分支的`Commit物件`
     * $ `git rebase` 的原理其實是做多次"Apply"到`新的基準點branch`指向的`Commit物件`上
