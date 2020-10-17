@@ -315,8 +315,16 @@ Git Learn<br>
       * ![將pig分支合併回到master分支](/pic/將pig分支合併回到master分支.png)
     
     * 方法二 : $ `git rebase`
-    * $ `git rebase <要rebase到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要rebase到的分支名稱>`
-    * 
+    * $ `git rebase <要被rebase的分支名稱>`: 
+      * 可以重新定義`分支(branch)`參考的基準
+      * 可以用來將目前所在的分支(branch)合併到 `<要被rebase的分支名稱>`
+      * `情境說明`
+      * 從`master`分支拆分出兩個分支(`elephant`,`zebra`),並分別各commit兩次
+      * ![git rebase練習畫面_從master分支新增elephant和zebra兩個分支也分別各commit兩次](/pic/git%20rebase%20練習畫面_將elephant分支rebase到zebra分支上面後的圖解說明.png)
+      * 記得要先切換到`elephant分支`(要rebase到別人的分支)!
+        * $ `git checkout elephant` 
+      * $ `git rebase zebra`: 將`elephant分支`rebase到`zebra分支`上面
+      * ![git rebase 練習畫面_將elephant分支rebase到zebra分支上面後的圖解說明](/pic/git%20rebase%20練習畫面_將elephant分支rebase到zebra分支上面後的圖解說明.png)
 
 
 ---
