@@ -122,6 +122,7 @@ Git Learn<br>
 > `git reflog` - Manage reflog information<br>
 > `git tag` - Create, list, delete or verify a tag object signed with GPG<br>
 > `git merge` - Join two or more development histories together<br>
+> `git rebase` - Reapply commits on top of another base tip<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -286,7 +287,8 @@ Git Learn<br>
   + 統整: `Tag物件`中的有附註Tag(Annotated Tag)會指向某個`Commit物件`
 #### 分支(branch)操作
   + [分支基礎操作可參考](`分支(branch)`是什麼?)
-  + 合併分支
+  + 合併分支的兩種方式($ `git merge` & $ `git rebase`)
+    * 方法一 : $ `git merge`
     * $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
       * 若要合併掉別人的分支是從要被合併掉的分支的開出來的,若要被合併掉的分支沒有修改的話,Git會預設使用快轉模式(fast-forward)來做合併 
         * $ `git merge --ff <要合併到的分支名稱>`
@@ -311,6 +313,10 @@ Git Learn<br>
     * $ `git merge pig`: 將`pig分支`合併回到`master分支`
       * 本來落後`pig分支`兩次commit紀錄的`master分支`,現在也已經跟上`pig分支`的進度了 
       * ![將pig分支合併回到master分支](/pic/將pig分支合併回到master分支.png)
+    
+    * 方法二 : $ `git rebase`
+    * $ `git rebase <要rebase到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要rebase到的分支名稱>`
+
 
 ---
 ### 觀念介紹
