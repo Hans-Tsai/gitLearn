@@ -316,6 +316,7 @@ Git Learn<br>
     
     * 方法二 : $ `git rebase`
     * $ `git rebase <要rebase到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要rebase到的分支名稱>`
+    * 
 
 
 ---
