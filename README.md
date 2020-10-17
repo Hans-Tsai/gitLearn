@@ -319,7 +319,7 @@ Git Learn<br>
       * 可以重新定義`分支(branch)`參考的基準
       * 可以用來將目前所在的分支(branch)合併到 `<要被rebase的分支名稱>`
       * ![git rebase參考動圖1](/pic/git%20rebase參考動圖1.gif)<br>
-        參考圖片出處: <https://dev.to/lydiahallie/cs-visualized-useful-git-commands-37p1?
+        參考圖片出處: <https://dev.to/lydiahallie/cs-visualized-useful-git-commands-37p1?fbclid=IwAR22RpLWxsCk1qKLdJynK4BCMyD5FSTvRHta8GvAyJO2ALi4WObsdQ-UWNU>
       * `情境說明`
       * 從`master`分支拆分出兩個分支(`elephant`,`zebra`),並分別各commit兩次
       * ![git rebase練習畫面_從master分支新增elephant和zebra兩個分支也分別各commit兩次](/pic/git%20rebase%20練習畫面_將elephant分支rebase到zebra分支上面後的圖解說明.png)
