@@ -358,6 +358,13 @@ Git Learn<br>
           * 可先參考[`ORIG_HEAD`是什麼?](#orig_head是什麼)
           * $ `cat .git/ORIG_HEAD`: `回傳Git危險操作以前的`ORIG_HEAD`指向的`Commit物件`的id
           * ![git reset ORIG_HEAD --hard 來回到危險操作以前的ORIG_HEAD指向的Commit物件的SHA-1值_統整](/pic/git%20reset%20ORIG_HEAD%20--hard%20來回到危險操作以前的ORIG_HEAD指向的Commit物件的SHA-1值_統整.gif)
+  + 使用`Rebase`方式來合併分支的優缺點分析
+    * 好處1: 不會特別產生一個為了合併分支的`Commit物件`
+    * 好處2: 合併的歷史順序可以自由決定(依照`誰Rebase誰`而定)
+    * 缺點1: 相對來說,比起`Merge`方式來合併分支,並沒有那麼直覺
+    * 缺點2: 如果一個不小心可能會弄壞掉而且還不知道該怎麼`Reset`回來
+    * 建議: 可以在還沒推出去前(`Push`),如果覺得`Commit物件`們太凌亂or瑣碎,可以先用`Rebase合併分支的方式`來整理這些`Commit物件`,再推出去
+    * 提醒: `Rebase`等於是修改歷史紀錄,如果修改已經推出去(`Push`)的歷史紀錄可能會造成其他人的困擾,所以如果是已經推出去(`Push`)的內容,非必要盡量不要使用`Rebase`
 
 
 ---
