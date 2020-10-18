@@ -37,6 +37,7 @@ Git Learn<br>
       - [為什麼每次都要先$ `git add` 再 $ `git commit`](#為什麼每次都要先-git-add-再--git-commit)
       - [Git物件的id是怎麼計算出來的? (`SHA-1演算法`)](#git物件的id是怎麼計算出來的-sha-1演算法)
       - [`HEAD`是什麼?](#head是什麼)
+      - [`ORIG_HEAD`是什麼?](#orig_head是什麼)
       - [`分支(branch)`是什麼?](#分支branch是什麼)
       - [`Detached HEAD` (斷頭) 是什麼?](#detached-head-斷頭-是什麼)
     - [觀念釐清](#觀念釐清)
@@ -352,12 +353,17 @@ Git Learn<br>
             * 找出對應到最久以前的 `rebase關鍵字`的前一次`Commit物件`的id
             * 以這個例子是: `ce76004`這個`Commit物件id`
           * 用 $ `git reset <要回到過去的哪個Commit物件id> --hard`
-          * 這樣就可以回到Rebase以前的狀態了
+          * 這樣就可以回到`Rebase`以前的狀態了
+        * 先檢視目前的`ORIG_HEAD`指向的`Commit物件的id`
+          * 可先參考[`ORIG_HEAD`是什麼?](#orig_head是什麼)
+          * $ `cat .git/ORIG_HEAD`: `回傳Git危險操作以前的`ORIG_HEAD`指向的`Commit物件`的id
+          * ![git reset ORIG_HEAD --hard 來回到危險操作以前的ORIG_HEAD指向的Commit物件的SHA-1值_統整](/pic/git%20reset%20ORIG_HEAD%20--hard%20來回到危險操作以前的ORIG_HEAD指向的Commit物件的SHA-1值_統整.gif)
 
 
 ---
 ### 觀念介紹
 > `The HEAD`: HEAD is the pointer to the current branch reference, which is in turn a pointer to the last commit made on that branch. That means HEAD will be the parent of the next commit that is created. It’s generally simplest to think of HEAD as the snapshot of your last commit on that branch.<br>
+> `ORIG_HEAD`: Git危險操作以前,會先自動記錄當下`HEAD`指向的`Commit物件的id`
 > `git branch` - List, create, or delete branches<br>
 > `git cat-file` - Provide content or type and size information for repository object<br>
 > `git count-objects` - Count unpacked number of objects and their disk consumption<br>
@@ -468,6 +474,11 @@ Git Learn<br>
     * $ `cat .git/HEAD` : 檢視目前HEAD指向的是哪個分支名稱 //
       * // ref: refs/heads/bird 
     * 總結: `.git/HEAD`的內容(`.git/refs/heads/<目前所在分支的名稱>`會隨著$ `git checkout <分支名稱>` 而改變)
+
+#### `ORIG_HEAD`是什麼?
+- `ORIG_HEAD` 是Git特別的一個紀錄點,這個紀錄點會自動記錄在"危險操作"以前,當下的`HEAD`指向的`Commit物件的id`
+  + $ `cat .git/ORIG_HEAD`
+  + ![檢視ORIG_HEAD指向的Commit物件的SHA-1值](/pic/檢視ORIG_HEAD指向的Commit物件的SHA-1值.png)
 
 ####  `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
