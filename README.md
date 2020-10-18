@@ -343,6 +343,16 @@ Git Learn<br>
         參考圖片出處: <https://gitbook.tw/chapters/branch/merge-with-rebase.html>
     * 用`Rebase合併分支`過後,原來舊的那個分支原本所用到的那些Commit物件,並"不會立即被Git刪除"; 只是因為那些`Commit物件`沒有`分支(branch)`指向他們,所以如果我們也沒特別去記下這些`Commit物件的id`的話,這些`Commit物件`就會慢慢地被邊緣化,直到有一天被Git的內建資源回收機制帶走
     * 其實誰Rebase誰以結果來看是沒什麼差別的,但以歷史紀錄來說的話,被rebase的分支會寫在後面
+    * 想取消合併分支的話,有以下兩種方式
+      * 如果是用 $ `git merge` 來合併分支的話: 用 $ `git reset HEAD~2 --hard` => 也就是拆掉這個合併的Commit物件,大家就會退回到合併前的狀態
+      * 如果是用 $ `git rebase` 來合併分支的話,因為這個方法Git並不會特別做出一個`Commit物件`來合併分支,所以不能用上述的方法;但可以用以下兩種方式來取消合併分支
+        * 先檢視目前的`Reflog紀錄`
+          * $ `git reflog`
+            * ![透過git reflog來還原到Rebase分支前的狀態](/pic/透過git%20reflog來還原到Rebase分支前的狀態.png)
+            * 找出對應到最久以前的 `rebase關鍵字`的前一次`Commit物件`的id
+            * 以這個例子是: `ce76004`這個`Commit物件id`
+          * 用 $ `git reset <要回到過去的哪個Commit物件id> --hard`
+          * 這樣就可以回到Rebase以前的狀態了
 
 
 ---
