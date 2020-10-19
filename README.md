@@ -481,11 +481,20 @@ Git Learn<br>
     * $ `cat .git/HEAD` : 檢視目前HEAD指向的是哪個分支名稱 //
       * // ref: refs/heads/bird 
     * 總結: `.git/HEAD`的內容(`.git/refs/heads/<目前所在分支的名稱>`會隨著$ `git checkout <分支名稱>` 而改變)
-
+  + 補充: 在Git `v1.8.5` 之後的版本開始支援,可以用 `＠` 這個符號來代表`HEAD`
+    * `情境說明` 
+    * $ `git reset HEAD~2` = $ `git reset @~2`
+    * $ `git reset HEAD^^`= $ `git reset @^^`
+    * 以上四種指令都是相同的意思,代表要回到目前的`HEAD指標`指向的`Commit物件`以前的`2次``commit紀錄`的那時候
+    * 可參考[如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
+    
 #### `ORIG_HEAD`是什麼?
-- `ORIG_HEAD` 是Git特別的一個紀錄點,這個紀錄點會自動記錄在"危險操作"以前,當下的`HEAD`指向的`Commit物件的id`
+- `ORIG_HEAD` 是Git特別的一個紀錄點,這個紀錄點會自動記錄在"Git的危險操作"以前,當下的`HEAD`指向的`Commit物件的id`
+  + Git的"危險操作"有: `merge`、`rebase`、`reset`
   + $ `cat .git/ORIG_HEAD`
   + ![檢視ORIG_HEAD指向的Commit物件的SHA-1值](/pic/檢視ORIG_HEAD指向的Commit物件的SHA-1值.png)
+- 可以檢視目前的 `ORIG_HEAD` 紀錄點是指向哪個`Commit物件`
+  + $ cat `.git/ORIG_HEAD`  
 
 ####  `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
@@ -516,7 +525,27 @@ Git Learn<br>
   + 或是 $ `git branch -D fish`:強制將尚未合併(merged)的分支刪除
     * `-D` = `-d` + `-f` (=> `--delete --force` 的縮寫): 強制刪除該分支( 不管該分支是否已經合併(merged)到其上游分支(upstream branch) )
   + 合併過後的分支,想刪除就可以刪除,因為分支只是一個`40`字元的檔案而已,它會標記出它目前是指向哪一個`Commit物件`; 所以`刪除分支`這個動作就像是把一張貼紙撕起來的概念而已,原來被這張貼紙貼著的東西並"不會"因此而不見
-
+- 在Git開分支其實很"便宜",因為`分支(branch)`其實就只是一張`40`字元(`某個Commit物件的SHA-1值`)的`貼紙`,而這個貼紙會指向它對應的`Commit物件的id`
+  + 可檢視 `.git/refs/heads/<分支名稱>` 這個檔案裡的內容就是該`分支(branch)`指向它對應的`Commit物件的id`
+    * $ `ls -al .git/refs/heads/`
+      * ![檢視.git/refs/heads/ 來得知目前有哪些分支](/pic/檢視.git:refs:heads:%20來得知目前有哪些分支.png)  
+    * ![檢視.git/refs/heads/<分支名稱>裡面的檔案內容是該分支指向的Commit物件id](/pic/檢視.git:refs:heads:<分支名稱>裡面的檔案內容是該分支指向的Commit物件id.png)
+  + 如果把 `.git/refs/heads/` 目錄裡面的其中一個分支刪掉的話,就相當於刪除分支了
+    * $ `rm .git/refs/heads/<要刪除的分支名稱>` 
+    * ![rm .git/refs/heads/ 目錄裡面的其中一個分支就是相當於刪除該分支了](/pic/rm%20.git:refs:heads:%20目錄裡面的其中一個分支就是相當於刪除該分支了.png) 
+  + 如果把 `.git/refs/heads` 目錄裡面的其中一個分支名稱改掉的話,就相當於修改分支名稱了
+    * $ `mv .git/refs/heads/<原分支名稱> .git/refs/heads/<新分支名稱>`
+    * ![mv .git/refs/heads/ 目錄裡面的其中一個分支名稱就是相當於修改該分支的名稱了](/pic/mv%20.git:refs:heads:%20目錄裡面的其中一個分支名稱就是相當於修改該分支的名稱了.png)
+- Git如何知道現在是在哪一個分支(branch)?
+  + 可以透過Git指令 $ `git branch -l`
+    * `-l` (=> `--list`): 顯示目前有哪些分支(`branch`)
+  + 可以透過檢視 `.git/HEAD` 這個檔案,來得知HEAD指標目前指向的是哪一個分支(branch)
+    * $ `cat .git/HEAD`
+      * ![透過指令cat .git/HEAD 來檢視目前的HEAD指標是指向哪個分支](/pic/透過指令cat%20.git:HEAD%20來檢視目前的HEAD指標是指向哪個分支.png)
+    * 當切換分支(brach)時, .git/HEAD 的內容也會同時變動
+      * 先 $ `git checkout <另一個分支名稱>`
+      * 再 $ `cat .git/HEAD`
+      * ![透過git checkout後來檢視.git/HEAD的檔案內容也同時跟著變動且指向新的分支名稱](/pic/透過git%20checkout後來檢視.git:HEAD的檔案內容也同時跟著變動且指向新的分支名稱.png)
 
 #### `Detached HEAD` (斷頭) 是什麼?
 - `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
@@ -646,7 +675,9 @@ Git Learn<br>
     * 所以既然刪掉分支後,那些`Commit物件`都還在的話,只是因為我們當下通常沒有記下那些`Commit物件的id`,所以比較不容易再拿回來使用,這時我們可以創造一個`新的分支(new branch)`來把這些`Commit物件`都接回來!
       * $ `git branch <新的分支名稱> <剛剛被刪掉的分支當下指向的Commit物件的id>`: 建立一個`新的分支(new branch)`並讓該分支指向這個`Commit物件`,相當於再拿一張新的貼紙貼回去的意思
     * 補充: 若當下刪除"尚未合併分支"的時候,沒有記下該分支當下指向的`Commit物件`的id,可以用git reflog來找找看,因為Git的Reflog會預設保留`30`天
-      * 可參考 [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎) 
+      * 可參考 [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
+
+
 ---
 ### 觀念補充
 > `git hash-object` - Compute object ID and optionally creates a blob from a file
