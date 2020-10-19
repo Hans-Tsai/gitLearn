@@ -688,6 +688,7 @@ Git Learn<br>
   + 也可以直接一行指令完成
     * $ git branch <新的分支名稱> <要回到的過去的Commit物件的id>
       * 例如: git branch ocean  
+      * 
   
 
 
