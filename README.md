@@ -56,6 +56,7 @@ Git Learn<br>
       - [如果修改專案的某些檔案到一半,卻不小心先切換到別的分支(branch),該怎麼辦?](#如果修改專案的某些檔案到一半卻不小心先切換到別的分支branch該怎麼辦)
       - [如果不小心把還沒合併的分支刪掉了,該怎麼挽救?](#如果不小心把還沒合併的分支刪掉了該怎麼挽救)
       - [如果想從過去的某次`commit紀錄`再長一個`新的分支(branch)`出來,該如何做呢?](#如果想從過去的某次commit紀錄再長一個新的分支branch出來該如何做呢)
+      - [當兩個分支都編輯了同一個檔案(`both modified 狀態`),造成`合併分支時發生衝突`了,該怎麼解決呢?](#當兩個分支都編輯了同一個檔案both-modified-狀態造成合併分支時發生衝突了該怎麼解決呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -692,7 +693,33 @@ Git Learn<br>
     * 也可以更方便地,在回到過去的commit紀錄時,新增一個分支,並同時切換到那個分支
     * $ `git checkout -b <新的分支名稱> <要回到的過去的那個Commit物件的id>`
     * ![回到過去的某個commit紀錄並新增分支_統整](/pic/回到過去的某個commit紀錄並新增分支_統整.gif) 
-  
+#### 當兩個分支都編輯了同一個檔案(`both modified 狀態`),造成`合併分支時發生衝突`了,該怎麼解決呢?
+  + 假設有兩個分支都編輯過同一個檔案,若檔案內容不一致,會造成`both modified 狀態`,造成合併分支時會發生衝突
+  + `情境說明`
+    * 建立一個`merge_conflict.html`的測試`合併分支衝突`的檔案
+    * 從master,建立一個`sun分支`(branch)
+    * 從master,建立一個`moon分支`(branch)
+    * 此時先切換到`sun分支`,並新增"我是sun分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案,加到暫存區後,再commit到本地端repo
+      * $ git checkout sun
+      * 新增"我是sun分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案
+      * $ git add --all
+      * $ git commit -m "sun分支編輯merge_conflict.html"
+      * ![合併分支衝突圖解_sun分支](/pic/合併分支衝突圖解_sun分支.png)
+    * 再切換到`moon分支`,並新增"我是moon分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案,加到暫存區後,再commit到本地端repo
+      * $ git checkout moon
+      * 新增"我是moon分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案
+      * $ git add --all
+      * $ git commit -m "moon分支編輯merge_conflict.html"
+      * ![合併分支衝突圖解_moon分支](/pic/合併分支衝突圖解_moon分支.png)
+    * $ git merge sun: 將`moon分支`合併到sun分支的上面
+      * 此時Git有能力幫忙檢查簡單的衝突
+      * 可以決定要接受哪個分支的修改,也可以都接受雙方的修改
+      * ![git merge遇到both modified狀態_圖解說明](/pic/git%20merge遇到both%20modified狀態_圖解說明.png)
+    * 最後用Sourcetree來檢視一下最後的History
+      * "!" : 代表"有衝突"的檔案
+      * ![Sourcetree檢視sun和moon分支同時編輯同一個檔案會造成合併分支衝突的圖解說明](/pic/Sourcetree檢視sun和moon分支同時編輯同一個檔案會造成合併分支衝突的圖解說明.png)
+    * 統整圖解說明
+      * ![合併分支衝突(both modified 狀態)該如何解決_統整](/pic/合併分支衝突(both%20modified%20狀態)該如何解決_統整.gif) 
 
 
 ---
