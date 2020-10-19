@@ -680,15 +680,18 @@ Git Learn<br>
       * 可參考 [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
 #### 如果想從過去的某次`commit紀錄`再長一個`新的分支(branch)`出來,該如何做呢?
   + 第一步驟: 必須先回到過去的那個`commit紀錄`的狀態
+    * $ `git checkout <要回到的過去的那個Commit物件的id>` 
   + 第二步驟: 新增一個`分支(branch)`在過去的那個`Commit物件`上
+    * $ `git checkout -b <新的分支名稱>` 
   + 補充: 在執行第一步驟時
     * 這時候可能會發生 `detached HEAD` 狀態 (是因為過去的那個`Commit物件`目前沒有分支指向它)
     * 這時候可以再切換到過去的那個`commit紀錄`時,同時新增一個`分支(branch)`,以防跳出 `detached HEAD` 狀態
-      *  $ `git checkout -b <新的分支名稱>`
-  + 也可以直接一行指令完成
-    * $ git branch <新的分支名稱> <要回到的過去的Commit物件的id>
-      * 例如: git branch ocean  
-      * 
+  + 也可以直接一行指令完成,以下兩種方式都是在表達"請Git幫我在`<要回到的過去的那個Commit物件>`上貼上一張ocean的`分支(branch)`貼紙"
+    * $ `git branch <新的分支名稱> <要回到的過去的那個Commit物件的id>`
+      * 例如: $ `git branch ocean` 
+    * 也可以更方便地,在回到過去的commit紀錄時,新增一個分支,並同時切換到那個分支
+    * $ `git checkout -b <新的分支名稱> <要回到的過去的那個Commit物件的id>`
+    * ![回到過去的某個commit紀錄並新增分支_統整](/pic/回到過去的某個commit紀錄並新增分支_統整.gif) 
   
 
 
