@@ -735,11 +735,43 @@ Git Learn<br>
       * 這時候的Git狀態清楚地顯示"rebase in progress"(=> 正在進行中的)
       * 同時,兩個分支同時都編輯到的那個檔案會被標示成`both modified 狀態`
       * 此時可以直接按照平常的流程,"先將該衝突檔案修正完成後"
-      * 再將"已修正的檔案"加到"暫存區"(staging area)
+      * 再將"已修正的檔案" 加到 "暫存區"(staging area)
         * $ `git add <已修正的檔案>`
       * 最後,接著繼續完成剛剛中斷的Rebase合併分支的操作
         * $ git rebase --continue
           * --continue: 當已經修改完衝突檔案後,繼續 "重新啟動" Rebase機制
+  + `情境說明3`
+    * 用`Merge方式`合併分支時發生衝突(=> "當兩個分支都有一個同名稱的圖片檔案時的情況")
+    * 雖然Git有能力幫忙檢查簡單的衝突並標示出"衝突點"在該檔案哪幾行; 但是如果是圖片檔之類的二進位檔的話,就必須用別的方式來解決了
+    * 建立一個`cutest_animal.jpg`的測試`合併分支衝突`的同名圖片檔案
+    * 從`master`,建立一個`cat分支`(branch)
+    * 從`master`,建立一個`dog分支`(branch)
+    * 先切換到`cat分支`並新增一個"同名稱的圖片檔案"(`cutest_animal.jpg`)
+      * ![新增一個cat分支,且新增一個cutest_animal的圖片檔案(內容為貓)](/pic/新增一個cat分支,且新增一個cutest_animal的圖片檔案(內容為貓).png) 
+    * $ `git add --all`
+    * $ `git commit -m "cat分支 新增cutest_animal.jpg"`
+    * 再切換到`dog分支`並新增一個"同名稱的圖片檔案"(`cutest_animal.jpg`)
+      * ![新增一個dog分支,且新增一個cutest_animal的圖片檔案(內容為狗)](/pic/新增一個dog分支,且新增一個cutest_animal的圖片檔案(內容為狗).png)<br>
+        參考圖片出處<https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ3Xm4P7nHI3rcMuRdM3KR3av1PqeqaPHW-nA&usqp=CAU>
+    * $ `git add --all`
+    * $ `git commit -m "dog分支 新增cutest_animal.jpg"`
+    * 此時切換到`cat分支`,利用指令合併到`dog分支`上面
+      * $ `git merge dog`
+        * 這時會發生合併分支的衝突,並且顯示Git無法自動解決該衝突(`Merge conflict in pic/cutest_animal.jpg` & `Automatic merge failed`)`
+        * ![當兩個分支都有同一個檔名的圖片檔案時,這時候用Merge方式合併時會發生衝突](/pic/當兩個分支都有同一個檔名的圖片檔案時,這時候用Merge方式合併時會發生衝突.png)
+      * 這時候可以決定要採用哪個分支的同名稱圖片檔案(`cutest_animal.jpg`)
+        * $ `git checkout --ours/--theirs <路徑/決定要用的同名稱圖片檔案的檔名> `
+        * 假如決定要用"目前所在分支的"圖片檔案
+          * $ `git checkout --ours cutest_animal.jpg`
+          * `--ours`: 決定要用"目前所在分支的"圖片檔案
+        * 假如`決定要用"另一個分支的"圖片檔案
+          * $ `git checkout --theirs cutest_animal.jpg`
+          * `--theirs`: 決定要用"另一個分支的"圖片檔案
+    *  接著記得繼續按照平常的流程,將"已修正的檔案" 加到 "暫存區"(staging area)
+    * $ `git add <路徑/決定要用的同名稱圖片檔案的檔名>`
+    * $ `git commit -m "git merge圖片檔案發生衝突時,可以用git checkout --ours/--theirs參數 來處理合併分支的衝突"`
+    * ![用Sourcetree來檢視利用git checkout --ours/--theirs <發生衝突圖的檔案名稱> 來解決合併分支衝突時,若衝突的檔案為圖片時的情況_圖解說明](/pic/用Sourcetree來檢視利用git%20checkout%20--ours:--theirs%20<發生衝突圖的檔案名稱>%20來解決合併分支衝突時,若衝突的檔案為圖片時的情況_圖解說明.png)
+
 
 ---
 ### 觀念補充
