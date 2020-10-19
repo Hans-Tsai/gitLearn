@@ -695,32 +695,51 @@ Git Learn<br>
     * ![回到過去的某個commit紀錄並新增分支_統整](/pic/回到過去的某個commit紀錄並新增分支_統整.gif) 
 #### 當兩個分支都編輯了同一個檔案(`both modified 狀態`),造成`合併分支時發生衝突`了,該怎麼解決呢?
   + 假設有兩個分支都編輯過同一個檔案,若檔案內容不一致,會造成`both modified 狀態`,造成合併分支時會發生衝突
-  + `情境說明`
+  + `情境說明1`
+    * 用`Merge方式`合併分支時發生衝突
     * 建立一個`merge_conflict.html`的測試`合併分支衝突`的檔案
-    * 從master,建立一個`sun分支`(branch)
-    * 從master,建立一個`moon分支`(branch)
+    * 從`master`,建立一個`sun分支`(branch)
+    * 從`master`,建立一個`moon分支`(branch)
     * 此時先切換到`sun分支`,並新增"我是sun分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案,加到暫存區後,再commit到本地端repo
-      * $ git checkout sun
+      * $ `git checkout sun`
       * 新增"我是sun分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案
-      * $ git add --all
-      * $ git commit -m "sun分支編輯merge_conflict.html"
+      * $ `git add --all`
+      * $ `git commit -m "sun分支編輯merge_conflict.html"`
       * ![合併分支衝突圖解_sun分支](/pic/合併分支衝突圖解_sun分支.png)
     * 再切換到`moon分支`,並新增"我是moon分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案,加到暫存區後,再commit到本地端repo
-      * $ git checkout moon
+      * $ `git checkout moon`
       * 新增"我是moon分支"到`merge_conflict.html`的測試`合併分支衝突`的檔案
-      * $ git add --all
-      * $ git commit -m "moon分支編輯merge_conflict.html"
+      * $ `git add --all`
+      * $ `git commit -m "moon分支編輯merge_conflict.html"`
       * ![合併分支衝突圖解_moon分支](/pic/合併分支衝突圖解_moon分支.png)
-    * $ git merge sun: 將`moon分支`合併到sun分支的上面
+    * $ `git merge sun`: 將`moon分支`合併到`sun分支`的上面
       * 此時Git有能力幫忙檢查簡單的衝突
       * 可以決定要接受哪個分支的修改,也可以都接受雙方的修改
-      * ![git merge遇到both modified狀態_圖解說明](/pic/git%20merge遇到both%20modified狀態_圖解說明.png)
-    * 最後用Sourcetree來檢視一下最後的History
+      * ![git merge遇到both modified狀態_圖解說明](/pic/git%20merge遇到both%20modified狀態_圖解說明.png)`
+    * 最後用Sourcetree來檢視一下最後的`History`
       * "!" : 代表"有衝突"的檔案
       * ![Sourcetree檢視sun和moon分支同時編輯同一個檔案會造成合併分支衝突的圖解說明](/pic/Sourcetree檢視sun和moon分支同時編輯同一個檔案會造成合併分支衝突的圖解說明.png)
     * 統整圖解說明
-      * ![合併分支衝突(both modified 狀態)該如何解決_統整](/pic/合併分支衝突(both%20modified%20狀態)該如何解決_統整.gif) 
-
+      * ![合併分支衝突(both modified 狀態)該如何解決_統整](/pic/合併分支衝突(both%20modified%20狀態)該如何解決_統整.gif)
+  + `情境說明2`
+    * 用`Rebase方式`合併分支時發生衝突
+    * ![用git rebase來合併分支卻發生衝突時的console錯誤畫面](/pic/用git%20rebase來合併分支卻發生衝突時的console錯誤畫面.png)<br>
+      參考圖片出處<https://gitbook.tw/chapters/branch/fix-conflict.html>
+    * 此時`HEAD`並"沒有指向"任何一個分支,它現在有點像是在修改歷史的時候,卡在某個時空縫隙裡的狀態
+    * ![Sourcetree檢視目前Rebase方式來合併分支卻發生衝突時,HEAD當下不會指向任何一個分支的圖解說明](/pic/Sourcetree檢視目前Rebase方式來合併分支卻發生衝突時,HEAD當下不會指向任何一個分支的圖解說明.png)<br>
+      參考圖片出處<https://gitbook.tw/chapters/branch/fix-conflict.html>
+    * 檢視一下目前Git的狀態
+      * $ `git status`
+      * ![當用Rebase方式來合併分支卻發生衝突時,可以先用git status來檢視目前的狀態](/pic/當用Rebase方式來合併分支卻發生衝突時,可以先用git%20status來檢視目前的狀態.png)<br>
+        參考圖片出處<https://gitbook.tw/chapters/branch/fix-conflict.html>
+      * 這時候的Git狀態清楚地顯示"rebase in progress"(=> 正在進行中的)
+      * 同時,兩個分支同時都編輯到的那個檔案會被標示成`both modified 狀態`
+      * 此時可以直接按照平常的流程,"先將該衝突檔案修正完成後"
+      * 再將"已修正的檔案"加到"暫存區"(staging area)
+        * $ `git add <已修正的檔案>`
+      * 最後,接著繼續完成剛剛中斷的Rebase合併分支的操作
+        * $ git rebase --continue
+          * --continue: 當已經修改完衝突檔案後,繼續 "重新啟動" Rebase機制
 
 ---
 ### 觀念補充
