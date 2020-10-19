@@ -370,7 +370,7 @@ Git Learn<br>
 ---
 ### 觀念介紹
 > `The HEAD`: HEAD is the pointer to the current branch reference, which is in turn a pointer to the last commit made on that branch. That means HEAD will be the parent of the next commit that is created. It’s generally simplest to think of HEAD as the snapshot of your last commit on that branch.<br>
-> `ORIG_HEAD`: Git危險操作以前,會先自動記錄當下`HEAD`指向的`Commit物件的id`
+> `ORIG_HEAD`: Git在危險操作以前,會先自動記錄當下`HEAD`指向的`Commit物件的id`<br>
 > `git branch` - List, create, or delete branches<br>
 > `git cat-file` - Provide content or type and size information for repository object<br>
 > `git count-objects` - Count unpacked number of objects and their disk consumption<br>
