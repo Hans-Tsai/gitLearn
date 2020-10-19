@@ -492,9 +492,10 @@ Git Learn<br>
 - `ORIG_HEAD` 是Git特別的一個紀錄點,這個紀錄點會自動記錄在"Git的危險操作"以前,當下的`HEAD`指向的`Commit物件的id`
   + Git的"危險操作"有: `merge`、`rebase`、`reset`
   + $ `cat .git/ORIG_HEAD`
-  + ![檢視ORIG_HEAD指向的Commit物件的SHA-1值](/pic/檢視ORIG_HEAD指向的Commit物件的SHA-1值.png)
+    * ![檢視ORIG_HEAD指向的Commit物件的SHA-1值](/pic/檢視ORIG_HEAD指向的Commit物件的SHA-1值.png)
 - 可以檢視目前的 `ORIG_HEAD` 紀錄點是指向哪個`Commit物件`
   + $ cat `.git/ORIG_HEAD`
+    * ![透過cat .git/ORIG_HEAD 這個檔案來檢視在Git危險操作以前的那個ORIG_HEAD會指向哪個Commit物件](/pic/透過cat%20.git:ORIG_HEAD%20這個檔案來檢視在Git危險操作以前的那個ORIG_HEAD會指向哪個Commit物件.png)
 
 ####  `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
