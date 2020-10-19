@@ -494,7 +494,7 @@ Git Learn<br>
   + $ `cat .git/ORIG_HEAD`
   + ![檢視ORIG_HEAD指向的Commit物件的SHA-1值](/pic/檢視ORIG_HEAD指向的Commit物件的SHA-1值.png)
 - 可以檢視目前的 `ORIG_HEAD` 紀錄點是指向哪個`Commit物件`
-  + $ cat `.git/ORIG_HEAD`  
+  + $ cat `.git/ORIG_HEAD`
 
 ####  `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
