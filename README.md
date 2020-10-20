@@ -376,7 +376,8 @@ Git Learn<br>
       * `e` (=> `edit`): use commit, but stop for amending(當想把一個`commit紀錄`拆解成多個`commit紀錄`時)
         * Git會再重新執行一次`Rebase`時,停在`edit`那行的`Commit物件`上
         * 這時Git的狀態應該會類似這樣
-          * ![git rebase -i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明](/pic/git%20rebase%20-i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明.png) 
+          * ![git rebase -i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明](/pic/git%20rebase%20-i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明.png)<br>
+            參考圖片出處: <https://gitbook.tw/chapters/rewrite-history/split-one-commit-to-many-commits.html>
         * 這時Git會詢問要如何修改這個`Commit物件`,通常這時候要先把要做"修改"的`Commit物件`的調整好,接著繼續`Rebase`下去
           * $ `git commit --amend`: "修改"該`Commit物件`
           * `$ git rebase --continue`: 繼續`Rebase`下去
