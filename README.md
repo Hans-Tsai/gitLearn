@@ -369,12 +369,30 @@ Git Learn<br>
     * 建議: 可以在還沒推出去前(`Push`),如果覺得`Commit物件`們太凌亂or瑣碎,可以先用`Rebase合併分支的方式`來整理這些`Commit物件`,再推出去
     * 提醒: `Rebase`等於是修改歷史紀錄,如果修改已經推出去(`Push`)的歷史紀錄可能會造成其他人的困擾,所以如果是已經推出去(`Push`)的內容,非必要盡量不要使用`Rebase`
   + $ `git rebase -i <過去的一個Commit物件id>`
-    * 可以使用像是`pick`、`edit`、`squash`、`drop` 等相關Git指令來編輯這些`Commit物件` 
+    * 可以使用像是`pick`、`edit`、`squash`、`drop` 等相關Git指令來編輯這些`Commit物件`
     * `Rebase指令`的互動模式(`-i`)也可以用來編輯過去的所有`Commit物件`
+      * `-p` (=> `--pick`): use commit
+      * `r` (=> `reword`): use commit, but edit the commit message
+      * `e` (=> `edit`): use commit, but stop for amending
+      * `s` (=> `squash`): use commit, but meld into previous commit
+      * `d` (=> `drop`): remove commit
+    * 注意! $ `git rebase -i` 與 $ `git log` 顯示commit紀錄的順序是相反的,若都是"從上到下"檢視的話
+      * $ `git rebase -i`: 從舊->新
+      * $ `git log`: 從新->舊
+      * $ `git reflog`: 從新->舊
+    * ![git rebase -i <過去的Commit物件id>,利用Rebase互動模式來編輯過去的commit message的圖解說明](/pic/git%20rebase%20-i%20<過去的Commit物件id>,利用Rebase互動模式來編輯過去的commit%20message的圖解說明.png)
     * `情境說明`
     * $ `git rebase -i <ca7a70e>`
-      * `ca7a70e`: 為專案最初始的Commit物件的id
-      * 
+      * `ca7a70e`: 為專案最初始的`Commit物件的id`
+      * 找到要編輯`commit message`的`Commit物件`,將`pick`修改為`reword`,就會跳進去該`Commit物件`裡面,可以利用 Vim模式 來編輯該物件的`commit message`後,並存檔 & 離開 即可
+      * ![在Rebase互動模式中利用reword來編輯過去的commit message](/pic/在Rebase互動模式中利用reword來編輯過去的commit%20message.png)
+    * 提醒: 經過`Rebase模式`修改後,因為前後要接的Commit物件都不同(其實時間也不同),所以會重新計算並做出一顆新的Commit物件; <br>
+    而因為在Git歷史紀錄上的這兩顆Commit物件被換掉了,在它們兩個之後的一整串Commit物件全部都必須做出新的Commit物件出來替代舊的Commit物件們
+      * 相關觀念可參考
+      * [分支(branch)操作](#分支branch操作)的<br>
+      $ `git rebase` 的原理其實是做多次"Apply"到`新的基準點branch`指向的`Commit物件`上原理 & 圖解說明
+      * [SHA-1(安全散列演算法) 介紹](#sha-1安全散列演算法-介紹)的<br>
+      `Blob`物件的`SHA-1`值計算公式 章節
 
 
 ---
