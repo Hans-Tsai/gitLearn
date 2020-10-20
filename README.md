@@ -373,7 +373,11 @@ Git Learn<br>
     * `Rebase指令`的互動模式(`-i`)也可以用來編輯過去的所有`Commit物件`
       * `-p` (=> `--pick`): use commit
       * `r` (=> `reword`): use commit, but edit the commit message(當想修改過去歷史紀錄中的`commit message`時)
-      * `e` (=> `edit`): use commit, but stop for amending(當想把一個`commit紀錄`拆解成多個`commit紀錄`時)
+      * `e` (=> `edit`): use commit, but stop for amending(適用以下情境)
+        * 當想把一個`commit紀錄`拆解成多個`commit紀錄`時
+        * 當想在某些commit之間再加新的`commit紀錄`
+        * 當想要刪除某幾個commit紀錄
+        * 當想要調整過去commit紀錄的順序
         * Git會再重新執行一次`Rebase`時,停在`edit`那行的`Commit物件`上
         * 這時Git的狀態應該會類似這樣
           * ![git rebase -i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明](/pic/git%20rebase%20-i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明.png)<br>
@@ -410,7 +414,10 @@ Git Learn<br>
       $ `git rebase` 的原理其實是做多次"Apply"到`新的基準點branch`指向的`Commit物件`上原理 & 圖解說明
       * [SHA-1(安全散列演算法) 介紹](#sha-1安全散列演算法-介紹)的<br>
       `Blob`物件的`SHA-1`值計算公式 章節
-
+    * 提醒: 在執行`Rebase操作`時,要多注意"相依性問題", 否則一定會出問題的
+      * `情境說明`
+      * 某次`commit紀錄`修改了`zebra.html`,結果卻不小心把這次`commit紀錄`移動到建立`zebra.html`的那次`commit紀錄`之前
+      * 刪除了某次建立`sheep.html`的`commit紀錄`,但後面的`commit紀錄`都需要用到`sheep.html`這個檔案
 
 ---
 ### 觀念介紹
