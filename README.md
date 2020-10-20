@@ -219,6 +219,7 @@ Git Learn<br>
       * ![git commit --amend --no-edit參數圖解說明](pic/git%20commit%20--amend%20--no-edit參數圖解說明.png)
   + 提醒:即便"只是修改commit message",仍然會產生新的commit id,因為這樣對Git來說commit物件的內容是有"變動"的,所以Git會重新計算並產生一顆新的Commit物件,也就是說這其實算是一次全新的commit
   + 如果想修改更早的commit紀錄,就必須使用$ `git rebase` 指令了
+    * 可參考[分支(branch)操作](#分支branch操作)的 $ `git rebase -i` 章節 
   + 團隊開發守則:即便只是修改commit message,不管如何它就是修改了一次歷史,所以請盡量"不要"在已經`push`出去之後再修改,否則可能會造成其他人的困擾
 #### 如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中
   + 可以在專案中建立一個 `.gitignore` 的檔案,裡面可以設定想要忽略的規則
@@ -367,6 +368,13 @@ Git Learn<br>
     * 缺點2: 如果一個不小心可能會弄壞掉而且還不知道該怎麼`Reset`回來
     * 建議: 可以在還沒推出去前(`Push`),如果覺得`Commit物件`們太凌亂or瑣碎,可以先用`Rebase合併分支的方式`來整理這些`Commit物件`,再推出去
     * 提醒: `Rebase`等於是修改歷史紀錄,如果修改已經推出去(`Push`)的歷史紀錄可能會造成其他人的困擾,所以如果是已經推出去(`Push`)的內容,非必要盡量不要使用`Rebase`
+  + $ `git rebase -i <過去的一個Commit物件id>`
+    * 可以使用像是`pick`、`edit`、`squash`、`drop` 等相關Git指令來編輯這些`Commit物件` 
+    * `Rebase指令`的互動模式(`-i`)也可以用來編輯過去的所有`Commit物件`
+    * `情境說明`
+    * $ `git rebase -i <ca7a70e>`
+      * `ca7a70e`: 為專案最初始的Commit物件的id
+      * 
 
 
 ---
