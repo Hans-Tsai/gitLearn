@@ -51,7 +51,6 @@ Git Learn<br>
       - [把`cat分支`合併到`dog分支`&把`dog分支`合併到`cat分支`有什麼不同呢?](#把cat分支合併到dog分支把dog分支合併到cat分支有什麼不同呢)
       - [合併分支其實不是真的在合併分支!](#合併分支其實不是真的在合併分支)
       - [`Reset`、`Rebase`、`Revert` 三個指令有什麼差別?](#resetrebaserevert-三個指令有什麼差別)
-  - [參考表格出處: <https://gitbook.tw/chapters/rewrite-history/reset-revert-and-rebase.html>](#參考表格出處-httpsgitbooktwchaptersrewrite-historyreset-revert-and-rebasehtml)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
@@ -716,8 +715,10 @@ Git Learn<br>
 |Reset|是|把目前的狀態設定成某個指定的 Commit 的狀態，通常適用於尚未推出去的 Commit|
 |Rebase|是|不管是新增、修改、刪除 Commit 都相當方便，用來整理、編輯還沒有推出去的 Commit 相當方便，但通常也只適用於尚未推出去的 Commit|
 |Revert|否|新增一個 Commit 來反轉（或說取消）另一個 Commit 的內容，原本的 Commit 依舊還是會保留在歷史紀錄中。雖然會因此而增加 Commit 數，但通常比較適用於已經推出去的 Commit，或是不允許使用 Reset 或 Rebase 之修改歷史紀錄的指令的場合|
-<br>
-參考表格出處: <https://gitbook.tw/chapters/rewrite-history/reset-revert-and-rebase.html>
+
+- 參考表格出處: <https://gitbook.tw/chapters/rewrite-history/reset-revert-and-rebase.html>
+
+
 ---
 ### 實戰情境題
 ####  如果在git add之後又修改了那個檔案的內容呢?
