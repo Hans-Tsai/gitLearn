@@ -25,6 +25,7 @@ Git Learn<br>
       - [如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
       - [新增`Tag物件`到`Commmit物件`](#新增tag物件到commmit物件)
       - [分支(branch)操作](#分支branch操作)
+      - [該如何回復到上一次`commit紀錄`的狀態?](#該如何回復到上一次commit紀錄的狀態)
     - [觀念介紹](#觀念介紹)
       - [Git 其實是一種分散式的版本控制系統](#git-其實是一種分散式的版本控制系統)
       - [Git 的優點](#git-的優點)
@@ -126,6 +127,7 @@ Git Learn<br>
 > `git tag` - Create, list, delete or verify a tag object signed with GPG<br>
 > `git merge` - Join two or more development histories together<br>
 > `git rebase` - Reapply commits on top of another base tip<br>
+> `git revert` - Revert some existing commits<br>
 
 
 #### 初始化該目錄,主要目的是讓Git開始對這個目錄進行版本控制
@@ -418,6 +420,10 @@ Git Learn<br>
       * `情境說明`
       * 某次`commit紀錄`修改了`zebra.html`,結果卻不小心把這次`commit紀錄`移動到建立`zebra.html`的那次`commit紀錄`之前
       * 刪除了某次建立`sheep.html`的`commit紀錄`,但後面的`commit紀錄`都需要用到`sheep.html`這個檔案
+#### 該如何回復到上一次`commit紀錄`的狀態?
+  + $ `git revert HEAD --no-edit`: 會取消最後一次的`commit紀錄`,並"回復"到前一次`commit紀錄`的狀態
+    * `--no-edit`: 指定`Revert`指令不要開啟`commit message`編輯器
+
 
 ---
 ### 觀念介紹
