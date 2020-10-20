@@ -372,9 +372,25 @@ Git Learn<br>
     * 可以使用像是`pick`、`edit`、`squash`、`drop` 等相關Git指令來編輯這些`Commit物件`
     * `Rebase指令`的互動模式(`-i`)也可以用來編輯過去的所有`Commit物件`
       * `-p` (=> `--pick`): use commit
-      * `r` (=> `reword`): use commit, but edit the commit message
-      * `e` (=> `edit`): use commit, but stop for amending
-      * `s` (=> `squash`): use commit, but meld into previous commit
+      * `r` (=> `reword`): use commit, but edit the commit message(當想修改過去歷史紀錄中的`commit message`時)
+      * `e` (=> `edit`): use commit, but stop for amending(當想把一個`commit紀錄`拆解成多個`commit紀錄`時)
+        * Git會再重新執行一次`Rebase`時,停在`edit`那行的`Commit物件`上
+        * 這時Git的狀態應該會類似這樣
+          * ![git rebase -i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明](/pic/git%20rebase%20-i後的edit選項,Git停下來要做修改該Commit物件時的狀態的圖解說明.png) 
+        * 這時Git會詢問要如何修改這個`Commit物件`,通常這時候要先把要做"修改"的`Commit物件`的調整好,接著繼續`Rebase`下去
+          * $ `git commit --amend`: "修改"該`Commit物件`
+          * `$ git rebase --continue`: 繼續`Rebase`下去
+        * 如果這時候不是要修改該`Commit物件`,而是想要將該`Commit物件`拆分成兩個`Commit物件`的話,可以用`Reset`指令來完成
+          * 可先參考[如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
+          * $ `git reset HEAD^` : 回到`HEAD`目前指向的`Commit物件`的前一次`commit紀錄`上
+          * $ `git status`: 先檢視一下目前的Git狀態
+            * ![git rebase -i 互動模式的edit選項,Rebase到一半的Git狀態圖解畫面說明](/pic/git%20rebase%20-i%20互動模式的edit選項,Rebase到一半的Git狀態圖解畫面說明.png)<br>
+              參考圖片出處: <https://gitbook.tw/chapters/rewrite-history/split-one-commit-to-many-commits.html>
+          * 可以看到`cat3.html` & `cat4.html`都被拆出來放在工作目錄並且是處於`Untracked File`狀態
+          * 接著就按照平常的流程($ `git add <一個檔案的檔名>` + `$ git commit -m "xxxx"`),就可以拆解成兩次`commit紀錄`出來了
+          * 最後還是要記得目前仍依然處於`Rebase狀態`,所以要讓`Rebase流程`繼續跑完才算完成喔!
+            * $ `git rebase --continue` 
+      * `s` (=> `squash`): use commit, but meld into previous commit(當想把多個`commit紀錄`合併成一個`c`ommit紀錄`時)
       * `d` (=> `drop`): remove commit
     * 注意! $ `git rebase -i` 與 $ `git log` 顯示commit紀錄的順序是相反的,若都是"從上到下"檢視的話
       * $ `git rebase -i`: 從舊->新
