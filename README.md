@@ -423,7 +423,22 @@ Git Learn<br>
 #### 該如何回復到上一次`commit紀錄`的狀態?
   + $ `git revert HEAD --no-edit`: 會取消最後一次的`commit紀錄`,並"回復"到前一次`commit紀錄`的狀態
     * `--no-edit`: 指定`Revert`指令不要開啟`commit message`編輯器
-
+  + `情境說明`
+    * 編輯`pig.html`,並新增"abc"字串
+      * ![git revert 練習_編輯pig.html檔案](/pic/git%20revert%20練習_編輯pig.html檔案.png)
+    * `git revert HEAD --no-edit`: 會取消最後一次的`commit紀錄`,並回復到`HEAD`的前一次commit紀錄
+      * ![git revert練習_Revert後abc字串不見了](/pic/git%20revert練習_Revert後abc字串不見了.png)
+    * 透過Sourcetree可以發現,Git會為了`Revert操作`,新增一個`Commit物件`
+      * ![Sourcetree檢視git revert HEAD --no-edit執行後的狀況_圖解說明](/pic/Sourcetree檢視git%20revert%20HEAD%20--no-edit執行後的狀況_圖解說明.png)
+  + 那要如何取消`Revert`呢? 有以下2種方法
+    * $ `git revert HEAD --no-edit`: 這樣一來剛剛被刪除的`pig.html`中的"abc"字串又復活了; 但同時Git又會新增一個`Revert_"Revert" xxxxx` 的`Commit物件`,會造成`Commit物件`越來越多
+      * ![取消Revert操作會產生Revert_Revert的Commit物件](/pic/取消Revert操作會產生Revert_Revert的Commit物件.png) 
+    * $ `git reset HEAD^ --hard`: 適用於直接放棄`HEAD`的前一次`commit紀錄`的所有操作(包括工作目錄 和 暫存區)
+      * 可參考 [如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
+      * 較推薦此作法!
+  + `Revert指令`的建議使用情境
+    * 如果是個人開發的專案,其實可以直接用`Reset`切回去就好
+    * 但如果是多人共同協作的專案,就不一定有機會可以使用`Reset`指令,這時候就可以用`Revert`指令來做出一個"取消"的`Commit物件`; 這樣對其他人來說也不算是"修改歷史",只是建立一個跟某個`commit紀錄`反向的操作的`Commit物件`而已
 
 ---
 ### 觀念介紹
