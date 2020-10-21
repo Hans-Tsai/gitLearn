@@ -1,0 +1,6 @@
+# GitHub上的項目語言是自動識別的，也就是你某種語言的佔比最多，就會自動識別為那種語言
+# 將所有.html文件一律識別成Git即可
+*.html linguist-language=git
+
+
+# 參考文章連結: <https://blog.csdn.net/u012193416/article/details/78859098>
