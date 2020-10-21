@@ -62,6 +62,7 @@ Git Learn<br>
       - [如果想從過去的某次`commit紀錄`再長一個`新的分支(branch)`出來,該如何做呢?](#如果想從過去的某次commit紀錄再長一個新的分支branch出來該如何做呢)
       - [當兩個分支都編輯了同一個檔案(`both modified 狀態`),造成`合併分支時發生衝突`了,該怎麼解決呢?](#當兩個分支都編輯了同一個檔案both-modified-狀態造成合併分支時發生衝突了該怎麼解決呢)
       - [目前的工作做到一半,如果要臨時切換到別的任務,該怎麼做呢?](#目前的工作做到一半如果要臨時切換到別的任務該怎麼做呢)
+      - [如果不小心將機敏資料(ex:帳號、密碼)放在Git裡,想把它刪掉,該怎麼做呢?](#如果不小心將機敏資料ex帳號密碼放在git裡想把它刪掉該怎麼做呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -788,6 +789,7 @@ Git Learn<br>
 ---
 ### 實戰情境題
 > `git stash` - Stash the changes in a dirty working directory away<br>
+> `git filter-branch` - Rewrite branches<br>
 
 
 ####  如果在git add之後又修改了那個檔案的內容呢?
@@ -925,7 +927,7 @@ Git Learn<br>
 #### 目前的工作做到一半,如果要臨時切換到別的任務,該怎麼做呢?
   + `情境說明`
   + 假設現在臨時有個重大Bug要修復,但是當下正在`develop分支`開發新功能,開發到一半; 這時候可以用以下2種方式來處理
-  + 先commit目前的進度
+  + 先`commit`目前的進度
     * $ `git add --all`
     * $ `git commit -m "尚未完成的新功能開發分支"`
     * 接下來就可以切換到重大Bug所在的分支(branch)先進行修復,待完成之後再切換回來原來做一半的`develop分支`
@@ -949,8 +951,36 @@ Git Learn<br>
     * $ `git stash apply stash@{<編號>}`: 將某個Stash項目拿出來並套用到目前的分支上; 但是當套用成功後,但"不要"將該`Stash`刪除,還是會留在`Stash List`上
     * $ `git stash drop stash@{<編號>}`: 從`Stash List`中刪除該`Stash`
     * $ `git stash clear`: 從`Stash List`中清除所有的`Stash`
-
-
+#### 如果不小心將機敏資料(ex:帳號、密碼)放在Git裡,想把它刪掉,該怎麼做呢?
+  + 可先參考[如果有特定檔案不想放在Git裡面一起備份或是上傳到Git Server的話,例如:資料庫密碼,雲端伺服器的金鑰...可以加入 `.gitignore`中](#如果有特定檔案不想放在git裡面一起備份或是上傳到git-server的話例如資料庫密碼雲端伺服器的金鑰可以加入-gitignore中)
+  + 首先,如果是已經`推送(Push)`上去到GitHub上的話,請先不要想要用Git來解決,強烈建議直接先改密碼再說! 改完密碼後,再接著利用Git做後續補救措施
+  + `情境說明`
+  + 假設我想要把`config/database.yml`這個檔案從每個`Commit物件`裡把它拿掉,比較辛苦的做法是使用 `Rebase`指令,然後一個一個進去`Commit物件`去編輯
+  + 那如果不想使用`Rabse指令`的方式來處理的話,有以下3種方法可以補救
+    * 整個砍掉重練(=>不建議這樣做)
+      * $ `rm -r .git/`: 將整個`.git/`目錄刪掉
+      * 把所有含有機敏資料的相關檔案"刪除"或是"修正"
+      * 重新`commit`一次
+        * $ `git add --all`
+        * $ `git commit -m "initial commit"`
+    * 利用 $ `git filter-branch`指令
+      * $ `git filter-branch --tree-filter <command>`
+        * $ `git filter-branch` 這個指令可以讓你根據不同的`filter條件`,一個一個應用到每個`Commit物件`上來處理
+        * `--tree-filter <command>`: 會在接下來$ `git checkout` 的每個Commit物件時,都會執行後面指定的`<command>`,全部執行完後會再自動重新再`commit`一次
+        * 假設是刪除了一個機敏資料的檔案的話,因為是"刪除"的行為,所以對Git來說在那之後的所有Commit物件都要全部重新計算,也就是相當於產生一份新的`commit紀錄`了
+        * 備註: 檔案一旦加入Git版控中,要徹底刪除就沒那麼好刪除了
+        * 例如: $ `git filter-branch --tree-filter "rm -f config/database.yml"` => 將`config/database.yml`這個檔案從每次的Commit物件中刪除
+          * ![git filter-branch --tree-filter <command> 可以用來將<command>的操作套用到所有的Commit物件上](/pic/git%20filter-branch%20--tree-filter%20<command>%20可以用來將<command>的操作套用到所有的Commit物件上.png)<br>
+            參考圖片出處<https://gitbook.tw/chapters/faq/remove-sensitive-data.html>
+      * 如果又後悔了,想要回復剛剛$ `git filter-branch`造成的結果以前的狀態,該怎麼辦呢?
+        * 原理: 當執行$ `git filter-branch`指令的時候,Git會幫你把之前的狀態備份一份在 `.git/refs/original/refs/heads/` 這個目錄裡面
+        * 其實與其說是備份,也只是備份開始進行`filter-branch`之前的那個`HEAD`指向的`Commit物件`的`SHA-1值`而已
+        * 接著就可以利用`hard Reset指令`直接切回去原來的`Commit物件`,這樣就都回來了
+          * $ `git reset .git/refs/original/refs/heads/master --hard` 
+          * 可參考[$ `git reset` 是用來"前往"到指定的`Commit物件`上的](#-git-reset-是用來前往到指定的commit物件上的)
+          * 可參考[如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
+    * 利用 $ `git push -f`:重新"強制"`推送(Push)`一份你剛剛已經$ `git filter-branch`過後的`commit`上去來覆蓋掉它
+      * 提醒: 因為其實已經`推送(Push)`出去的東西就跟潑出去的水一樣,收不回來的 
 
 
 
