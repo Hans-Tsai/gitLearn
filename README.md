@@ -41,6 +41,7 @@ Git Learn<br>
       - [`ORIG_HEAD`是什麼?](#orig_head是什麼)
       - [`分支(branch)`是什麼?](#分支branch是什麼)
       - [`Detached HEAD` (斷頭) 是什麼?](#detached-head-斷頭-是什麼)
+      - [`Tag` (標籤) 是什麼?](#tag-標籤-是什麼)
     - [觀念釐清](#觀念釐清)
       - [Git無法控管 `空目錄/`](#git無法控管-空目錄)
       - [$ `git rm --cached` V.S. `.gitignore` 比較](#-git-rm---cached-vs-gitignore-比較)
@@ -448,6 +449,9 @@ Git Learn<br>
 > `git branch` - List, create, or delete branches<br>
 > `git cat-file` - Provide content or type and size information for repository object<br>
 > `git count-objects` - Count unpacked number of objects and their disk consumption<br>
+> `git tag` - Create, list, delete or verify a tag object signed with GPG<br>
+> `git show` - Show various types of objects<br>
+
 
 #### Git 其實是一種分散式的版本控制系統
 - Git是一種分散式的版本控制系統,而所謂的"版本控制系統"就是指會幫你記錄所有的狀態變化,隨時可以切換到過去某個版本的狀態
@@ -571,7 +575,7 @@ Git Learn<br>
   + $ cat `.git/ORIG_HEAD`
     * ![透過cat .git/ORIG_HEAD 這個檔案來檢視在Git危險操作以前的那個ORIG_HEAD會指向哪個Commit物件](/pic/透過cat%20.git:ORIG_HEAD%20這個檔案來檢視在Git危險操作以前的那個ORIG_HEAD會指向哪個Commit物件.png)
 
-####  `分支(branch)`是什麼?
+#### `分支(branch)`是什麼?
 - 在Git裡面,`分支(branch)`就像貼紙一樣,它會貼在某個`Commit物件`上,並且會隨著每次的commit跟著移動
   + 所以`HEAD`會指向一個`分支(branch)`,並且`分支`會指向一個`Commit物件`
     * 通常來說`HEAD`所指的那個`分支(branch)`,會跟著新的`Commit物件`前進(而`HEAD`也會跟著一起前進) 
@@ -633,7 +637,46 @@ Git Learn<br>
     參考圖片出處<https://git-scm.com/docs/git-checkout>
   + 在 `Detached HEAD` 狀態下其實跟平常一樣操作Git,也可以進行commit
 
-
+#### `Tag` (標籤) 是什麼?
+- `Tag` (標籤): 是一個指向某一個`Commit物件`的"指標"
+  * 可先參考[Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹](#git-的四大物件blobtreecommittag觀念介紹)
+  * `Tag` (標籤)依據官方文件有以下3種適合作為的用途
+      > Annotated tags are meant for release while lightweight tags are meant for private or temporary object labels. 
+      * 軟體版本號(`release version`)
+      * 個人使用(`private`)
+      * 暫時標記用途(`temporary object labels`)
+  * `Tag` (標籤)可分為兩種形式
+    * `輕量標籤`(lightweight tag): 主要用來作為軟體版本號(`release version`)
+      * `輕量標籤`(lightweight tag)會指向一個`Commit物件` 
+      * $ `git tag <輕量標籤的名稱> <要標記在哪個Commit物件上的id>`
+      * 例如: $ `git tag refresh_hyperlink 19468c5`: 這樣Git就會在"19468c5"這個`Commit物件`上,建立一個`輕量標籤`(lightweight tag)叫做"refresh_hyperlink"
+      * ![git tag建立輕量標籤的圖解說明_統整](/pic/git%20tag建立輕量標籤的圖解說明_統整.gif)
+    * `有附註標籤`(annotated tag): 用來作為個人使用(`private`)或是暫時標記用途(`temporary object labels`)
+      * 注意: `有附註標籤`(annotated tag)會指向一個`Tag物件`,而這個`Tag物件`才會指向一個`Commit物件`
+      * $ `git tag <輕量標籤的名稱> <要標記在哪個Commit物件上的id> -a -m "refresh_form_width"`
+      * 例如: $`git tag refresh_form_width 6894635 -a -m "有附註標籤的練習"`: 這樣Git就會在"6894635"這個`Commit物件`上,建立一個`有附註標籤`(annotated tag)叫做"refresh_form_width",並且新增一個tag message叫做"有附註標籤的練習"
+        * `-a` (=> `--annotate`): 請Git幫忙建立一個`有附註標籤`
+        * `-m` (=> `--message`): 建立一個`有附註標籤`的`訊息`(tag message)
+      * ![新增有附註標籤的練習_統整](/pic/新增有附註標籤的練習_統整.gif)
+      * `有附註標籤`(annotated tag)會有記錄更詳細的標籤相關資訊,通常會有以下資訊
+        * 誰貼的標籤?
+        * 什麼時候貼的標籤?
+        * 為什麼要貼這張標籤? 
+    * 新增完標籤(`tag`)以後,可以用$ `git log --oneline`來檢視目前的`commit紀錄`的情況
+    * `有附註標籤`(annotated tag)的訊息量也會比`輕量標籤`(lightweight tag)的訊息量多
+      * $ `git show <標籤的名稱>`: 可以用來檢視各種物件的型態
+        * 例如: $ `git show refresh_hyperlink` => 檢視`輕量標籤`(lightweight tag)的型態
+          * ![透過git show <輕量標籤的名稱> 來檢視輕量標籤目前的狀況_統整](/pic/透過git%20show%20<輕量標籤的名稱>%20來檢視輕量標籤目前的狀況_統整.gif)
+        * 例如: $ `git show refresh_form_width` => 檢視`有附註標籤`(annotated tag)的型態
+          * ![透過git show <有附註標籤的名稱> 來檢視有附註標籤目前的狀況_統整](/pic/透過git%20show%20<有附註標籤的名稱>%20來檢視有附註標籤目前的狀況_統整.gif)
+    * 也可以到 `.git/refs/tags/` 目錄裡面,檢視所有的標籤
+      * $ `cat .git/refs/tags/<標籤的名稱>`
+        * 如果是`輕量標籤`,會顯示該標籤(`tag`)指向的`Commit物件`的id
+        * 如果是`有附註標籤`(annotated tag)會顯示其指向的`Tag物件`,而這個`Tag物件`才會指向一個`Commit物件`的id
+    * 刪除標籤
+      * $ git tag -d <標籤的名稱>: 將該`標籤`刪除
+        * 例如: $ `git tag -d refresh_hyperlink`
+        * `-d` (=> `--delete`): 刪除已經存在的標籤
 ---
 ### 觀念釐清
 > `git ls-files` - Show information about files in the index and the working tree<br>
