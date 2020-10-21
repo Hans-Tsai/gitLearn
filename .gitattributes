@@ -1,4 +1,5 @@
-# GitHub上的項目語言是自動識別的，也就是你某種語言的佔比最多，就會自動識別為那種語言
+# GitHub Repository的默認語言是根據其中默認的branch（通常是master）中數量最多的一類文件的作為該Repository的語言
+# GitHub上的項目語言是自動識別的，也就是你某種語言的檔案佔比最多，就會自動識別為那種語言
 # 將所有.html文件一律識別成Git即可
 *.html linguist-language=HTML
 *.md linguist-language=markdown
