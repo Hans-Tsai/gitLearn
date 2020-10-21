@@ -61,6 +61,7 @@ Git Learn<br>
       - [如果不小心把還沒合併的分支刪掉了,該怎麼挽救?](#如果不小心把還沒合併的分支刪掉了該怎麼挽救)
       - [如果想從過去的某次`commit紀錄`再長一個`新的分支(branch)`出來,該如何做呢?](#如果想從過去的某次commit紀錄再長一個新的分支branch出來該如何做呢)
       - [當兩個分支都編輯了同一個檔案(`both modified 狀態`),造成`合併分支時發生衝突`了,該怎麼解決呢?](#當兩個分支都編輯了同一個檔案both-modified-狀態造成合併分支時發生衝突了該怎麼解決呢)
+      - [目前的工作做到一半,如果要臨時切換到別的任務,該怎麼做呢?](#目前的工作做到一半如果要臨時切換到別的任務該怎麼做呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -786,6 +787,9 @@ Git Learn<br>
 
 ---
 ### 實戰情境題
+> `git stash` - Stash the changes in a dirty working directory away<br>
+
+
 ####  如果在git add之後又修改了那個檔案的內容呢?
   + 新增了一個檔案叫做abc.txt
   + 執行 $ `git add abc.txt` 把檔案加到暫存區
@@ -885,8 +889,8 @@ Git Learn<br>
       * 再將"已修正的檔案" 加到 "暫存區"(staging area)
         * $ `git add <已修正的檔案>`
       * 最後,接著繼續完成剛剛中斷的Rebase合併分支的操作
-        * $ git rebase --continue
-          * --continue: 當已經修改完衝突檔案後,繼續 "重新啟動" Rebase機制
+        * $ `git rebase --continue`
+          * `--continue`: 當已經修改完衝突檔案後,繼續 "重新啟動" Rebase機制
   + `情境說明3`
     * 用`Merge方式`合併分支時發生衝突(=> "當兩個分支都有一個同名稱的圖片檔案時的情況")
     * 雖然Git有能力幫忙檢查簡單的衝突並標示出"衝突點"在該檔案哪幾行; 但是如果是圖片檔之類的二進位檔的話,就必須用別的方式來解決了
@@ -918,7 +922,18 @@ Git Learn<br>
     * $ `git add <路徑/決定要用的同名稱圖片檔案的檔名>`
     * $ `git commit -m "git merge圖片檔案發生衝突時,可以用git checkout --ours/--theirs參數 來處理合併分支的衝突"`
     * ![用Sourcetree來檢視利用git checkout --ours/--theirs <發生衝突圖的檔案名稱> 來解決合併分支衝突時,若衝突的檔案為圖片時的情況_圖解說明](/pic/用Sourcetree來檢視利用git%20checkout%20--ours:--theirs%20<發生衝突圖的檔案名稱>%20來解決合併分支衝突時,若衝突的檔案為圖片時的情況_圖解說明.png)
-
+#### 目前的工作做到一半,如果要臨時切換到別的任務,該怎麼做呢?
+  + `情境說明`
+  + 假設現在臨時有個重大Bug要修復,但是當下正在`develop分支`開發新功能,開發到一半; 這時候可以用以下2種方式來處理
+  + 先commit目前的進度
+    * $ `git add --all`
+    * $ `git commit -m "尚未完成的新功能開發分支"`
+    * 接下來就可以切換到重大Bug所在的分支(branch)先進行修復,待完成之後再切換回來原來做一半的`develop分支`
+      * $ `git checkout develop`
+    * 再利用`Reset`回到`HEAD`指標目前指向的`Commit物件`("尚未完成的新功能開發分支")的前一次HEAD紀錄,把剛剛開發到一半的東西拆出來繼續開發
+      * $ `git reset HEAD^`
+  + 利用Git的`Stash`功能
+    *  
 
 ---
 ### 觀念補充
@@ -953,7 +968,3 @@ Git Learn<br>
     * 所以,以`Blob物件`來說,不管是在什麼時間或不同的電腦上,一樣的輸入值,就會有一樣的內容
     * 例如: $ `printf "Hello, Hans Tsai" | git hash-object --stdin` 
     * ![git hash-object --stdin可以計算SHA-1的值](/pic/git%20hash-object%20--stdin可以計算SHA-1的值.png)
-
-
-
-
