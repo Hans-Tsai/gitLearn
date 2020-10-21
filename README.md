@@ -933,7 +933,26 @@ Git Learn<br>
     * 再利用`Reset`回到`HEAD`指標目前指向的`Commit物件`("尚未完成的新功能開發分支")的前一次HEAD紀錄,把剛剛開發到一半的東西拆出來繼續開發
       * $ `git reset HEAD^`
   + 利用Git的`Stash`功能
-    *  
+    * $ `git stash`: 將"暫存區"(staging area)的檔案都加到`Stash`中
+      * $ `git stash` 預設就是相當於 $ `git stash push` 
+      * `-u` (=> `--include-untracked`): 可以加上這個參數,讓`工作目錄`(working directory)中的`Untracked Files`也一起加入到`Stash`中
+      * ![git stash -u 將所有檔案(包含Untracked Files)的當下狀態都儲存起來](/pic/git%20stash%20-u%20將所有檔案(包含Untracked%20Files)的當下狀態都儲存起來.png)
+    * 這時候檢視Git狀態,會發現當下的狀態跟剛`commit`完一樣乾淨
+    * $ `git stash list`: 列出所有目前擁有的`Stash`項目
+      * 最前面的`stash@{0}`就是這個`Stash`的代名詞
+      * 後面的`WIP on <該分支的名稱>`的`WIP`是"Work In Progress",也就是工作進行中的意思
+      * `Stash`可以建立好多個
+      * ![git stash list 列出目前所有的stash](/pic/git%20stash%20list%20列出目前所有的stash.png)
+    * $ `git stash pop stash@{<編號>}`: 將某個Stash項目拿出來並套用到目前的分支上; 當套用成功後,該`Stash`就會被刪除
+      * 如果使用 $ `git stash pop`指令,卻沒有指定要套用哪個`Stash`的話,就會從最小的開始,相當於從`stash@{0}`開始拿(也就是最後疊上去`Stash`的那次)
+      * ![git stash pop stash@{0} 可以用來將某個stash拿出來並套用在目前的分支上](/pic/git%20stash%20pop%20stash@{0}%20可以用來將某個stash拿出來並套用在目前的分支上.png)
+    * $ `git stash apply stash@{<編號>}`: 將某個Stash項目拿出來並套用到目前的分支上; 但是當套用成功後,但"不要"將該`Stash`刪除,還是會留在`Stash List`上
+    * $ `git stash drop stash@{<編號>}`: 從`Stash List`中刪除該`Stash`
+    * $ `git stash clear`: 從`Stash List`中清除所有的`Stash`
+
+
+
+
 
 ---
 ### 觀念補充
