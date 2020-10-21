@@ -52,6 +52,7 @@ Git Learn<br>
       - [把`cat分支`合併到`dog分支`&把`dog分支`合併到`cat分支`有什麼不同呢?](#把cat分支合併到dog分支把dog分支合併到cat分支有什麼不同呢)
       - [合併分支其實不是真的在合併分支!](#合併分支其實不是真的在合併分支)
       - [`Reset`、`Rebase`、`Revert` 三個指令有什麼差別?](#resetrebaserevert-三個指令有什麼差別)
+      - [`標籤(Tag)`跟`分支(branch)`有什麼不同呢?](#標籤tag跟分支branch有什麼不同呢)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
@@ -674,13 +675,16 @@ Git Learn<br>
         * 如果是`輕量標籤`,會顯示該標籤(`tag`)指向的`Commit物件`的id
         * 如果是`有附註標籤`(annotated tag)會顯示其指向的`Tag物件`,而這個`Tag物件`才會指向一個`Commit物件`的id
     * 刪除標籤
-      * $ git tag -d <標籤的名稱>: 將該`標籤`刪除
+      * $ `git tag -d <標籤的名稱>`: 將該`標籤`刪除
         * 例如: $ `git tag -d refresh_hyperlink`
         * `-d` (=> `--delete`): 刪除已經存在的標籤
+
+
 ---
 ### 觀念釐清
 > `git ls-files` - Show information about files in the index and the working tree<br>
 > `git verify-pack` - Validate packed Git archive files<br>
+
 
 #### Git無法控管 `空目錄/`
 - Git在產生物件時,只在乎"檔案內容",所以如果只是新增一個"空的目錄",Git是沒有辦法處理該空目錄的
@@ -760,6 +764,24 @@ Git Learn<br>
 |Revert|否|新增一個 Commit 來反轉（或說取消）另一個 Commit 的內容，原本的 Commit 依舊還是會保留在歷史紀錄中。雖然會因此而增加 Commit 數|但通常比較適用於已經推出去的 Commit，或是不允許使用 Reset 或 Rebase 之修改歷史紀錄的指令的場合|
 
 - 參考表格出處: <https://gitbook.tw/chapters/rewrite-history/reset-revert-and-rebase.html>
+
+#### `標籤(Tag)`跟`分支(branch)`有什麼不同呢?
+- `標籤(Tag)`與`分支(branch)`都是一種指標,都會放在 .git/refs/ 目錄裡面,但放的位置不同
+  + `標籤(Tag)` 會放在 `.git/refs/tags/` 目錄裡面
+  + `分支(branch)`會放在 `.git/refs/heads/` 目錄裡面
+- 可先參考[`Tag` (標籤) 是什麼?](#tag-標籤-是什麼)
+- 可先參考[`分支(branch)`是什麼?](#分支branch是什麼)
+- `標籤(Tag)`與`分支(branch)`的內容看起來會很像,都是`40`個字元的`SHA-1值`
+  + `輕量標籤`(lightweight tag)指向的是一個Commit物件
+    + $ `cat .git/refs/tags/<輕量標籤的名稱>`
+    + ![檢視cat .git/refs/tags/<輕量標籤的名稱> 的內容](/pic/檢視cat%20.git:refs:tags:<輕量標籤的名稱>%20的內容.png)
+  + `有附註標籤`(annotated tag)指向的是一個`Tag物件`,而這個`Tag物件`才會指向一個`Commit物件`
+    + $ `cat .git/refs/tags/<有附註標籤的名稱>`
+    + ![檢視cat .git/refs/tags/<有附註標籤的名稱> 的內容](/pic/檢視cat%20.git:refs:tags:<有附註標籤的名稱>%20的內容.png)
+- 重要: `標籤(Tag)`與`分支(branch)`最大的差別在於
+  + `分支(branch)` "會隨著" `commit紀錄`移動,也就是說當Git往前推進一個`commit紀錄`時,它所在的分支會跟著往前移動
+  + `標籤(Tag)` 不會隨著 `commit紀錄`移動,也就是說標籤一旦貼上去後,不管`commit紀錄`怎麼前進,標籤還是會停留在原來貼的那個位置上
+- 結論: 某方面來說,我們可以把`分支(branch)`視為會移動的`標籤(Tag)`
 
 
 ---
