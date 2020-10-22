@@ -985,7 +985,16 @@ Git Learn<br>
 #### 可以只取用某個分支的其中某幾個`commit`嗎?
   + `情境說明`
   + `$ git cherry-pick <要取用的Commit物件的id>`: 可以只選取指定的`commit`來用
-  + 
+  + 假設在`red分支`新增一個`cherry-pick-test.html`檔案,並用`cherry-pick指令`將這個`commit`拿來使用,加到目前所在的分支上面
+    * $ `git checkout -b red`: 新增一個`red分支`並切換到該分支上
+    * $ `echo "test $ git cherry-pick" > cherry-pick-test.html`: 新增一段文字到測試檔案中
+    * $ `git commit -a -m "新增git cherry-pick筆記"`: 將測試檔案加到`暫存區`(staging area)並同時提交到`儲存庫`(repo)
+    * $ `git checkout master`: 切換回`master分支`上
+    * $ `git cherry-pick d685d6f`: 選取`red分支`上剛剛提交的那個`Commit物件`,並將它加到目前所在分支的最前面
+    * ![git cherry-pick 可以用來選取某個分支的某個commit來使用_統整](/pic/git%20cherry-pick%20可以用來選取某個分支的某個commit來使用_統整.gif)
+  + `$ git cherry-pick <要取用的Commit物件的id 1> <要取用的Commit物件的id 2>`: 可以一次選取多個指定的`commit`來用
+  + $ `git cherry-pick <要取用的Commit物件的id> --no-commit`: 撿過來的`commit`不會直接合併,而是先放到`暫存區`(staging area)
+    * `--no-commit`: 
 
 ---
 ### 觀念補充
