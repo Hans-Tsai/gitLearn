@@ -63,6 +63,7 @@ Git Learn<br>
       - [當兩個分支都編輯了同一個檔案(`both modified 狀態`),造成`合併分支時發生衝突`了,該怎麼解決呢?](#當兩個分支都編輯了同一個檔案both-modified-狀態造成合併分支時發生衝突了該怎麼解決呢)
       - [目前的工作做到一半,如果要臨時切換到別的任務,該怎麼做呢?](#目前的工作做到一半如果要臨時切換到別的任務該怎麼做呢)
       - [如果不小心將機敏資料(ex:帳號、密碼)放在Git裡,想把它刪掉,該怎麼做呢?](#如果不小心將機敏資料ex帳號密碼放在git裡想把它刪掉該怎麼做呢)
+      - [可以只取用某個分支的其中某幾個`commit`嗎?](#可以只取用某個分支的其中某幾個commit嗎)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -790,7 +791,7 @@ Git Learn<br>
 ### 實戰情境題
 > `git stash` - Stash the changes in a dirty working directory away<br>
 > `git filter-branch` - Rewrite branches<br>
-
+> `git cherry-pick - Apply the changes introduced by some existing commits`<br>
 
 ####  如果在git add之後又修改了那個檔案的內容呢?
   + 新增了一個檔案叫做abc.txt
@@ -981,8 +982,10 @@ Git Learn<br>
           * 可參考[如果想重新編輯剛才的commit](#如果想重新編輯剛才的commit)
     * 利用 $ `git push -f`:重新"強制"`推送(Push)`一份你剛剛已經$ `git filter-branch`過後的`commit`上去來覆蓋掉它
       * 提醒: 因為其實已經`推送(Push)`出去的東西就跟潑出去的水一樣,收不回來的 
-
-
+#### 可以只取用某個分支的其中某幾個`commit`嗎?
+  + `情境說明`
+  + `$ git cherry-pick <要取用的Commit物件的id>`: 可以只選取指定的`commit`來用
+  + 
 
 ---
 ### 觀念補充
