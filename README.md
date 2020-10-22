@@ -64,6 +64,7 @@ Git Learn<br>
       - [目前的工作做到一半,如果要臨時切換到別的任務,該怎麼做呢?](#目前的工作做到一半如果要臨時切換到別的任務該怎麼做呢)
       - [如果不小心將機敏資料(ex:帳號、密碼)放在Git裡,想把它刪掉,該怎麼做呢?](#如果不小心將機敏資料ex帳號密碼放在git裡想把它刪掉該怎麼做呢)
       - [可以只取用某個分支的其中某幾個`commit`嗎?](#可以只取用某個分支的其中某幾個commit嗎)
+      - [如何把一個檔案從Git版控中真正的移除掉呢?](#如何把一個檔案從git版控中真正的移除掉呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -792,6 +793,7 @@ Git Learn<br>
 > `git stash` - Stash the changes in a dirty working directory away<br>
 > `git filter-branch` - Rewrite branches<br>
 > `git cherry-pick - Apply the changes introduced by some existing commits`<br>
+> `git fsck` - Verifies the connectivity and validity of the objects in the database<br>
 
 ####  如果在git add之後又修改了那個檔案的內容呢?
   + 新增了一個檔案叫做abc.txt
@@ -968,7 +970,7 @@ Git Learn<br>
       * $ `git filter-branch --tree-filter <command>`
         * $ `git filter-branch` 這個指令可以讓你根據不同的`filter條件`,一個一個應用到每個`Commit物件`上來處理
         * `--tree-filter <command>`: 會在接下來$ `git checkout` 的每個Commit物件時,都會執行後面指定的`<command>`,全部執行完後會再自動重新再`commit`一次
-        * 假設是刪除了一個機敏資料的檔案的話,因為是"刪除"的行為,所以對Git來說在那之後的所有Commit物件都要全部重新計算,也就是相當於產生一份新的`commit紀錄`了
+        * 假設是刪除了一個機敏資料的檔案的話,因為是"刪除"的行為,所以對Git來說在那之後的所有`Commit物件`都要全部重新計算,也就是相當於產生一份新的`commit紀錄`了
         * 備註: 檔案一旦加入Git版控中,要徹底刪除就沒那麼好刪除了
         * 例如: $ `git filter-branch --tree-filter "rm -f config/database.yml"` => 將`config/database.yml`這個檔案從每次的Commit物件中刪除
           * ![git filter-branch --tree-filter <command> 可以用來將<command>的操作套用到所有的Commit物件上](/pic/git%20filter-branch%20--tree-filter%20<command>%20可以用來將<command>的操作套用到所有的Commit物件上.png)<br>
@@ -994,7 +996,46 @@ Git Learn<br>
     * ![git cherry-pick 可以用來選取某個分支的某個commit來使用_統整](/pic/git%20cherry-pick%20可以用來選取某個分支的某個commit來使用_統整.gif)
   + `$ git cherry-pick <要取用的Commit物件的id 1> <要取用的Commit物件的id 2>`: 可以一次選取多個指定的`commit`來用
   + $ `git cherry-pick <要取用的Commit物件的id> --no-commit`: 撿過來的`commit`不會直接合併,而是先放到`暫存區`(staging area)
-    * `--no-commit`: 
+    * `--no-commit`: 撿過來的`commit`不會直接合併,而是會先放在`暫存區`(staging area)
+#### 如何把一個檔案從Git版控中真正的移除掉呢?
+  + 因為Git是一個分散式的版本控制系統,當檔案被Git版控後,就很難真正的移除掉了
+  + 想要將已被Git版控的檔案,完全從Git移除掉的話,有以下3種方法可以做到
+  + `情境說明`
+  + ![該怎麼完全刪除檔案的commit紀錄_圖解說明](/pic/該怎麼完全刪除檔案的commit紀錄_圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/chapters/faq/remove-files-from-git.html>
+    * 將整個 `.git/` 目錄完全移除
+    * 用`Rebase方式`進行編輯,重整`commit紀錄` (=> 適用於當`commit紀錄`的數量不算多的時候)
+      * 可參考[分支(branch)操作](#分支branch操作)的 $ `git rebase -i` 章節
+    * 利用$ `git filter-branch --tree-filter <command>`,可以大範圍的對每個`Commit物件`都執行一次該指定的命令(`<command>`),並於修改完成後再自動重新`commit`
+      * 例如: `$ git filter-branch -f --tree-filter "rm -f config/database.yml"`
+        * 注意! 多加了一個 "`-f`"參數,是因為要強制覆寫`filter-branch`的備份點,這邊使用`filter-branch`指令把檔案從`工作目錄`(working directory)移除掉,這時候`database.yml`確實不見了,但還有好幾個跟資源回收有關的事情需要處理
+        * `-f` (=> `--force`): 強制覆寫`filter-branch`的備份點
+        > `git filter-branch -f`: git filter-branch refuses to start with an existing temporary directory or when there are already refs starting with refs/original/, unless forced.
+      * 可以參考[如果不小心將機敏資料(ex:帳號、密碼)放在Git裡,想把它刪掉,該怎麼做呢?](#如果不小心將機敏資料ex帳號密碼放在git裡想把它刪掉該怎麼做呢)
+    * 因為執行$ `git filter-branch`指令,所有Git會自動有備份點,隨時可以透過它再跳回去,所以要先斷了這條線
+      * $ `rm .git/refs/original/refs/heads/master`
+    * $ `git reflog expire --all --expire=now`: 要求`Reflog`現在立刻過期(因為`Reflog`預設會自動保存30天內的紀錄)
+      * $ `git reflog expire`: `Reflog`的子命令`expire`會修剪掉過去"舊的" `Reflog紀錄`
+      > The "expire" subcommand prunes older reflog entries.
+      * `--all` (=> `--force`): 對所有的`Reflog紀錄`做處理
+      * `--expire=<time>`: 修剪掉比`<time>`這個時間還"舊"的`Reflog紀錄`
+    * $ `git fsck --unreachable`: 驗證所有的Git物件在`.git/objects`中,並只顯示出"仍然存在"但是為"Unreachable狀態"的物件
+      * `--unreachable`: 僅列出"仍然存在"但是為"Unreachable狀態"的物件
+      * ![git fsck --unreachable 可以列出在整個 .git/objects 的目錄中所有依然存在但是為Unreachable狀態的物件](/pic/git%20fsck%20--unreachable%20可以列出在整個%20.git:objects%20的目錄中所有依然存在但是為Unreachable狀態的物件.png)<br>
+        參考圖片出處<https://gitbook.tw/chapters/faq/remove-files-from-git.html>
+    * 最後,啟動Git的資源回收機制,請垃圾車來把它們載走
+      * $ `git gc --prune=now`: 
+        * `--prune=<date>`: 修剪掉所有比`<date>`這個時間還"舊"的並且"未受控制"(loose)的物件 
+      * 可參考[Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)的$`git gc`章節
+    * 可以檢查看看是否真的完全刪除了該檔案,可以利用以下2種方法
+      * $ `git fsck`
+        * ![用git fsck檢查是否真的完全刪除掉該檔案了](/pic/用git%20fsck檢查是否真的完全刪除掉該檔案了.png)<br>
+          參考圖片出處<https://gitbook.tw/chapters/faq/remove-files-from-git.html>
+      * $ `git reset <Commit物件的id> --hard`
+        * ![用git reset <Commit物件的id> --hard 來檢查該檔案是否真的完全刪除了](/pic/用git%20reset%20<Commit物件的id>%20--hard%20來檢查該檔案是否真的完全刪除了.png)<br>
+          參考圖片出處<https://gitbook.tw/chapters/faq/remove-files-from-git.html>
+        * 提醒: 如果這些內容已經`推送`(Push)出去的話,要記得用$ `git push -f` 來把線上的紀錄強制蓋掉喔!
+
 
 ---
 ### 觀念補充
