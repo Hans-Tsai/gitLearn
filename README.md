@@ -694,7 +694,7 @@ Git Learn<br>
   + $ `git gc`其實會默默地呼叫$ `git prune`指令來清除`Unreachable物件`,但$ `git prune`指令也是要給它設定到期日,所以剛才的指令其實原理如下
     * $ `git gc --prune=now`  =  $ `git gc` + $ `git prune --expire=now`
 - 還有什麼方式會產生出`Unreachable狀態`的物件?
-  + 當已經將檔案加入暫存區(staging area)後,卻又將該檔案從Git版控中移除,脫離Git的控管,變為`Untracked File`狀態
+  + 當已經將檔案加入暫存區(staging area)後,卻又將該檔案從Git版控中移除,脫離Git的控管,變為`Untracked File`狀態
   + 因為一旦Git物件產生後,除非手動進 `.git/objects/` 目錄處理掉,不然該物件就會一直留在那邊了
   + 可先參考[Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)的 $ `git ls-files -s` 章節
   + 可先參考[$ `git rm --cached` V.S. `.gitignore` 比較](#-git-rm---cached-vs-gitignore-比較)的 $ `git rm --cached` 部分
@@ -729,9 +729,6 @@ Git Learn<br>
     * 即便是$ `git commit --amend`這種單純修改`commit message`的指令也會產生出`Unreachable狀態`的物件
     * 被刪除的`標籤`(Tag)物件,也會成為`Unreachable狀態`的物件
     * 在做`Rebase`的時候,其實也會產生出多個`Unreachable狀態`的物件
-
-
-
 
 
 ---
