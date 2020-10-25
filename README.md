@@ -42,6 +42,7 @@ Git Learn<br>
       - [`分支(branch)`是什麼?](#分支branch是什麼)
       - [`Detached HEAD` (斷頭) 是什麼?](#detached-head-斷頭-是什麼)
       - [`Tag` (標籤) 是什麼?](#tag-標籤-是什麼)
+      - [Git的資源回收機制($ `git gc`)是怎麼運作的呢?](#git的資源回收機制-git-gc是怎麼運作的呢)
     - [觀念釐清](#觀念釐清)
       - [Git無法控管 `空目錄/`](#git無法控管-空目錄)
       - [$ `git rm --cached` V.S. `.gitignore` 比較](#-git-rm---cached-vs-gitignore-比較)
@@ -456,6 +457,7 @@ Git Learn<br>
 > `git count-objects` - Count unpacked number of objects and their disk consumption<br>
 > `git tag` - Create, list, delete or verify a tag object signed with GPG<br>
 > `git show` - Show various types of objects<br>
+> `git prune` - Prune all unreachable objects from the object database<br>
 
 
 #### Git 其實是一種分散式的版本控制系統
@@ -644,13 +646,13 @@ Git Learn<br>
 
 #### `Tag` (標籤) 是什麼?
 - `Tag` (標籤): 是一個指向某一個`Commit物件`的"指標"
-  * 可先參考[Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹](#git-的四大物件blobtreecommittag觀念介紹)
-  * `Tag` (標籤)依據官方文件有以下3種適合作為的用途
+  + 可先參考[Git 的四大物件(`Blob`,`Tree`,`Commit`,`Tag`)觀念介紹](#git-的四大物件blobtreecommittag觀念介紹)
+  + `Tag` (標籤)依據官方文件有以下3種適合作為的用途
       > Annotated tags are meant for release while lightweight tags are meant for private or temporary object labels. 
       * 軟體版本號(`release version`)
       * 個人使用(`private`)
       * 暫時標記用途(`temporary object labels`)
-  * `Tag` (標籤)可分為兩種形式
+  + `Tag` (標籤)可分為兩種形式
     * `輕量標籤`(lightweight tag): 主要用來作為軟體版本號(`release version`)
       * `輕量標籤`(lightweight tag)會指向一個`Commit物件` 
       * $ `git tag <輕量標籤的名稱> <要標記在哪個Commit物件上的id>`
@@ -683,6 +685,54 @@ Git Learn<br>
         * 例如: $ `git tag -d refresh_hyperlink`
         * `-d` (=> `--delete`): 刪除已經存在的標籤
 
+#### Git的資源回收機制($ `git gc`)是怎麼運作的呢?
+- 在Git裡,每當把檔案加入暫存區(staging area)時,Git便會根據"檔案內容"製作出`Blob物件`; 每當完成`commit`,便會跟著產生所需的`Tree物件`以及`Commit物件`
+  + 當物件越來越多,並達到觸發Git自動資源回收的機制(`Garbage Collection`)時,Git會利用這個機制來自動整理這些物件,同時也會把`Unreachable狀態`的物件清掉 
+  + 可以先參考[Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)的$ `git gc`章節
+  + Git的資源回收機制($ `git gc`)會自動回收掉`Unreachable狀態`的物件,但需要加上 `--prune=now` 來搭配使用,才會當下立即就生效
+    * 可以先參考[如何把一個檔案從Git版控中真正的移除掉呢?](#如何把一個檔案從git版控中真正的移除掉呢)
+  + $ `git gc`其實會默默地呼叫$ `git prune`指令來清除`Unreachable物件`,但$ `git prune`指令也是要給它設定到期日,所以剛才的指令其實原理如下
+    * $ `git gc --prune=now`  =  $ `git gc` + $ `git prune --expire=now`
+- 還有什麼方式會產生出`Unreachable狀態`的物件?
+  + 當已經將檔案加入暫存區(staging area)後,卻又將該檔案從Git版控中移除,脫離Git的控管,變為`Untracked File`狀態
+  + 因為一旦Git物件產生後,除非手動進 `.git/objects/` 目錄處理掉,不然該物件就會一直留在那邊了
+  + 可先參考[Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)的 $ `git ls-files -s` 章節
+  + 可先參考[$ `git rm --cached` V.S. `.gitignore` 比較](#-git-rm---cached-vs-gitignore-比較)的 $ `git rm --cached` 部分
+  + `情境說明`
+    * $ `echo "手動產生一個Unreachable物件" > unreachable.html`
+    * $ `git add unreachable.html`
+    * $ `git ls-files -s`
+      * 把檔案加到暫存區(staging area)後,檢視一下目前的Git物件列表(包含工作目錄 & 暫存區 中的)
+    *  $ `git rm --cached unreachable.html`
+      * 將`unreachable.html`這個檔案從Git控管中移除,脫離Git控管,變為`Untracked file`狀態
+    * $ `git fsck --unreachable`
+      * 會顯示目前`unreachable.html`這個檔案成為`Unreachable狀態`的物件
+      * ![在Commit之前猶豫不決,會產生出Unreachable狀態的物件](/pic/在Commit之前猶豫不決,會產生出Unreachable狀態的物件.png)
+    * $ `git cat-file -p <該Unreachable狀態的Blob物件的id>`
+      * ![用git cat-file -p <該Unreachable狀態的Blob物件的id>  來檢視該Unreachable狀態的物件的內容](/pic/用git%20cat-file%20-p%20<該Unreachable狀態的Blob物件的id>%20%20來檢視該Unreachable狀態的物件的內容.png)
+  + 被刪除的`標籤`(Tag)物件,也會成為`Unreachable狀態`的物件
+    * 可先參考[`Tag` (標籤) 是什麼?](#tag-標籤-是什麼) 
+    * $ `git tag -a unreachable_object -m "刪除Tag物件後,會產生Unreachable狀態的物件"`
+      * 建立一個`有附註標籤`(Annotated Tag),因為`標籤`(Tag)物件原本是指向某個`Commit物件`,但當該有附註標籤被刪除時,這個被指向的`Commit物件`就會變成`Unreachable狀態`的物件
+    * $ `git tag -d unreachable_object`
+      * 刪除該`有附註標籤`(Annotated Tag)
+    * $ `git fsck --unreachable`
+      * 會顯示這個被刪除的Tag物件(`unreachable_object`),該檔案會變成為`Unreachable狀態`的物件
+      * 因為它不像`Commit物件`,還會有`Reflog`對它念念不忘,已經沒有其他物件或指標指向這個`Tag物件`,所以這個已被刪除的`Tag物件`就會立刻變成`Unreachable狀態`
+  + 在做`Rebase`的時候,其實也會產生出多個`Unreachable狀態`的物件
+    * 可先參考[分支(branch)操作](#分支branch操作)的$ `git rebase`原理的部分
+    * 因為在`Rebase`的過程中,Git會把原本的`Commit物件`們分別複製一份到新的`base分支`上並且重新計算一份新的`SHA-1`值給這些新的`Commit物件`; 同時,最後`分支`與`HEAD`也都會遷移過去新的`Commit物件`上,所以這時候原本舊的那些`Commit物件`們,就會變成`Unreachable狀態`的物件們
+  + 總結: 在Git的世界中`Unreachable狀態`的物件其實是還蠻常見到的,以下情況都會產生出`Unreachable狀態`的物件
+    * 利用$ `git reset --hard`切到別的`Commit物件`上後,並且將`Reflog`設定為已到期後; 這時候在`Reset`之前,Git原本指向的那些`Commit物件`就會變成`Unreachable狀態`
+    * 新增一個檔案,用$ `git add`加到暫存區後,又用了$ `git rm --cached`將該檔案從Git控管中移除,脫離Git控管,變為`Untracked file`狀態
+    * 如果在`commit`之前,檔案$ `git add`之後又再修改,然後再執行$ `git add`指令,也會產生出`Unreachable狀態`的物件
+    * 即便是$ `git commit --amend`這種單純修改`commit message`的指令也會產生出`Unreachable狀態`的物件
+    * 被刪除的`標籤`(Tag)物件,也會成為`Unreachable狀態`的物件
+    * 在做`Rebase`的時候,其實也會產生出多個`Unreachable狀態`的物件
+
+
+
+
 
 ---
 ### 觀念釐清
@@ -701,7 +751,7 @@ Git Learn<br>
 
 #### $ `git rm --cached` V.S. `.gitignore` 比較
 - $ `git rm --cached` V.S. `.gitignore` 比較
-  + $ `git rm xxx.html --cached`:並不會將檔案真的刪除掉,僅把暫存區(staging area)該檔案從Git控管中移除,脫離Git控管,變為Untracked file狀態;若原本在工作目錄(working directory)中的檔案,不管是否有做過修改(modified)都將留下
+  + $ `git rm xxx.html --cached`:並不會將檔案真的刪除掉,僅把暫存區(staging area)該檔案從Git控管中移除,脫離Git控管,變為`Untracked file`狀態;若原本在工作目錄(working directory)中的檔案,不管是否有做過修改(modified)都將留下
   + $ `.gitignore`:是開發者指定好要Git版控"忽略"掉的檔案和規則,設定好後,Git就不會控管這些檔案了
 
 #### 在專案中的整個`.git/` 目錄是Git版控的核心檔案
@@ -1023,7 +1073,7 @@ Git Learn<br>
       * `--unreachable`: 僅列出"仍然存在"但是為"Unreachable狀態"的物件
       * ![git fsck --unreachable 可以列出在整個 .git/objects 的目錄中所有依然存在但是為Unreachable狀態的物件](/pic/git%20fsck%20--unreachable%20可以列出在整個%20.git:objects%20的目錄中所有依然存在但是為Unreachable狀態的物件.png)<br>
         參考圖片出處<https://gitbook.tw/chapters/faq/remove-files-from-git.html>
-    * 最後,啟動Git的資源回收機制,請垃圾車來把它們載走
+    * 最後,啟動Git的資源回收機制,請垃圾車"現在"來把它們載走
       * $ `git gc --prune=now`: 
         * `--prune=<date>`: 修剪掉所有比`<date>`這個時間還"舊"的並且"未受控制"(loose)的物件 
       * 可參考[Git其實不是在做差異備份,而是在為當時的專案建立快照(snapshot)](#git其實不是在做差異備份而是在為當時的專案建立快照snapshot)的$`git gc`章節
