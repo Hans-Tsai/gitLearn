@@ -71,6 +71,9 @@ Git Learn<br>
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
       - [SHA-1(安全散列演算法) 介紹](#sha-1安全散列演算法-介紹)
+    - [遠端共同協作篇---以 GitHub 為例](#遠端共同協作篇---以-github-為例)
+      - [GitHub 基礎使用操作說明](#github-基礎使用操作說明)
+      - [新建一個GitHub repository](#新建一個github-repository)
   
   
 ---
@@ -1129,7 +1132,8 @@ Git Learn<br>
 
 ---
 ### 觀念補充
-> `git hash-object` - Compute object ID and optionally creates a blob from a file
+> `git hash-object` - Compute object ID and optionally creates a blob from a file<br>
+
 #### 終端機(Terminal)是什麼?
   +  終端機本身通常不是一部電腦,它本身沒有運算能力,僅用來顯示資料及輸入資料,所有的計算都是在主機上處理的
   +  其實終端機就是可以讓使用者輸入指令,來跟電腦進行互動
@@ -1160,3 +1164,55 @@ Git Learn<br>
     * 所以,以`Blob物件`來說,不管是在什麼時間或不同的電腦上,一樣的輸入值,就會有一樣的內容
     * 例如: $ `printf "Hello, Hans Tsai" | git hash-object --stdin` 
     * ![git hash-object --stdin可以計算SHA-1的值](/pic/git%20hash-object%20--stdin可以計算SHA-1的值.png)
+
+
+---
+### 遠端共同協作篇---以 GitHub 為例
+> `GitHub 官方文件`(Official Docs) - <https://docs.github.com/en><br>
+> `GitHub 官方網站`(Official website) - <https://github.com/><br>
+> `git remote` - Manage set of tracked repositories<br>
+> `git push` - Update remote refs along with associated objects<br>
+
+#### GitHub 基礎使用操作說明
+- GitHub是目前全球最大的Git Server,可以幫忙貢獻其他人的專案,並且其他人也可以回饋到你的專案,建立良性循環
+- Git是一個用來做版本控制的軟體,而GitHub是一個網站
+  + 其中GitHub的本體是一個Git Server,網站則是用Ruby on Rails開發的
+- GitHub於 2019/01 以後,開始可以免費建立private repository
+
+#### 新建一個GitHub repository
+- 如何建立一個新的GitHub repository呢?
+  + 官方建議每當新建一個repository時,需包含以下3種檔案
+    * `README.md`: 該repository的使用說明
+    * `LICENSE.md`: 該repository的授權範圍
+    * `.gitignore`: 該repository指定"不要"追蹤的檔案有哪些?
+  + `流程如以下說明`
+  + 可以選擇要用 `HTTPS` or `SSH` 的方式來連線到這個GitHub repository
+    * `HTTPS`:在上傳時需要輸入帳密,如果不需要大多是帳密(Key Chain)已存在電腦內
+    * `SSH`: 需要先在電腦內設定好金鑰(SSH key),並儲存這個金鑰到自己的GitHub上,上傳時就不需要輸入額外帳密
+  + 如果是全新開始,可以參考官網上的提示 "create a new repository on the command line" 的指示進行
+    * $ `echo "# gitLearn" >> README.md`
+    * $ `git init` 
+    * $ `git add README.md`
+    * $ `git commit -m "first commit"`
+    * $ `git remote add origin git@github.com:<自己的username>/<要新建的repository的名稱>.git`
+      * $ `git remote add`: 代表要設定一個遠端(remote)的節點
+      * `origin`: 是一個慣用的代名詞,作為遠端節點的預設名稱,指的是後面那串GitHub伺服器的位置
+      * 如果之後想更改的話,可以直接在輸入一次這個指令更改
+        * 例如: $ `git remote add superman git@github.com:<自己的username>/<要新建的repository的名稱>.git` 
+    * $ `git push -u origin master`
+      * 設定好遠端節點後,就要將東西推送(Push)上去了
+      * `情境說明`
+      * 這個指令會將`master分支`的內容推送到遠端的`origin節點`
+        * 如果`master分支`不存在的話,就會建立一個叫做master的同名分支
+        * 但如果本來遠端的`origin節點`就存在master分支的話,便會移動遠端的`origin節點`上master分支的位置,使它到目前最新的進度上
+        * `u` (=> `--set-upstream`): 設定`upstream`; 所謂"上游(upstream)"的概念其實就只是另一個分支的名字而已。在Git裡,每個分支可以設定一個`上游(upstream)`,但每個分支最多只能設定一個`上游(upstream)`,它會指向並追蹤(track)某個分支。通常`上游(upstream)`會是遠端Server上的某個分支,但其實要設定在本地端的其他分支也可以
+        * 如果有像這個指令設定好後,未來它就會被當作預設值; 以這個指令來看,就會把 `origin/master` 設定為本地master分支的 `上游(upstream)`,下次$ `git push`時,就可以不加任何參數,Git就會預設你是要推送到origin這個遠端節點,並且把master這個分支的內容推送上去
+          * 例如: $ `git push`
+      * 補充1: 如果沒有設定好upstream的話,就必須在每次推送出去時,都要跟Git講清楚
+        * 例如: $ `git push origin master` = $ `git push origin master:master`
+      * 補充2: 如果推送上去遠端origin節點時,不想要用跟本地端分支的名稱相同的話,可以採取以下做法
+        * 例如: $ `git push origin master:dog`
+          * 這樣代表當把本地端的master分支推送上去遠端origin節點時,就"不會"建立一個origin/master分支,而是建立(or 更新進度)一個叫做origin/dog的遠端分支
+  + 如果是要上存本機端(local)現存的專案,則可以參考官網上的提示 "push an existing repository from the command line" 的指示進行
+    * $ `git remote add origin git@github.com:<自己的username>/<要新建的repository的名稱>.git`
+    * $ `git push -u origin master`
