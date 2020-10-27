@@ -841,7 +841,18 @@ Git Learn<br>
 - `Unreachable Object` : 沒有任何物件或指標指著它,如同字面上說的"無法到達的"; 但它仍可以指向其他物件
 - `Dangling Object` : 跟`Unreachable物件`一樣,沒有任何物件或指標指著它,它也沒有指著其他物件,如同完全"懸在天邊"的一顆物件
 - `Dangling物件`可以算是`Unreachable物件`的子集合,它也是一種`Unreachable物件`,所以在進行$ `git gc`時,也會一起被回收走
-- 
+- 什麼情況下Git會產生出`Dangling物件`呢?
+  + `情境說明`
+  + $ `echo "test for dangling object" > dangling_object.html`
+  + $ `git add --all`
+  + $ `git commit -m "新增dangling object 內容"`
+  + 上述三步驟再重複做一遍,已新增出測試要用的2次commit紀錄
+  + $ `git reset HEAD~2 --hard`: 切回到`HEAD指標`指向的前2次`Commit物件`
+  + $ `git fsck --unreachable --no-reflogs`: 顯示所有`Unreachable狀態`的物件和 `Dangling狀態`的物件
+    * ![Dangling物件的統整筆記](/pic/Dangling物件的統整筆記.gif) 
+  + 注意! 此時的`3d3bce0`,`4cfc041`這兩個`Commit物件`都已經變成`Unreachable狀態`的物件; 
+  + $ git fsck --no-reflogs: 只顯示出`Dangling狀態`的物件
+    * ![利用git reflog檢視透過手動建立Dangling物件後,HEAD指標的變化紀錄](/pic/利用git%20reflog檢視透過手動建立Dangling物件後,HEAD指標的變化紀錄.png)
 
 
 
