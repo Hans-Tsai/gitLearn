@@ -54,6 +54,7 @@ Git Learn<br>
       - [合併分支其實不是真的在合併分支!](#合併分支其實不是真的在合併分支)
       - [`Reset`、`Rebase`、`Revert` 三個指令有什麼差別?](#resetrebaserevert-三個指令有什麼差別)
       - [`標籤(Tag)`跟`分支(branch)`有什麼不同呢?](#標籤tag跟分支branch有什麼不同呢)
+      - [`Unreachable物件` & `Dangling物件` 有什麼不同呢?](#unreachable物件--dangling物件-有什麼不同呢)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
@@ -735,6 +736,8 @@ Git Learn<br>
 ### 觀念釐清
 > `git ls-files` - Show information about files in the index and the working tree<br>
 > `git verify-pack` - Validate packed Git archive files<br>
+> `Unreachable Object` - 沒有任何物件或指標指著它,如同字面上說的"無法到達的"; 但它仍可以指向其他物件
+> `Dangling Object` - 跟`Unreachable物件`一樣,沒有任何物件或指標指著它,它也沒有指著其他物件,如同完全"懸在天邊"的一顆物件
 
 
 #### Git無法控管 `空目錄/`
@@ -833,6 +836,14 @@ Git Learn<br>
   + `分支(branch)` "會隨著" `commit紀錄`移動,也就是說當Git往前推進一個`commit紀錄`時,它所在的分支會跟著往前移動
   + `標籤(Tag)` 不會隨著 `commit紀錄`移動,也就是說標籤一旦貼上去後,不管`commit紀錄`怎麼前進,標籤還是會停留在原來貼的那個位置上
 - 結論: 某方面來說,我們可以把`分支(branch)`視為會移動的`標籤(Tag)`
+
+#### `Unreachable物件` & `Dangling物件` 有什麼不同呢?
+- `Unreachable Object` : 沒有任何物件或指標指著它,如同字面上說的"無法到達的"; 但它仍可以指向其他物件
+- `Dangling Object` : 跟`Unreachable物件`一樣,沒有任何物件或指標指著它,它也沒有指著其他物件,如同完全"懸在天邊"的一顆物件
+- `Dangling物件`可以算是`Unreachable物件`的子集合,它也是一種`Unreachable物件`,所以在進行$ `git gc`時,也會一起被回收走
+- 
+
+
 
 
 ---
