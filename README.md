@@ -643,7 +643,28 @@ Git Learn<br>
     + $ `git rebase` 的過程其實也是不斷地處於`Detached HEAD`的狀態
     + 切換到某個遠端分支(remote branch)的時候
       * 例如: $ `git checkout -b test origin/test` 
-  + 在 `Detached HEAD` 狀態下其實跟平常一樣操作Git,也可以進行commit
+  + 在 `Detached HEAD` 狀態下其實跟平常一樣操作Git,也可以進行commit,只是commit後,當下的那個`Commit物件`就只會有`HEAD`指標指向它,這時如果將`HEAD`指標切換到其他分支的話,這個`Commit物件`就很不容以被找回來了(除非你有記下這個`Commit物件`的id); 如果一直沒有人來找它的話,就要等到Git自動觸發資源回收機制來回收它了
+    * 這情況會有點類似於要從過去的`commit紀錄`,再長一個新的分支出來的情境
+      * 可參考[如果想從過去的某次`commit紀錄`再長一個`新的分支(branch)`出來,該如何做呢?](#如果想從過去的某次commit紀錄再長一個新的分支branch出來該如何做呢) 
+    * 這時如果想留下這個`Commit物件`的話,可以在該Commit物件上建立一個`分支(branch)`貼紙貼在上面
+      * $ `git branch <要新增的分支名稱> <該Commit物件的id>`
+    * 也可以建立新的分支後,直接切換到該分支上面
+      * $ `git checkout -b <要新增的分支名稱> <該Commit物件的id>`
+  + 其實嚴格來說,當`HEAD`指標沒有指到某個"本地"分支的話,就會呈現`Detached HEAD`的狀態
+    * $ `git branch -r`: 列出目前所有的`遠端分支(remote branch)`
+      * `-r` (=> `--remotes`): 列出目前所有的`遠端分支(remote branch)`
+      * ![git branch -r 檢視目前所有的遠端分支有哪些](/pic/git%20branch%20-r%20檢視目前所有的遠端分支有哪些.gif)
+    * `情境說明`
+      * 如果要切換到遠端分支,而不希望呈現`Detached HEAD`狀態,可以使用以下指令
+        * $ `git checkout -t origin/<遠端分支名稱>`
+        * `-t` (=> `--track`): Git會在本機建立一個`追蹤分支`(tracking branch)
+      * 如果想要簡單一點也可以直接切換到`遠端分支`(remote branch)去
+        * $ `git checkout <遠端分支名稱>` 
+  + 如何離開`Detached HEAD`狀態呢?
+    * 既然已經知道所謂的`Detached HEAD`狀態只是`HEAD`指標沒有指向任何分支所造成的,要脫離這個狀態,只要讓`HEAD`能指向任何一個`分支(branch)`就可以了
+    * 例如: $ `git checkout master`
+      * 將目前的`HEAD指標`指向`master分支`就可以解除`Detached HEAD`的狀態了
+
 
 #### `Tag` (標籤) 是什麼?
 - `Tag` (標籤): 是一個指向某一個`Commit物件`的"指標"
