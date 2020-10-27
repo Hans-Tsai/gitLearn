@@ -638,11 +638,11 @@ Git Learn<br>
 - `Detached HEAD` (斷頭): 正常情況下,HEAD會指向某一個分支,而分支會指向某一個Commit物件。但有時候`HEAD`會發生"沒有辦法指到某個分支"的情況,這個狀態的`HEAD`就稱為 "`detached HEAD(斷頭)`"
   + 以下是3種常見的原因可能會造成`Detached HEAD`的狀態
     + 使用 $ `git checkout <Commit物件的id>` 後,該`Commit物件`剛好目前沒有分支(branch)指向它
+      * ![git checkout切換到之前的Commit物件造成Detached HEAD官方圖解](/pic/git%20checkout切換到之前的Commit物件造成Detached%20HEAD官方圖解.png)
+        參考圖片出處<https://git-scm.com/docs/git-checkout>
     + $ `git rebase` 的過程其實也是不斷地處於`Detached HEAD`的狀態
     + 切換到某個遠端分支(remote branch)的時候
       * 例如: $ `git checkout -b test origin/test` 
-  + ![git checkout切換到之前的Commit物件造成Detached HEAD官方圖解](/pic/git%20checkout切換到之前的Commit物件造成Detached%20HEAD官方圖解.png)
-    參考圖片出處<https://git-scm.com/docs/git-checkout>
   + 在 `Detached HEAD` 狀態下其實跟平常一樣操作Git,也可以進行commit
 
 #### `Tag` (標籤) 是什麼?
