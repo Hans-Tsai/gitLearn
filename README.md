@@ -658,7 +658,7 @@ Git Learn<br>
       * 如果要切換到遠端分支,而不希望呈現`Detached HEAD`狀態,可以使用以下指令
         * $ `git checkout -t origin/<遠端分支名稱>`
         * `-t` (=> `--track`): Git會在本機建立一個`追蹤分支`(tracking branch)
-      * 如果想要簡單一點也可以直接切換到`遠端分支`(remote branch)去
+      * 如果想要簡單一點也可以把前面的"origin"拿掉,並直接切換到`遠端分支`(remote branch)去
         * $ `git checkout <遠端分支名稱>` 
   + 如何離開`Detached HEAD`狀態呢?
     * 既然已經知道所謂的`Detached HEAD`狀態只是`HEAD`指標沒有指向任何分支所造成的,要脫離這個狀態,只要讓`HEAD`能指向任何一個`分支(branch)`就可以了
