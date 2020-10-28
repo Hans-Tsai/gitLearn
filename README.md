@@ -75,6 +75,7 @@ Git Learn<br>
       - [GitHub 基礎使用操作說明](#github-基礎使用操作說明)
       - [新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上)
       - [從遠端repository利用Pull下載並更新](#從遠端repository利用pull下載並更新)
+      - [為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)
   
   
 ---
@@ -387,8 +388,8 @@ Git Learn<br>
     * 可以使用像是`pick`、`edit`、`squash`、`drop` 等相關Git指令來編輯這些`Commit物件`
     * `Rebase指令`的互動模式(`-i`)也可以用來編輯過去的所有`Commit物件`
       * `-p` (=> `--pick`): use commit
-      * `r` (=> `reword`): use commit, but edit the commit message(當想修改過去歷史紀錄中的`commit message`時)
-      * `e` (=> `edit`): use commit, but stop for amending(適用以下情境)
+      * `-r` (=> `reword`): use commit, but edit the commit message(當想修改過去歷史紀錄中的`commit message`時)
+      * `-e` (=> `edit`): use commit, but stop for amending(適用以下情境)
         * 當想把一個`commit紀錄`拆解成多個`commit紀錄`時
         * 當想在某些commit之間再加新的`commit紀錄`
         * 當想要刪除某幾個commit紀錄
@@ -410,8 +411,8 @@ Git Learn<br>
           * 接著就按照平常的流程($ `git add <一個檔案的檔名>` + `$ git commit -m "xxxx"`),就可以拆解成兩次`commit紀錄`出來了
           * 最後還是要記得目前仍依然處於`Rebase狀態`,所以要讓`Rebase流程`繼續跑完才算完成喔!
             * $ `git rebase --continue` 
-      * `s` (=> `squash`): use commit, but meld into previous commit(當想把多個`commit紀錄`合併成一個`c`ommit紀錄`時)
-      * `d` (=> `drop`): remove commit
+      * `-s` (=> `squash`): use commit, but meld into previous commit(當想把多個`commit紀錄`合併成一個`c`ommit紀錄`時)
+      * `-d` (=> `drop`): remove commit
     * 注意! $ `git rebase -i` 與 $ `git log` 顯示commit紀錄的順序是相反的,若都是"從上到下"檢視的話
       * $ `git rebase -i`: 從舊->新
       * $ `git log`: 從新->舊
@@ -1208,7 +1209,7 @@ Git Learn<br>
       * 這個指令會將`master分支`的內容推送到遠端的`origin節點`
         * 如果`master分支`不存在的話,就會建立一個叫做master的同名分支
         * 但如果本來遠端的`origin節點`就存在master分支的話,便會移動遠端的`origin節點`上master分支的位置,使它到目前最新的進度上
-        * `u` (=> `--set-upstream`): 設定`upstream`; 所謂"上游(upstream)"的概念其實就只是另一個分支的名字而已。在Git裡,每個分支可以設定一個`上游(upstream)`,但每個分支最多只能設定一個`上游(upstream)`,它會指向並追蹤(track)某個分支。通常`上游(upstream)`會是遠端Server上的某個分支,但其實要設定在本地端的其他分支也可以
+        * `-u` (=> `--set-upstream`): 設定`upstream`; 所謂"上游(upstream)"的概念其實就只是另一個分支的名字而已。在Git裡,每個分支可以設定一個`上游(upstream)`,但每個分支最多只能設定一個`上游(upstream)`,它會指向並追蹤(track)某個分支。通常`上游(upstream)`會是遠端Server上的某個分支,但其實要設定在本地端的其他分支也可以
         * 如果有像這個指令設定好後,未來它就會被當作預設值; 以這個指令來看,就會把 `origin/master` 設定為本地master分支的 `上游(upstream)`,下次$ `git push`時,就可以不加任何參數,Git就會預設你是要推送到origin這個遠端節點,並且把master這個分支的內容推送上去
           * 例如: $ `git push`
       * 補充1: 如果沒有設定好upstream的話,就必須在每次推送出去時,都要跟Git講清楚
@@ -1253,3 +1254,23 @@ Git Learn<br>
     * 也可以只用`Rebase方式`來合併分支
       * 可先參考[分支(branch)操作](#分支branch操作)的$ `git rebase`篇
       * 適用情境: 當不想因為合併分支而多產生一次`commit紀錄`的話,可以用`Rebase方式`來合併分支
+
+#### 為什麼有時候會推送(Push)不上去遠端repository呢?
+- 當`遠端origin節點`的repository內容比我們的`本地端分支`的這份內容還要"新"的話,Git就不會讓我們`推送`(Push)上去
+  + ![git push 被拒絕,因為遠端repository的內容比本地端分支的內容還要新_圖解說明](/pic/git%20push%20被拒絕,因為遠端repository的內容比本地端分支的內容還要新_圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/chapters/github/fail-to-push.html>
+- 有時候是因為多人共同協作時,當`遠端origin節點`的分支已經先被某人更新時,這時候其他人就會發生`推送`(Push)不上去的情況
+  + 如同以下情況 
+  + ![git push 被拒絕-多人共同協作時會遇到的情況_圖解說明](/pic/git%20push%20被拒絕-多人共同協作時會遇到的情況_圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/chapters/github/fail-to-push.html>
+- 這時候會有2種方式可以無法`推送`(Push)的問題
+  + 方法一: 先更新本地端儲存庫(local repository)的內容,再推送上去遠端儲存庫(remote repository)一次
+    * $ `git pull --rebase`: 將`遠端origin節點`的repository下載回來後,指定要用`Rebase方式`來合併
+      * `--rebase`: 將目前所在的分支rebase到`遠端origin節點`的`上游分支`(upstream branch)的"上面"
+    * 此時如果合併沒有發生衝突的話,就可以順利的往上`推送`(Push)了
+    * ![git push --rebase 指定要用Rebase的方式更新本地端repository的內容後,再推送上去遠端儲存庫一遍](/pic/git%20push%20--rebase%20指定要用Rebase的方式更新本地端repository的內容後,再推送上去遠端儲存庫一遍.png)
+  + 方法二: 無論規則,強制`推送`(Push)上去
+    * $ `git push -f`: 強制將目前`本地端repository`的內容推送到`遠端origin節點`的repository上面,同時會將原本遠端repository的內容"覆蓋掉"
+      * `-f` (=> `--force`): "強制"執行`推送`(Push)指令
+      * 注意! 此方法要慎用,因為會覆蓋掉原本遠端repository的內容
+      * ![git push -f 強制將本地端儲存庫的內容推送到遠端儲存庫上面去,並覆蓋掉原本遠端repository的內容](/pic/git%20push%20-f%20強制將本地端儲存庫的內容推送到遠端儲存庫上面去,並覆蓋掉原本遠端repository的內容.png)
