@@ -1243,7 +1243,8 @@ Git Learn<br>
       * 因為這個遠端分支(origin/master)是從master分支分出去的,而且進度還比master分支還要新,可以利用`Merge指令`合併它們
         * $ `git merge origin/master`: 將目前所在的分支合併到`遠端分支`(origin/master); 就能讓`本地端分支`(master)跟上`遠端分支`(origin/master)的進度了
         * 可參考[分支(branch)操作](#分支branch操作)的$ `git merge`篇
-      * ![git fetch + git merge 的完整流程_統整](#pic/git%20fetch%20+%20git%20merge%20的完整流程_統整.gif) 
+      * ![git fetch + git merge 的完整流程_統整](/pic/git%20fetch%20+%20git%20merge%20的完整流程_統整.gif)<br>
+        參考圖片出處<https://gitbook.tw/chapters/github/pull-from-github.html>
       * 補充1: 其實可以把`origin/master`這種遠端分支視為一個從原來本地端`master分支`分出去的一個分支就好了
       * 補充2: 因為`遠端分支`(origin/master)與`本地端分支`(master)是來自同一個源頭,所以在這次的Merge過程,Git會預設使用`快轉模式`(fast-forward模式)
   + `Pull指令說明`
