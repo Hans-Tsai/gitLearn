@@ -73,7 +73,8 @@ Git Learn<br>
       - [SHA-1(安全散列演算法) 介紹](#sha-1安全散列演算法-介紹)
     - [遠端共同協作篇---以 GitHub 為例](#遠端共同協作篇---以-github-為例)
       - [GitHub 基礎使用操作說明](#github-基礎使用操作說明)
-      - [新建一個GitHub repository](#新建一個github-repository)
+      - [新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上)
+      - [從遠端repository利用Pull下載並更新](#從遠端repository利用pull下載並更新)
   
   
 ---
@@ -1172,6 +1173,8 @@ Git Learn<br>
 > `GitHub 官方網站`(Official website) - <https://github.com/><br>
 > `git remote` - Manage set of tracked repositories<br>
 > `git push` - Update remote refs along with associated objects<br>
+> `git pull` - Fetch from and integrate with another repository or a local branch<br>
+> `git fetch` - Download objects and refs from another repository<br`>
 
 #### GitHub 基礎使用操作說明
 - GitHub是目前全球最大的Git Server,可以幫忙貢獻其他人的專案,並且其他人也可以回饋到你的專案,建立良性循環
@@ -1179,7 +1182,7 @@ Git Learn<br>
   + 其中GitHub的本體是一個Git Server,網站則是用Ruby on Rails開發的
 - GitHub於 2019/01 以後,開始可以免費建立private repository
 
-#### 新建一個GitHub repository
+#### 新建一個GitHub repository,並推送本地端repository到GitHub上
 - 如何建立一個新的GitHub repository呢?
   + 官方建議每當新建一個repository時,需包含以下3種檔案
     * `README.md`: 該repository的使用說明
@@ -1216,3 +1219,36 @@ Git Learn<br>
   + 如果是要上存本機端(local)現存的專案,則可以參考官網上的提示 "push an existing repository from the command line" 的指示進行
     * $ `git remote add origin git@github.com:<自己的username>/<要新建的repository的名稱>.git`
     * $ `git push -u origin master`
+
+#### 從遠端repository利用Pull下載並更新
+- 可以利用`Pull指令`將遠端儲存庫(remote repository)下載回本地端儲存庫(local repository)並更新
+  + 當執行`Fetch指令`時,Git會檢查一下遠端repository的版本內容後,將目前遠端repository有,但是目前本地端repository沒有的內容下載一份回來,同時移動origin相關的分支 
+  + 在原理上, $ `git pull` = $ `git fetch` + $ `git merge FETCH_HEAD`
+  + `Fetch指令說明`
+    * 適用情境: 只是想確認遠端數據庫的內容卻不是真的想合併
+    * 可以取得遠端數據庫的最新歷史記錄; 取得的提交會導入在自動建立的分支中,並可以切換這個名為`FETCH_HEAD`的分支
+      * ![git fetch 下載遠端repository的內容](/pic/git%20fetch%20下載遠端repository的內容.png)<br>
+        參考圖片出處<https://backlog.com/git-tutorial/tw/stepup/stepup3_2.html>
+    * $ `git fetch <遠端origin節點>`: 將整個遠端origin節點的全部更新,全部下載回來(預設情況是取回所有分支的更新)
+      * 例如: $ `git fetch origin`
+    * $ `git fetch <遠端origin節點> <遠端分支的名稱>`: 只將遠端origin節點的特定分支(remote branch)的更新下載回來
+      * 例如: $ `git fetch origin master` 
+    * $ `git fetch --all`: 會從另一個repository下載`分支`(branch)和`標籤`(tag)
+      * `--all`: 下載全部遠端分支(remote branches)的內容
+    * `情境說明`
+      * 因為現在這個專案之前有推送東西到Server上,所以遠端分支也會記錄一份在本機上,一樣也是有`HEAD`、`master分支`,但會在前面加註遠端節點origin,變成`origin/HEAD`、`origin/master`
+      * 其實之前在`Push指令`時有加`-u` (=> `--set-upstream`)參數,就是用來設定`upstream`(上游)用的,所以目前這個`origin/master`遠端分支其實就是本地`master分支`的upstream喔
+        * 可參考[新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上)
+      * 利用 $ `git fetch origin master` 將`遠端分支`(origin/master)下載一份回到本地端的`master分支`上面 
+      * 因為這個遠端分支(origin/master)是從master分支分出去的,而且進度還比master分支還要新,可以利用`Merge指令`合併它們
+        * $ `git merge origin/master`: 將目前所在的分支合併到`遠端分支`(origin/master); 就能讓`本地端分支`(master)跟上`遠端分支`(origin/master)的進度了
+        * 可參考[分支(branch)操作](#分支branch操作)的$ `git merge`篇
+      * ![git fetch + git merge 的完整流程_統整](#pic/git%20fetch%20+%20git%20merge%20的完整流程_統整.gif) 
+      * 補充1: 其實可以把`origin/master`這種遠端分支視為一個從原來本地端`master分支`分出去的一個分支就好了
+      * 補充2: 因為`遠端分支`(origin/master)與`本地端分支`(master)是來自同一個源頭,所以在這次的Merge過程,Git會預設使用`快轉模式`(fast-forward模式)
+  + `Pull指令說明`
+    * $ `git pull`: 其實就是去遠端origin節點抓東西回來(`Fetch`),並且更新本機的進度(`Merge`)而已
+    * 執行`Pull指令`時,如果內容沒有衝突,就會自動建立合併提交。如果發生衝突的話,需先解決衝突然後再手動提交
+    * 也可以只用`Rebase方式`來合併分支
+      * 可先參考[分支(branch)操作](#分支branch操作)的$ `git rebase`篇
+      * 適用情境: 當不想因為合併分支而多產生一次`commit紀錄`的話,可以用`Rebase方式`來合併分支
