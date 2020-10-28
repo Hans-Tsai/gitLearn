@@ -76,6 +76,7 @@ Git Learn<br>
       - [新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上)
       - [從遠端repository利用Pull下載並更新](#從遠端repository利用pull下載並更新)
       - [為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)
+      - [從伺服器上複製遠端repository下來](#從伺服器上複製遠端repository下來)
   
   
 ---
@@ -1175,7 +1176,8 @@ Git Learn<br>
 > `git remote` - Manage set of tracked repositories<br>
 > `git push` - Update remote refs along with associated objects<br>
 > `git pull` - Fetch from and integrate with another repository or a local branch<br>
-> `git fetch` - Download objects and refs from another repository<br`>
+> `git fetch` - Download objects and refs from another repository<br>
+> `git clone` - Clone a repository into a new directory<br>
 
 #### GitHub 基礎使用操作說明
 - GitHub是目前全球最大的Git Server,可以幫忙貢獻其他人的專案,並且其他人也可以回饋到你的專案,建立良性循環
@@ -1268,9 +1270,34 @@ Git Learn<br>
     * $ `git pull --rebase`: 將`遠端origin節點`的repository下載回來後,指定要用`Rebase方式`來合併
       * `--rebase`: 將目前所在的分支rebase到`遠端origin節點`的`上游分支`(upstream branch)的"上面"
     * 此時如果合併沒有發生衝突的話,就可以順利的往上`推送`(Push)了
-    * ![git push --rebase 指定要用Rebase的方式更新本地端repository的內容後,再推送上去遠端儲存庫一遍](/pic/git%20push%20--rebase%20指定要用Rebase的方式更新本地端repository的內容後,再推送上去遠端儲存庫一遍.png)
+    * ![git push --rebase 指定要用Rebase的方式更新本地端repository的內容後,再推送上去遠端儲存庫一遍](/pic/git%20push%20--rebase%20指定要用Rebase的方式更新本地端repository的內容後,再推送上去遠端儲存庫一遍.png)<br>
+      參考圖片出處<https://gitbook.tw/chapters/github/fail-to-push.html>
   + 方法二: 無論規則,強制`推送`(Push)上去
     * $ `git push -f`: 強制將目前`本地端repository`的內容推送到`遠端origin節點`的repository上面,同時會將原本遠端repository的內容"覆蓋掉"
       * `-f` (=> `--force`): "強制"執行`推送`(Push)指令
       * 注意! 此方法要慎用,因為會覆蓋掉原本遠端repository的內容
-      * ![git push -f 強制將本地端儲存庫的內容推送到遠端儲存庫上面去,並覆蓋掉原本遠端repository的內容](/pic/git%20push%20-f%20強制將本地端儲存庫的內容推送到遠端儲存庫上面去,並覆蓋掉原本遠端repository的內容.png)
+      * ![git push -f 強制將本地端儲存庫的內容推送到遠端儲存庫上面去,並覆蓋掉原本遠端repository的內容](/pic/git%20push%20-f%20強制將本地端儲存庫的內容推送到遠端儲存庫上面去,並覆蓋掉原本遠端repository的內容.png)<br>
+        參考圖片出處<https://gitbook.tw/chapters/github/fail-to-push.html>
+
+#### 從伺服器上複製遠端repository下來
+- 可以利用$ `git clone <HTTPS or SSH>` 指令來將遠端的repository複製一份到本地端來檢視
+  + 可先參考[新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上)的 HTTPS 與 SSH 的比較
+  + 方法一: 利用HTTPS的方式複製
+    * $ `git clone https://github.com/Hans-Tsai/gitLearn.git`
+    * 此方法使用者只要當下輸入 `帳號` & `密碼` 就可以複製了
+  + 方法二: 利用SSH的方式複製
+    * $ `git clone git@github.com:Hans-Tsai/gitLearn.git`
+    * 此方法需事先在本地端產生SSH金鑰後,再到GitHub的Settings做設定; 完成後會如同以下畫面
+    * ![GitHub的SSH金鑰設定完成後的畫面](/pic/GitHub的SSH金鑰設定完成後的畫面.png)
+    * 設定GitHub SSH金鑰認證的詳細作法可以參考GitHub的官方文件說明<br>
+    連結: <https://docs.github.com/en/enterprise-server@2.20/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account>
+- 此處的`Clone指令`的用途,不單純只有複製所有實體檔案,同時也包含複製了整個專案的以下內容
+  + 歷史紀錄(log & Reflog)
+  + 分支(Branch)
+  + 標籤(Tag)
+- 如果想要複製下來後,重新命名這個repository的話,可以利用以下指令
+  + $ `git clone git@github.com:Hans-Tsai/gitLearn.git <新命名的分支名稱>`
+- 在Git Version 1.7.10之後,如果想要只單純地從遠端repository複製特定的分支下來到本機端的話,可以利用以下指令
+  + $ `git clone -b <指定要複製的分支名稱> --single-branch git@github.com:Hans-Tsai/gitLearn.git`
+  + `-b <指定的分支名稱>` (=> `--branch <指定的分支名稱>`): Instead of pointing the newly created HEAD to the branch pointed to by the cloned repository’s HEAD, point to <name> branch instead. In a non-bare repository, this is the branch that will be checked out. --branch can also take tags and detaches the HEAD at that commit in the resulting repository.
+  + `--single-branch`: 只複製該指定要複製的分支的"最新"`歷史commit紀錄`,可以搭配`--branch`參數來使用
