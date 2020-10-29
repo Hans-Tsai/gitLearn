@@ -78,6 +78,7 @@ Git Learn<br>
       - [如何跟上當初Fork的專案的進度呢?](#如何跟上當初fork的專案的進度呢)
       - [如何刪除遠端分支呢?](#如何刪除遠端分支呢)
       - [什麼時機適合用$ `git push -f` 來強制推送(Push)上去到遠端repository呢?](#什麼時機適合用-git-push--f-來強制推送push上去到遠端repository呢)
+      - [如何透過`更新檔`(Patch)來更新本機端的repository的內容呢?](#如何透過更新檔patch來更新本機端的repository的內容呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1147,7 +1148,10 @@ Git Learn<br>
 > `git pull` - Fetch from and integrate with another repository or a local branch<br>
 > `git fetch` - Download objects and refs from another repository<br>
 > `git clone` - Clone a repository into a new directory<br>
-> `Forking Projects` - 如果我們想要對一個在GitHub上已經存在的開源專案做出貢獻(修改),但是我們沒有`推送`(Push)到這個repository的權限的話,我們可以`Fork`一份這個專案到自己的GitHub上,成為屬於存在於我們自己的GitHub namespace,這樣我們自己就有權限可以`推送`(Push)到這個repository上面去了
+> `Forking Projects` - 如果我們想要對一個在GitHub上已經存在的開源專案做出貢獻(修改),但是我們沒有`推送`(Push)到這個repository的權限的話,我們可以`Fork`一份這個專案到自己的GitHub上,成為屬於存在於我們自己的GitHub namespace,這樣我們自己就有權限可以`推送`(Push)到這個repository上面去了<br>
+> `Pull Request` - 會發送一個"通知"(`PR`)給原作者,請求原作者同意將我們之前`Fork`回來並修改後的內容`合併`(Merge)到原作者的專案中; 同時原作者也可以不用擔心需要開放編輯權限給所有開發者們而難以管理<br>
+> `git format-patch` - Prepare patches for e-mail submission<br>
+> `git am` - Apply a series of patches from a mailbox<br>
 
 #### GitHub 基礎使用操作說明
 - GitHub是目前全球最大的Git Server,可以幫忙貢獻其他人的專案,並且其他人也可以回饋到你的專案,建立良性循環
@@ -1346,6 +1350,25 @@ Git Learn<br>
     參考圖片出處<https://gitbook.tw/chapters/github/using-force-push.html>
 - 萬一利用$ `git push -f` 來強制推送(Push)上去到遠端repository後又後悔了的話,可以換你或是其它有之前進度的隊友,再次進行$ `git push -f` 指令一次,把正確的內容強迫推上去,蓋掉前一次的$ `git push -f` 指令所造成的災難
 - 可參考[為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)的 方法二: 無論規則,強制`推送`(Push)上去 篇
+
+#### 如何透過`更新檔`(Patch)來更新本機端的repository的內容呢?
+- 在Git和許多版本控制的軟體還沒有誕生以前,開發者們必須透過Email來寄送更新檔案
+- 但是有了Git之後,也可以利用$ `git format-patch` 指令來產生`更新檔`(Patch)
+  + $ `git format-patch <某個Commit物件的id> <某個Commit物件的id>`: 產生一份更新檔,範圍是從前者的`Commit物件`到後者的`Commit物件`為止,但"不包含"前者的`Commit物件`本身
+    * 如同以下圖片示範
+    * ![利用git format-patch 來產生更新檔](/pic/利用git%20format-patch%20來產生更新檔.png)<br>
+      參考圖片出處<https://gitbook.tw/chapters/github/patch.html>
+  + 也可以指定相對的$ `git log` 的`commit紀錄`的範圍
+    * $ `git format-patch -2`: 這樣Git會幫忙產生最新的3次`commit紀錄`的`更新檔`(Patch)
+  + 也可以指定產生的`更新檔`(Patch)的位置
+    * $ `git format-patch -2 -o <更新檔要存放的檔案位置>`: 這樣Git會幫忙產生最新的3次`commit紀錄`的`更新檔`(Patch),並指定將`更新檔`(Patch)存放在指定的位置
+    * 如同以下圖片示範
+    * ![利用git format-patch 來產生更新檔並指定更新檔要儲存的位置](/pic/利用git%20format-patch%20來產生更新檔並指定更新檔要儲存的位置.png)
+- 可以利用$ `git am` 指令來`應用`(Apply)`更新檔`(Patch)
+  + $ `git am < 更新檔存放的檔案位置路徑/* >`: 表示要將該路徑下的`所有更新檔`(Patches)都應用到現在的專案上
+  + 可以一次`應用`(Apply)一個更新檔,也可以一次`應用`(Apply)所有更新檔
+  + Git會依據檔案的名字"依序"一個一個套用在現有的專案上面
+
 
 ---
 ### 觀念補充
