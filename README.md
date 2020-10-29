@@ -74,6 +74,7 @@ Git Learn<br>
       - [為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)
       - [從伺服器上複製遠端repository下來](#從伺服器上複製遠端repository下來)
       - [Clone(複製) 和 Pull(拉下來更新) 有什麼不同呢?](#clone複製-和-pull拉下來更新-有什麼不同呢)
+      - [利用Pull Request來跟其它開發者的開源專案做互動](#利用pull-request來跟其它開發者的開源專案做互動)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1143,6 +1144,7 @@ Git Learn<br>
 > `git pull` - Fetch from and integrate with another repository or a local branch<br>
 > `git fetch` - Download objects and refs from another repository<br>
 > `git clone` - Clone a repository into a new directory<br>
+> `Forking Projects` - 如果我們想要對一個在GitHub上已經存在的開源專案做出貢獻(修改),但是我們沒有`推送`(Push)到這個repository的權限的話,我們可以`Fork`一份這個專案到自己的GitHub上,成為屬於存在於我們自己的GitHub namespace,這樣我們自己就有權限可以`推送`(Push)到這個repository上面去了
 
 #### GitHub 基礎使用操作說明
 - GitHub是目前全球最大的Git Server,可以幫忙貢獻其他人的專案,並且其他人也可以回饋到你的專案,建立良性循環
@@ -1279,6 +1281,25 @@ Git Learn<br>
   + 當這個專案我已經下載回來了(本地端已經有一份這個專案了)的時候,只想要"更新"到該專案最新版的遠端repository的內容的話,這時候可以使用`Pull(拉下來更新)指令`
   + $ `git pull <遠端節點名稱(ex: origin)> <要合併到目前所在分支上面的遠端分支名稱>`: 從遠端repository`拉下來(Fetch)`一份到本地端且`合併(Merge)`到目前所在的分支上面
 
+#### 利用Pull Request來跟其它開發者的開源專案做互動
+- 因為我們沒有權限來`推送`(Push)更新到GitHub上面別人的專案上,`Fork`可以用來將GitHub上別的開發者寫的開源專案,"複製"一份到我們自己的GitHub namespace上,這樣我們就有權限可以`推送`(Push)更新到這個專案上了
+- `Fork`的流程介紹
+  + 先複製(Fork)一份原作的專案到你自己的GitHub帳號底下
+    * ![GitHub Fork別人的專案的按鈕](/pic/GitHub%20Fork別人的專案的按鈕.png)
+  + 因為這個複製回來的專案已經在你自己的GitHub帳號下,所以你就有完整的權限,想怎麼改就怎麼改
+    * $ `git clone <自己GitHub上剛剛Fork回來的那個repository>`
+  + 改完後,先推回(Push)"你自己帳號"的專案
+    * $ `git push`
+  + 然後發個"通知"(Pull Request),讓原作者知道你有幫忙做了一些事情,請他看一下
+    * 這就是`Pull Request`,`Pull Requset`其實就是發一個請求請原作者拉回去(`Pull`)的請求(`Request`),可以簡稱為"PR"
+    * ![GitHub 檢視Pull Request的頁面](/pic/GitHub%20檢視Pull%20Request的頁面.png)
+    * 回到自己的專案頁面,點選"New pull request"的按鈕,再點選"Create pull request"的按鈕後,可以選擇要`PR`到原作的哪個分支
+    * ![當按下Create pull request按鈕後就可以新建一個PR](/pic/當按下Create%20pull%20request按鈕後就可以新建一個PR.png)
+  + 原作者看完後說"我覺得可以",然後就決定把你做的這些修改合併(`Merge`)到他的專案裡
+    * 當原作者覺得這次的修改沒問題的話,就可以收下這次的`PR`,點選"Merge pull request"的按鈕後,就會合併(`Merge`)這次的commit了
+- 可參考官方文件提供的`Fork`流程 <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo>
+- 可參考官方文件提供的`Pull Request`流程 <https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests>
+- 在多人共同協作的實戰情境中,通常會先挑選固定一個分支作為可以上線的正式版本分支,慣例上常會挑選`master`分支或是`production`分支作為正式分支; 每位開發者都會先從公司的專案`Fork`一份到自己的GitHub帳號裡面,再下載到本機端進行開發,待開發的功能完成後再發`PR`回公司的專案,此時負責管理這個專案的人收到`PR`後,可以開始進行`Code Review`,並確認無誤後便可進行合併,這樣做的優點是可以保持讓這個產品的分支處於隨時都可以上線的狀態
 
 
 ---
