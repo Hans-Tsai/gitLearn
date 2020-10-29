@@ -75,6 +75,7 @@ Git Learn<br>
       - [從伺服器上複製遠端repository下來](#從伺服器上複製遠端repository下來)
       - [Clone(複製) 和 Pull(拉下來更新) 有什麼不同呢?](#clone複製-和-pull拉下來更新-有什麼不同呢)
       - [利用Pull Request來跟其它開發者的開源專案做互動](#利用pull-request來跟其它開發者的開源專案做互動)
+      - [如何跟上當初Fork的專案的進度呢?](#如何跟上當初fork的專案的進度呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1300,6 +1301,27 @@ Git Learn<br>
 - 可參考官方文件提供的`Fork`流程 <https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo>
 - 可參考官方文件提供的`Pull Request`流程 <https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests>
 - 在多人共同協作的實戰情境中,通常會先挑選固定一個分支作為可以上線的正式版本分支,慣例上常會挑選`master`分支或是`production`分支作為正式分支; 每位開發者都會先從公司的專案`Fork`一份到自己的GitHub帳號裡面,再下載到本機端進行開發,待開發的功能完成後再發`PR`回公司的專案,此時負責管理這個專案的人收到`PR`後,可以開始進行`Code Review`,並確認無誤後便可進行合併,這樣做的優點是可以保持讓這個產品的分支處於隨時都可以上線的狀態
+
+#### 如何跟上當初Fork的專案的進度呢?
+- 當原作者先收下別人的`Pull Request`時,該專案的進度就會比在我們自己帳號底下的進度還要前面了; 這時如果想要讓自己帳號底下`Fork`過來的這個專案"跟上"原作專案的目前的進度的話,可以利用以下2種方法
+  + 也可以先參考[為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)
+  + 方法一: 砍掉重新`Fork`一遍
+    * 可參考[利用Pull Request來跟其它開發者的開源專案做互動](#利用pull-request來跟其它開發者的開源專案做互動)的`Fork流程介紹`篇
+  + 方法二: 跟上游同步
+    * 先設定原作的遠端節點
+      * $ `git remote -v`: 可以列出遠端節點的url
+      * `-v` (=> `--verbose`): 詳細列出遠端節點的名稱與url
+      * ![利用git remote -v 來列出遠端節點的url](/pic/利用git%20remote%20-v%20來列出遠端節點的url.png)
+      * $ `git remote add <遠端節點的名稱> <遠端節點repository的url>`: 新增另一個遠端節點名稱與url,而這個遠端節點指的位置就是"原作的專案"
+      * 可參考[新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上)的$ `git remote add`篇
+    * 抓取原作專案的內容
+      * $ `git fetch <剛剛設定好的新的指向原作專案的遠端節點的名稱>`: 利用`Fetch`指令來取得原作專案最新版的內容
+    * $ `git merge <要合併到的分支名稱>`: 利用`Merge`指令合併到`遠端節點`(原作專案)的遠端分支上面
+      * 例如: $ `git merge test_origin/master`
+      * 這樣一來我們本機的進度就跟原作的是一樣了
+    * 如果想要自己在GitHub上那個`Fork`過來的專案進度也更新到最新版的話,只要將現在本機端的專案`推送`(Push)上去就好了
+      * $ `git push origin master`
+      * 這樣一來,在我們電腦裡的專案,以及在GitHub上從原作那邊`Fork`過來的專案都會是最新的進度了
 
 
 ---
