@@ -169,6 +169,10 @@ Git Learn<br>
     * $ `git add --all` or $ `git add -A` 
     * $ `git add .` =>會將整個專案裡的全部異動檔案加到暫存區,不受限這個指令在哪一層目錄執行
     * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
+  + 如果想要取消剛剛加入到暫存區(Staging Area)的檔案的話,並將該檔案丟回到工作目錄(Working Directory)中,可以利用以下指令
+    * $ `git restore --staged <要從暫存區退回到工作目錄的檔案>`: 這樣就可以把剛剛加入到暫存區(Staging Area)的檔案丟回到工作目錄(Working Directory)中
+      * `-S` (=> `--staged`): 指定要從哪個位置(location)`回復`(Restore)到工作目錄(Working Directory)中
+    * ![利用git restore --staged 來將剛剛加入到暫存區的檔案丟回到工作目錄中,讓該檔案不要繼續被Git追蹤到_圖解說明](/pic/利用git%20restore%20--staged%20來將剛剛加入到暫存區的檔案丟回到工作目錄中,讓該檔案不要繼續被Git追蹤到_圖解說明.png)
 #### 把暫存區(staging area)的檔案提交到倉庫存檔
   + $ `git commit -m "git commit練習"`
   + -m = (--messge)參數:代表在這次commit做了什麼事情的說明字串,中英文皆可,言簡意賅就好; $ `git commit`預設-m參數是必填的
@@ -1363,7 +1367,8 @@ Git Learn<br>
   + 也可以指定產生的`更新檔`(Patch)的位置
     * $ `git format-patch -2 -o <更新檔要存放的檔案位置>`: 這樣Git會幫忙產生最新的3次`commit紀錄`的`更新檔`(Patch),並指定將`更新檔`(Patch)存放在指定的位置
     * 如同以下圖片示範
-    * ![利用git format-patch 來產生更新檔並指定更新檔要儲存的位置](/pic/利用git%20format-patch%20來產生更新檔並指定更新檔要儲存的位置.png)
+    * ![利用git format-patch 來產生更新檔並指定更新檔要儲存的位置](/pic/利用git%20format-patch%20來產生更新檔並指定更新檔要儲存的位置.png)<br>
+      參考圖片出處<https://gitbook.tw/chapters/github/patch.html>
 - 可以利用$ `git am` 指令來`應用`(Apply)`更新檔`(Patch)
   + $ `git am < 更新檔存放的檔案位置路徑/* >`: 表示要將該路徑下的`所有更新檔`(Patches)都應用到現在的專案上
   + 可以一次`應用`(Apply)一個更新檔,也可以一次`應用`(Apply)所有更新檔
