@@ -76,6 +76,7 @@ Git Learn<br>
       - [Clone(複製) 和 Pull(拉下來更新) 有什麼不同呢?](#clone複製-和-pull拉下來更新-有什麼不同呢)
       - [利用Pull Request來跟其它開發者的開源專案做互動](#利用pull-request來跟其它開發者的開源專案做互動)
       - [如何跟上當初Fork的專案的進度呢?](#如何跟上當初fork的專案的進度呢)
+      - [如何刪除遠端分支呢?](#如何刪除遠端分支呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1323,6 +1324,12 @@ Git Learn<br>
       * $ `git push origin master`
       * 這樣一來,在我們電腦裡的專案,以及在GitHub上從原作那邊`Fork`過來的專案都會是最新的進度了
 
+#### 如何刪除遠端分支呢?
+- 其實要刪除遠端分支可以透過GitHub上各個Repository最上面的branches圖案點進去後,就可以刪除遠端分支了(垃圾桶圖案)
+  + ![透過GitHub上的圖形化介面來刪除遠端分支](/pic/透過GitHub上的圖形化介面來刪除遠端分支.png)
+- 也可以透過Git指令來刪除遠端分支
+  + $ `git push <遠端節點的名稱> <要記得在這邊空一格>:<要刪除的遠端分支的名稱>`: 其實可以透過`推送`(Push)時重新命名遠端分支的名稱時,來達到刪除遠端分支的效果
+  + 可參考[新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上) 的補充2(如何在推送時重新命名一個遠端分支的名稱呢?) 篇
 
 ---
 ### 觀念補充
