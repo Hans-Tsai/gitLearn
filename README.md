@@ -77,6 +77,7 @@ Git Learn<br>
       - [利用Pull Request來跟其它開發者的開源專案做互動](#利用pull-request來跟其它開發者的開源專案做互動)
       - [如何跟上當初Fork的專案的進度呢?](#如何跟上當初fork的專案的進度呢)
       - [如何刪除遠端分支呢?](#如何刪除遠端分支呢)
+      - [什麼時機適合用$ `git push -f` 來強制推送(Push)上去到遠端repository呢?](#什麼時機適合用-git-push--f-來強制推送push上去到遠端repository呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1330,6 +1331,21 @@ Git Learn<br>
 - 也可以透過Git指令來刪除遠端分支
   + $ `git push <遠端節點的名稱> <要記得在這邊空一格>:<要刪除的遠端分支的名稱>`: 其實可以透過`推送`(Push)時重新命名遠端分支的名稱時,來達到刪除遠端分支的效果
   + 可參考[新建一個GitHub repository,並推送本地端repository到GitHub上](#新建一個github-repository並推送本地端repository到github上) 的補充2(如何在推送時重新命名一個遠端分支的名稱呢?) 篇
+
+#### 什麼時機適合用$ `git push -f` 來強制推送(Push)上去到遠端repository呢?
+- 當想要整理Git歷史紀錄or只會影響到自己一人時,可以使用強制推送( `$ git push -f` )的指令
+  + 整理歷史紀錄時,有時候會遇到該專案的`commit紀錄`非常混亂,於是我們使用了`Rebase的方式`來修改`commit的歷史紀錄`,但是因為`Rebase`相當於修改已經發生的事實,所以正常來說會`推送`(Push)不上去,這時候就可以使用強制推送( `$ git push -f` )的指令
+  + 當自己要開發一個新功能並從遠端的repository "開了一個新的分支" 出來開發,但是開發完後同樣發現commit紀錄太過瑣碎了,想利用`Rebase的方式`來修改`commit的歷史紀錄`,但是因為`Rebase`相當於修改已經發生的事實,所以正常來說會`推送`(Push)不上去,"但因為這個歷史紀錄影響的範圍只有我一個人,所以並不影響其他人正常使用",所以這時候就可以使用強制推送( `$ git push -f` )的指令
+    * 例如: $ `git push -f origin features/my_branch`
+    * 這樣只會強制更新`features/my_branch`這個分支的內容,並不會影響其它分支。
+- 也可以使用GitHub提供的保護機制,可以避免某個分支被`強制推送`(Force Push)來更新
+  + 可以到該專案的`Settings`頁籤,左邊選擇`Branches`,接著可以選擇想要保護的分支,並設定要保護的規則
+  + 如以下圖例說明
+  + ![GitHub提供的Branch protection rules功能,來防止指定的分支被強制推送來更新](/pic/GitHub提供的Branch%20protection%20rules功能,來防止指定的分支被強制推送來更新.png)
+  + ![GitHub提供的Branch protection rule功能的詳細規則介紹_圖解說明](/pic/GitHub提供的Branch%20protection%20rule功能的詳細規則介紹_圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/chapters/github/using-force-push.html>
+- 萬一利用$ `git push -f` 來強制推送(Push)上去到遠端repository後又後悔了的話,可以換你或是其它有之前進度的隊友,再次進行$ `git push -f` 指令一次,把正確的內容強迫推上去,蓋掉前一次的$ `git push -f` 指令所造成的災難
+- 可參考[為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)的 方法二: 無論規則,強制`推送`(Push)上去 篇
 
 ---
 ### 觀念補充
