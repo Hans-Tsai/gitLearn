@@ -73,6 +73,7 @@ Git Learn<br>
       - [從遠端repository利用Pull下載並更新](#從遠端repository利用pull下載並更新)
       - [為什麼有時候會推送(Push)不上去遠端repository呢?](#為什麼有時候會推送push不上去遠端repository呢)
       - [從伺服器上複製遠端repository下來](#從伺服器上複製遠端repository下來)
+      - [Clone(複製) 和 Pull(拉下來更新) 有什麼不同呢?](#clone複製-和-pull拉下來更新-有什麼不同呢)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1219,6 +1220,8 @@ Git Learn<br>
     * 執行`Pull指令`時,如果內容沒有衝突,就會自動建立合併提交。如果發生衝突的話,需先解決衝突然後再手動提交
     * 也可以只用`Rebase方式`來合併分支
       * 可先參考[分支(branch)操作](#分支branch操作)的$ `git rebase`篇
+      * $ `git pull --rebase`: 指定使用`Rebase方式`來合併(Merge)下載回來的內容
+        * `-r` (=> `--rebase`): 當從遠端repository`下載(Fetch)`回來後,將目前所在的分支(current branch)用`Rebase的方式`合併到其`上游分支`(upstream branch)的上面
       * 適用情境: 當不想因為合併分支而多產生一次`commit紀錄`的話,可以用`Rebase方式`來合併分支
 
 #### 為什麼有時候會推送(Push)不上去遠端repository呢?
@@ -1265,6 +1268,16 @@ Git Learn<br>
   + $ `git clone -b <指定要複製的分支名稱> --single-branch git@github.com:Hans-Tsai/gitLearn.git`
   + `-b <指定的分支名稱>` (=> `--branch <指定的分支名稱>`): Instead of pointing the newly created HEAD to the branch pointed to by the cloned repository’s HEAD, point to <name> branch instead. In a non-bare repository, this is the branch that will be checked out. --branch can also take tags and detaches the HEAD at that commit in the resulting repository.
   + `--single-branch`: 只複製該指定要複製的分支的"最新"`歷史commit紀錄`,可以搭配`--branch`參數來使用
+
+#### Clone(複製) 和 Pull(拉下來更新) 有什麼不同呢?
+- `Clone(複製)`
+  + `使用情境`
+  + 當這個專案是第一次看到,我們想要"複製"一份到本地端來看看的時候可以用`Clone(複製)指令`
+  + $ `git clone <remote repo by HTTPS or SSH>`: 從遠端repository複製一份這個專案到本地端的電腦 
+- `Pull(拉下來更新)`
+  + `使用情境`
+  + 當這個專案我已經下載回來了(本地端已經有一份這個專案了)的時候,只想要"更新"到該專案最新版的遠端repository的內容的話,這時候可以使用`Pull(拉下來更新)指令`
+  + $ `git pull <遠端節點名稱(ex: origin)> <要合併到目前所在分支上面的遠端分支名稱>`: 從遠端repository`拉下來(Fetch)`一份到本地端且`合併(Merge)`到目前所在的分支上面
 
 
 
