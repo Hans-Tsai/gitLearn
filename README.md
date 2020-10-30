@@ -81,6 +81,7 @@ Git Learn<br>
       - [如何透過`更新檔`(Patch)來更新本機端的repository的內容呢?](#如何透過更新檔patch來更新本機端的repository的內容呢)
     - [Git 常見的團隊工作流程 & 規範](#git-常見的團隊工作流程--規範)
       - [Git Flow介紹](#git-flow介紹)
+      - [GitHub Flow介紹](#github-flow介紹)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1148,7 +1149,7 @@ Git Learn<br>
 ---
 ### 遠端共同協作篇---以 GitHub 為例
 > `GitHub 官方文件`(Official Docs) - <https://docs.github.com/en><br>
-> `GitHub 官方網站`(Official website) - <https://github.com/><br>
+> `GitHub 官方網站`(Official Website) - <https://github.com/><br>
 > `git remote` - Manage set of tracked repositories<br>
 > `git push` - Update remote refs along with associated objects<br>
 > `git pull` - Fetch from and integrate with another repository or a local branch<br>
@@ -1376,11 +1377,15 @@ Git Learn<br>
   + 可以一次`應用`(Apply)一個更新檔,也可以一次`應用`(Apply)所有更新檔
   + Git會依據檔案的名字"依序"一個一個套用在現有的專案上面
 
+
+---
 ### Git 常見的團隊工作流程 & 規範
+> `GitHub Guides`(Official Guides) - <https://guides.github.com/><br>
+
 #### Git Flow介紹
 - `Git Flow`最早是在西元2010年被提出的,`Git Flow`是一套團隊共同協作的工作流程,以讓團隊內的成員可以有一個能共同遵循的 "開發" & "維運" 流程
-- `Git Flow`流程會有`master`、`develop`、`hotfix`、`release`、`feature`這五種分支,各種分支負責不同的功能,其中`master`、`develop`這兩個分支又被稱作長期分支,因為他們會一直存活在整個`Git Flow`裡,而其它的分支大多會因任務結束而被刪除
-- 以下是`Git Flow` 流程圖
+- 特色: `Git Flow`流程會有`master`、`develop`、`hotfix`、`release`、`feature`這五種分支,各種分支負責不同的功能,其中`master`、`develop`這兩個分支又被稱作長期分支,因為他們會一直存活在整個`Git Flow`裡,而其它的分支大多會因任務結束而被刪除
+- 以下是`Git Flow`流程圖
   + ![Git Flow流程圖_圖解說明](/pic/Git%20Flow流程圖_圖解說明.png)<br>
     參考圖片出處<https://gitbook.tw/chapters/gitflow/why-need-git-flow.html>
 - 以下介紹`Git Flow`流程中會碰到的五大分支
@@ -1399,9 +1404,38 @@ Git Learn<br>
   + [`Git Flow`專案on GitHub](https://github.com/nvie/gitflow)
   + [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
 
-
-
-
+#### GitHub Flow介紹
+- `Github Flow`是一個適合15–20人左右團隊，在部署上自動化且一天之內會需要多次部署的開發(持續發布)
+- 特色: `GitHub Flow`是一個輕量型、以分支為基礎的工作流程,可以讓我們的團隊與專案更有規律地部署
+  > GitHub flow is a lightweight, branch-based workflow that supports teams and projects where deployments are made regularly<br>
+- `GitHub Flow`官方文件介紹
+  + `前置流程`: 
+    * 要先將遠端的repository利用`Fork`的方式複製到自己的GitHub repository
+    * 將該`Fork`過來的專案`Clone`(複製)到自己本機端(local)的電腦上
+  + `CREATE A BRANCH`: 在自己本機端(local)的`Fork`過來的專案上,建立一個新的分支,以讓我們安全的做開發和調整
+    * 包含$ `git add`
+    * 包含$ `git commit -m`
+  + `OPEN A PULL REQUEST`: 利用`Pull Request`機制來 發出/收到 全世界的其他開發者的回饋(feedback)
+    * 包含 `Conversation`
+    * 包含 `Code Review`
+  + `MERGE AND DEPLOY`: `合併`(Merge)這次`Pull Request`的修改內容到原作者的遠端repository上,並且`部署`(Deploy)這次的修改變化到原作者的遠端repository上
+  + 以下是`GitHub Flow`官方的流程圖說明
+    * ![GitHub Flow流程_官方圖解說明](/pic/GitHub%20Flow流程_官方圖解說明.png)<br>
+      參考圖片出處<https://guides.github.com/pdfs/githubflow-online.pdf>
+- `GitHub Flow`民間介紹
+  + GitHub 比 Git 有多兩個服務,一個是`Fork`,另一個是`Pull Request`(簡稱PR),還新增`issue tracking`用法
+    * `issue tracking`: 開發時,可以給專案標記`issue`,還有其他不同標籤,還優化專案。當提交的時候,如果提交訊息中有 **fix #1** 等,可以自動對應到相關編號的`issue`
+    * 關於`issue tracking`的用法說明,可參考<br> <https://guides.github.com/features/issues/> or <br> <https://github.com/g0v/dev/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-Issue-Tracker-%E5%9B%9E%E5%A0%B1%E5%95%8F%E9%A1%8C%E3%80%81%E6%8F%90%E4%BA%A4%E5%BB%BA%E8%AD%B0>
+  + `GitHub Flow`的流程說明
+    * 先有一個共有的遠端倉庫(remote repository)
+    * 然後各自用`Fork`把遠端倉庫`Fork`回到自己的倉庫(repository)
+    * 從`master分支`拉出新分支,`修改`且`提交`(Commits)
+    * 開發好後,再利用`Pull Request`機制來發一個通知回去共有的遠端倉庫(remote repository)的原作者
+    * 待審核過後再`合併`(Merge)進原作者的遠端倉庫的`master分支`
+    * 合併後,`Pull Request`保存了當時的修改歷史記錄以及回饋,可以讓任開發人回頭檢視當初情況 
+  + 以下是`GitHub Flow`民間的流程圖說明
+    * ![GitHub Flow流程圖_民間圖解說明](/pic/GitHub%20Flow流程圖_民間圖解說明.png)<br>
+      參考圖片出處<https://medium.com/@lf2lf2111/%E4%B8%89%E7%A8%AE%E7%89%88%E6%8E%A7%E6%B5%81%E7%A8%8B-29c82f5d4469>
 
 
 ---
