@@ -79,7 +79,8 @@ Git Learn<br>
       - [如何刪除遠端分支呢?](#如何刪除遠端分支呢)
       - [什麼時機適合用$ `git push -f` 來強制推送(Push)上去到遠端repository呢?](#什麼時機適合用-git-push--f-來強制推送push上去到遠端repository呢)
       - [如何透過`更新檔`(Patch)來更新本機端的repository的內容呢?](#如何透過更新檔patch來更新本機端的repository的內容呢)
-    - [Git Flow介紹---團隊工作流程](#git-flow介紹---團隊工作流程)
+    - [Git 常見的團隊工作流程 & 規範](#git-常見的團隊工作流程--規範)
+      - [Git Flow介紹](#git-flow介紹)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1375,7 +1376,8 @@ Git Learn<br>
   + 可以一次`應用`(Apply)一個更新檔,也可以一次`應用`(Apply)所有更新檔
   + Git會依據檔案的名字"依序"一個一個套用在現有的專案上面
 
-### Git Flow介紹---團隊工作流程
+### Git 常見的團隊工作流程 & 規範
+#### Git Flow介紹
 - `Git Flow`最早是在西元2010年被提出的,`Git Flow`是一套團隊共同協作的工作流程,以讓團隊內的成員可以有一個能共同遵循的 "開發" & "維運" 流程
 - `Git Flow`流程會有`master`、`develop`、`hotfix`、`release`、`feature`這五種分支,各種分支負責不同的功能,其中`master`、`develop`這兩個分支又被稱作長期分支,因為他們會一直存活在整個`Git Flow`裡,而其它的分支大多會因任務結束而被刪除
 - 以下是`Git Flow` 流程圖
