@@ -79,6 +79,7 @@ Git Learn<br>
       - [如何刪除遠端分支呢?](#如何刪除遠端分支呢)
       - [什麼時機適合用$ `git push -f` 來強制推送(Push)上去到遠端repository呢?](#什麼時機適合用-git-push--f-來強制推送push上去到遠端repository呢)
       - [如何透過`更新檔`(Patch)來更新本機端的repository的內容呢?](#如何透過更新檔patch來更新本機端的repository的內容呢)
+    - [Git Flow介紹---團隊工作流程](#git-flow介紹---團隊工作流程)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1373,6 +1374,32 @@ Git Learn<br>
   + $ `git am < 更新檔存放的檔案位置路徑/* >`: 表示要將該路徑下的`所有更新檔`(Patches)都應用到現在的專案上
   + 可以一次`應用`(Apply)一個更新檔,也可以一次`應用`(Apply)所有更新檔
   + Git會依據檔案的名字"依序"一個一個套用在現有的專案上面
+
+### Git Flow介紹---團隊工作流程
+- `Git Flow`最早是在西元2010年被提出的,`Git Flow`是一套團隊共同協作的工作流程,以讓團隊內的成員可以有一個能共同遵循的 "開發" & "維運" 流程
+- `Git Flow`流程會有`master`、`develop`、`hotfix`、`release`、`feature`這五種分支,各種分支負責不同的功能,其中`master`、`develop`這兩個分支又被稱作長期分支,因為他們會一直存活在整個`Git Flow`裡,而其它的分支大多會因任務結束而被刪除
+- 以下是`Git Flow` 流程圖
+  + ![Git Flow流程圖_圖解說明](/pic/Git%20Flow流程圖_圖解說明.png)<br>
+    參考圖片出處<https://gitbook.tw/chapters/gitflow/why-need-git-flow.html>
+- 以下介紹`Git Flow`流程中會碰到的五大分支
+  + `長期分支` 
+    * `Master` 分支(= 主分支): 主要是用來放穩定、隨時可上線的版本。**這個分支的來源只能從別的分支合併過來,開發者不會直接commit 到這個分支**。因為是穩定版本,所以通常也會在這個分支上的commit上打上版本號標籤
+    * `Develop` 分支(= 開發分支): 主要是所有開發的基礎分支。當有新的功能需要開發的時候,**所有的Feature分支都是從這邊切出去**。而當`Feature分支`的新功能完成後,也都會合併回來這個分支
+  + `短期分支`
+    * `Hotfix` 分支(= 修復分支): 當線上產品發生緊急問題的時候,會**從Master分支開一個Hotfix分支出來**進行修復,當`Hotfix分支`修復完成之後,**會合併回Master分支,也同時會合併一份到Develop分支**
+      * 說明1: 之所以要從`Master分支`切出來修復是因為`Develop分支`可能尚在開發中,這時候如果從`Develop分支`切出去再修復的話,要併回`Master分支`時,很可能會遇到合併衝突的問題
+      * 說明2: 之所以要當修復完時,要合併回`Develop分支`是因為假設之後`Develop分支`的新功能開發完成後,並且也合併回到`Master分支`的時候,這時候`Hotfix`遇到的問題又會再度浮現 
+    * `Release` 分支(= 預發分支): 當認為`Develop分支`夠成熟了,就可以**把`Develop分支`合併到`Release分支`,在這邊進行算是上線前的最後測試**。**測試完成後,`Release分支`將會同時合併到`Master`以及`Develop`這兩個分支上**
+      * 說明1: 因為`Master分支`是上線版本,所以要合併到`Master分支`
+      * 說明2: 而合併回`Develop分支`的目的,是因為可能在`Release分支`上還會測到並修正一些問題,所以需要跟`Develop分支`同步,免得之後的版本又再度出現同樣的問題
+    * `Feature` 分支(= 功能分支): 當要開始**新增功能的時候,就是使用`Feature分支`的時候了**。**`Feature分支`都是從`Develop分支`來的,完成之後會再併回`Develop分支`**
+- 關於Git Flow 流程的介紹可以參考以下的文章
+  + [`Git Flow`專案on GitHub](https://github.com/nvie/gitflow)
+  + [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
+
+
+
+
 
 
 ---
