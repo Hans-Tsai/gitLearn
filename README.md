@@ -55,6 +55,7 @@ Git Learn<br>
       - [`Reset`、`Rebase`、`Revert` 三個指令有什麼差別?](#resetrebaserevert-三個指令有什麼差別)
       - [`標籤(Tag)`跟`分支(branch)`有什麼不同呢?](#標籤tag跟分支branch有什麼不同呢)
       - [`Unreachable物件` & `Dangling物件` 有什麼不同呢?](#unreachable物件--dangling物件-有什麼不同呢)
+      - [$ `git log` & $ git reflog 有什麼不同呢?](#-git-log---git-reflog-有什麼不同呢)
     - [實戰情境題](#實戰情境題)
       - [如果在git add之後又修改了那個檔案的內容呢?](#如果在git-add之後又修改了那個檔案的內容呢)
       - [如果不小心使用$ `git reset --hard` 模式,能救回來嗎?](#如果不小心使用-git-reset---hard-模式能救回來嗎)
@@ -901,6 +902,13 @@ Git Learn<br>
   + $ git fsck --no-reflogs: 只顯示出`Dangling狀態`的物件
     * ![利用git reflog檢視透過手動建立Dangling物件後,HEAD指標的變化紀錄](/pic/利用git%20reflog檢視透過手動建立Dangling物件後,HEAD指標的變化紀錄.png)
 
+#### $ `git log` & $ git reflog 有什麼不同呢?
+- $ `git log`: 可以顯示所有`提交`(commit)過的版本資訊
+  > $ git log - Show commit logs --- by 官方文件<br>
+  + ![git log的畫面](/pic/git%20log的畫面.png)
+- $ `git reflog`: 可以檢視所有分支的所有操作記錄(包括`已經被刪除的commit記錄`和`Reset操作`)
+  > $ `git reflog` - Manage reflog information --- by 官方文件<br>
+  + ![git reflog的畫面](/pic/git%20reflog的畫面.png)
 
 
 
