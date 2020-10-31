@@ -83,6 +83,7 @@ Git Learn<br>
       - [Git Flow介紹](#git-flow介紹)
       - [GitHub Flow介紹](#github-flow介紹)
       - [GitLab Flow介紹](#gitlab-flow介紹)
+      - [Git Flow & GitHub Flow & GitLab Flow 三者的比較](#git-flow--github-flow--gitlab-flow-三者的比較)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1408,7 +1409,9 @@ Git Learn<br>
 #### GitHub Flow介紹
 - `Github Flow`是一個適合15–20人左右團隊，在部署上自動化且一天之內會需要多次部署的開發(持續發布)
 - 特色: `GitHub Flow`是一個輕量型、以分支為基礎的工作流程,可以讓我們的團隊與專案更有規律地部署
-  > GitHub flow is a lightweight, branch-based workflow that supports teams and projects where deployments are made regularly<br>
+  > GitHub flow is a lightweight, branch-based workflow that supports teams and projects where deployments are made regularly. --- by 官方文件<br>
+
+  > There's only one rule: anything in the main branch is always deployable. --- --- by 官方文件<br>
 - `GitHub Flow`官方文件介紹
   + `前置流程`: 
     * 要先將遠端的repository利用`Fork`的方式複製到自己的GitHub repository
@@ -1444,7 +1447,7 @@ Git Learn<br>
 - `GitLab flow`分成兩種情況來應付不同的開發流程
   + 持續發布(`Environment Branches` & `Upstream First`)
   + 版本發布(`Release Branches` & `Upstream First`)
-- 特色: `GitLab Flow`有一個最主要的原則就是"上游優先"(`upstream first`),所謂**上游優先**原則的意思是只存在一個主分支master,此分支為所有其它的分支的上游; 所以分支合併的順序很重要,要一次和並且確保"通過測試"才可以往下游合併,除非是緊急情況,才可以允許跳過上游直接在下游操作合併
+- 特色: `GitLab Flow`有一個最主要的原則就是"上游優先"(`upstream first`),所謂**上游優先**原則的意思是**只存在一個主分支master,此分支為所有其它的分支的上游,也就是說所有的分支都是由主要分支(master分支)建立**; 所以分支合併的順序很重要,要一次和並且確保"通過測試"才可以往下游合併,除非是緊急情況,才可以允許跳過上游直接在下游操作合併
   + 如以下的官方圖解說明 
   + ![GitLab Flow流程_Production branch with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Production%20branch%20with%20GitLab%20flow_官方圖解說明.png)<br>
     參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
@@ -1461,15 +1464,48 @@ Git Learn<br>
       * `Semantic Versioning`(語易化版本規範)
         * 總共會是三位數搭配兩個小數點的版本表示方式, 例如: `2.0.0`
         * 三個位數代表的分別是: `MAJOR`.`MINOR`.`PATCH`
-        * `MAJOR version`: 當我們發布與之前版本**不相容(Incompatibal)**的API調整
+        * `MAJOR version`: 當我們發布與之前版本**不相容(Incompatibal)** 的API調整
         * `MINOR version`: 當我們新增一個可以**向後兼容規範(backwards compatible manner)** 的功能
         * `PATCH version`: 當我們處理了可以**向後兼容(backwards compatible)** 的故障處理(bug fixes)
       * 可參考[(Semantic Versioning)語易化版本規範](<https://semver.org/>)
-    * 當如果有多個release的話，會建立不同版號的`release branch`，當如果有需要版本的`更新檔`(patch),會藉由$ `git cherry-pick`挑選需要的`Commit物件`到對應的版本分支(`release branch`)上。 
+    * 當如果有多個`release version`的話，會建立不同版號的`release branch`，當如果有需要版本的`更新檔`(patch),會藉由$ `git cherry-pick`挑選需要的`Commit物件`到對應的版本分支(`release branch`)上。 
     * ![GitLab Flow流程_Release branches with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Release%20branches%20with%20GitLab%20flow_官方圖解說明.png)<br>
       參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
 
-
+#### Git Flow & GitHub Flow & GitLab Flow 三者的比較
+- `Git Flow`
+  + 優點 
+    * 是一套完整明確且清晰的團隊共同協作流程
+    * **短期分支**(`hotfix` & `release` & `feature分支`)**是依據"任務"建立的,當任務結束時,就會合併到長期分支**(`master` & `develop分支`)
+  + 缺點
+    * 相對另外兩種工作流程(`workflow`)來說會比較複雜
+    * 需頻繁切換分支
+    * 在現今版本快速更迭的時代,`Hotfix` & `Release分支`是幾乎用不到的。因為合併到`master分支`後如果有`bug`就直接修復且發布下個版本了,如果還使用這兩個分支,需要**合併回develop和master分支**,但實際上**開發者很常忘記合併回這兩個主分支**
+  + 可參考[Git Flow介紹](#git-flow介紹) 
+- `GitHub Flow`
+  + 優點
+    * 適合屬於需要**持續發布**的專案
+    * 方便結合CI/CD (`Continuous integration`/`Continuous Delivery` & `Continuous Deployment`)
+    * 相對`Git Flow`簡單許多
+  + 缺點
+    * `master分支`會變得不穩定
+      * `情境說明`
+      * 當遇到iOS官方版本更新,而如果審核期間又有新版本要發布的話,這個時候只有一個`master主分支`就會不夠用,所以還得另外再建一個新分支來維護
+    * 當`master分支`合併後如果不發布,會造成`線上`(production)和`master分支的內容`不一致
+  + 可參考[GitHub Flow介紹](#github-flow介紹)
+- `GitLab Flow`
+  + 優點
+    * `GitLab Flow` 結合了 `Git Flow` & `GitHub Flow`兩者的優點
+      * 有開發環境上的彈性又有單一主分支的方便
+      * `master分支`的分支不夠,於是增加了一個`production分支`,專門用來發布版本(`release`)
+    * 方便結合CI/CD (`Continuous integration`/`Continuous Delivery` & `Continuous Deployment`)  
+  + 缺點
+    * 相較於`GitHub Flow`來說會比較複雜
+    * 當`prodcution版本`需要多個版本(`pre-production分支`)來維護時,可能會變得如同`Git Flow`一樣複雜
+  + 可參考[GitLab Flow介紹](#gitlab-flow介紹)
+- 三種團隊共同協作的工作流程(workflow)的共同點
+  + 都是**功能驅動式開發**(`Feature-driven development`)---以需求為開發的起點,先有需求才有以上那些分支,且開發完後該分支就會被合併到主分支,然後刪除
+  + `Git Flow` & `GitHub Flow` & `GitLab Flow` 三種工作流程的比較可參考[4 branching workflows for Git](<https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf>)
 
 
 ---
