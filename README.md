@@ -82,6 +82,7 @@ Git Learn<br>
     - [Git 常見的團隊工作流程 & 規範](#git-常見的團隊工作流程--規範)
       - [Git Flow介紹](#git-flow介紹)
       - [GitHub Flow介紹](#github-flow介紹)
+      - [GitLab Flow介紹](#gitlab-flow介紹)
     - [觀念補充](#觀念補充)
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
@@ -1422,6 +1423,8 @@ Git Learn<br>
   + 以下是`GitHub Flow`官方的流程圖說明
     * ![GitHub Flow流程_官方圖解說明](/pic/GitHub%20Flow流程_官方圖解說明.png)<br>
       參考圖片出處<https://guides.github.com/pdfs/githubflow-online.pdf>
+  + 關於GitHub Flow 流程的介紹可以參考以下的文章
+    * [`GitHub Flow` 官方圖解說明](https://guides.github.com/introduction/flow/)    
 - `GitHub Flow`民間介紹
   + GitHub 比 Git 有多兩個服務,一個是`Fork`,另一個是`Pull Request`(簡稱PR),還新增`issue tracking`用法
     * `issue tracking`: 開發時,可以給專案標記`issue`,還有其他不同標籤,還優化專案。當提交的時候,如果提交訊息中有 **fix #1** 等,可以自動對應到相關編號的`issue`
@@ -1436,6 +1439,37 @@ Git Learn<br>
   + 以下是`GitHub Flow`民間的流程圖說明
     * ![GitHub Flow流程圖_民間圖解說明](/pic/GitHub%20Flow流程圖_民間圖解說明.png)<br>
       參考圖片出處<https://medium.com/@lf2lf2111/%E4%B8%89%E7%A8%AE%E7%89%88%E6%8E%A7%E6%B5%81%E7%A8%8B-29c82f5d4469>
+
+#### GitLab Flow介紹
+- `GitLab flow`分成兩種情況來應付不同的開發流程
+  + 持續發布(`Environment Branches` & `Upstream First`)
+  + 版本發布(`Release Branches` & `Upstream First`)
+- 特色: `GitLab Flow`有一個最主要的原則就是"上游優先"(`upstream first`),所謂**上游優先**原則的意思是只存在一個主分支master,此分支為所有其它的分支的上游; 所以分支合併的順序很重要,要一次和並且確保"通過測試"才可以往下游合併,除非是緊急情況,才可以允許跳過上游直接在下游操作合併
+  + 如以下的官方圖解說明 
+  + ![GitLab Flow流程_Production branch with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Production%20branch%20with%20GitLab%20flow_官方圖解說明.png)<br>
+    參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
+- 接下來要介紹`GitLab Flow`的兩種情境的工作流程(`workflow`)
+  + 持續發布(`Environment Branches` & `Upstream First`)
+    * 持續發布的專案,會建議再多出一個分支,為`預發分支`(pre-production)
+    * 每個環境(如開發環境、預發環境、測試環境…等)都會有對應的分支。如下圖,開發環境為master分支,預發環境為`pre-production分支`,生產環境為`production分支`
+    * 由下圖來舉例,如果`生產環境`(production)發生錯誤,則要建一個新分支修改完後合併到最上游的`開發分支`(master),且**經過測試**,再繼續往`預發分支`合併(pre-production),都要經過測試沒問題後才能夠再往下`合併`(Merge)到`生產環境`。
+    * ![GitLab Flow流程_Environment branches with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Environment%20branches%20with%20GitLab%20flow_官方圖解說明.png)<br>
+      參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
+  + 版本發布(`Release Branches` & `Upstream First`)
+    * 在`GitLab Flow`中,對於**版本發布**的項目,建議每一個穩定的版本都要從`master分支`拉出來創建一個新分支,比如下圖的`2–3-stable`、`2–4-stable`(release分支)
+    * 根據對應的`release分支`再創建一個`修復分支`,**修補bug後,一樣要照著上游優先規則**,先`合併`(Merge)到`master分支`,**確認沒問題過後,才能夠合併(Merge)到release分支,並且要更新版本號**
+      * `Semantic Versioning`(語易化版本規範)
+        * 總共會是三位數搭配兩個小數點的版本表示方式, 例如: `2.0.0`
+        * 三個位數代表的分別是: `MAJOR`.`MINOR`.`PATCH`
+        * `MAJOR version`: 當我們發布與之前版本**不相容(Incompatibal)**的API調整
+        * `MINOR version`: 當我們新增一個可以**向後兼容規範(backwards compatible manner)** 的功能
+        * `PATCH version`: 當我們處理了可以**向後兼容(backwards compatible)** 的故障處理(bug fixes)
+      * 可參考[(Semantic Versioning)語易化版本規範](<https://semver.org/>)
+    * 當如果有多個release的話，會建立不同版號的`release branch`，當如果有需要版本的`更新檔`(patch),會藉由$ `git cherry-pick`挑選需要的`Commit物件`到對應的版本分支(`release branch`)上。 
+    * ![GitLab Flow流程_Release branches with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Release%20branches%20with%20GitLab%20flow_官方圖解說明.png)<br>
+      參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
+
+
 
 
 ---
