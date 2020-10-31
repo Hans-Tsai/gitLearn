@@ -1447,7 +1447,7 @@ Git Learn<br>
 - `GitLab flow`分成兩種情況來應付不同的開發流程
   + 持續發布(`Environment Branches` & `Upstream First`)
   + 版本發布(`Release Branches` & `Upstream First`)
-- 特色: `GitLab Flow`有一個最主要的原則就是"上游優先"(`upstream first`),所謂**上游優先**原則的意思是**只存在一個主分支master,此分支為所有其它的分支的上游,也就是說所有的分支都是由主要分支(master分支)建立**; 所以分支合併的順序很重要,要一次和並且確保"通過測試"才可以往下游合併,除非是緊急情況,才可以允許跳過上游直接在下游操作合併
+- 特色: `GitLab Flow`有一個最主要的原則就是"上游優先"(`upstream first`),所謂**上游優先**原則的意思是**只存在一個主分支master,此分支為所有其它的分支的上游,也就是說所有的分支都是由主分支(master分支)建立**; 所以分支合併的順序很重要,要一次和並且確保"通過測試"才可以往下游合併,除非是緊急情況,才可以允許跳過上游直接在下游操作合併
   + 如以下的官方圖解說明 
   + ![GitLab Flow流程_Production branch with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Production%20branch%20with%20GitLab%20flow_官方圖解說明.png)<br>
     參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
@@ -1471,6 +1471,20 @@ Git Learn<br>
     * 當如果有多個`release version`的話，會建立不同版號的`release branch`，當如果有需要版本的`更新檔`(patch),會藉由$ `git cherry-pick`挑選需要的`Commit物件`到對應的版本分支(`release branch`)上。 
     * ![GitLab Flow流程_Release branches with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Release%20branches%20with%20GitLab%20flow_官方圖解說明.png)<br>
       參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
+- GitLab Flow 的 `Merge Request`(MR)介紹
+  + 在GitLab Flow中,當需要將兩個分支`合併`(Merge)的時候就可以使用`Merge Request`
+  + `Merge Request`可以被當作`code review`的工具,而且不用另外安裝額外的軟體或是套件
+    * 當我們新建一個`Merge Request`後,可以用 "/cc @mark" 的方式來標記其他的團隊成員,此時代表該`MR`尚未完成,但歡迎大家對這次的`MR`做出回饋(`feedback`)
+    * 這時所有的團隊成員都可以針對這次的`MR`所做的修改做出全部(`general`)或是局部對某幾行(`specific line`)的評論(`line comments`)
+    * 當被指派收到`MR`的成員(通常是最了解這個專案程式碼的人 or 該專案的管理者),覺得此次的`MR`是可以被接受的,就會接受此次的`MR`,並`合併`(Merge)到主分支(`master分支`)
+    * 但如果被指派收到`MR`的成員(通常是最了解這個專案程式碼的人 or 該專案的管理者),覺得此次的`MR`是**不能被接受的**,也可以**拒絕接受此次的MR**,並且**不合併**(Merge)到主分支(`master分支`)
+    * ![GitLab Flow流程_Merge/pull requests with GitLab flow_官方圖解說明](/pic/GitLab%20Flow流程_Merge:pull%20requests%20with%20GitLab%20flow_官方圖解說明.png)<br>
+      參考圖片出處<https://docs.gitlab.com/ee/topics/gitlab_flow.html#git-flow-and-its-problems>
+- 在GitLab Flow中,慣例上都會將`主分支(master)`設定為`被保護的分支`(protected branch)
+  + 所以如果我們想要將這次的修改`合併`(Merge)到`主分支(master)`的話,就要將`MR`請求指派(`assign`)給擁有維護者權限的人(`maintainer permissions`)
+  + 關於GitLab 的權限設定可以參考[GitLab Permissions](<https://docs.gitlab.com/ee/user/permissions.html>)
+
+
 
 #### Git Flow & GitHub Flow & GitLab Flow 三者的比較
 - `Git Flow`
