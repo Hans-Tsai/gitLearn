@@ -88,6 +88,11 @@ Git Learn<br>
       - [終端機(Terminal)是什麼?](#終端機terminal是什麼)
       - [Vim 是Git的預設編輯器,Vim主要常用的兩種模式](#vim-是git的預設編輯器vim主要常用的兩種模式)
       - [SHA-1(安全散列演算法) 介紹](#sha-1安全散列演算法-介紹)
+    - [參考資料來源](#參考資料來源)
+      - [書籍](#書籍)
+      - [Medium](#medium)
+      - [iT邦幫忙](#it邦幫忙)
+      - [練習場](#練習場)
   
   
 ---
@@ -1484,8 +1489,6 @@ Git Learn<br>
   + 所以如果我們想要將這次的修改`合併`(Merge)到`主分支(master)`的話,就要將`MR`請求指派(`assign`)給擁有維護者權限的人(`maintainer permissions`)
   + 關於GitLab 的權限設定可以參考[GitLab Permissions](<https://docs.gitlab.com/ee/user/permissions.html>)
 
-
-
 #### Git Flow & GitHub Flow & GitLab Flow 三者的比較
 - `Git Flow`
   + 優點 
@@ -1556,3 +1559,22 @@ Git Learn<br>
     * 所以,以`Blob物件`來說,不管是在什麼時間或不同的電腦上,一樣的輸入值,就會有一樣的內容
     * 例如: $ `printf "Hello, Hans Tsai" | git hash-object --stdin` 
     * ![git hash-object --stdin可以計算SHA-1的值](/pic/git%20hash-object%20--stdin可以計算SHA-1的值.png)
+
+
+---
+### 參考資料來源
+#### 書籍
+- [為你自己學Git](<https://gitbook.tw/>)
+- [Pro Git](<https://git-scm.com/book/en/v2>)
+
+#### Medium
+- [三種工作流程: Git Flow & GitHub Flow & GitLab Flow 的介紹](<https://medium.com/@lf2lf2111/%E4%B8%89%E7%A8%AE%E7%89%88%E6%8E%A7%E6%B5%81%E7%A8%8B-29c82f5d4469>)
+- [4 branching workflows for Git](<https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf>)
+
+#### iT邦幫忙
+- [用樂高玩轉 GIT 版本控制](<https://ithelp.ithome.com.tw/users/20072606/ironman/2916>)
+- [30天精通Git版本控管---by 黃保翕(Will 保哥)](https://ithelp.ithome.com.tw/users/20004901/ironman/525)
+
+#### 練習場
+- [Git 練習場](<https://gitbook.tw/playground>)
+- [Visualizing Git Concepts with D3---可練習基礎Git指令](<http://onlywei.github.io/explain-git-with-d3/#checkout>)
