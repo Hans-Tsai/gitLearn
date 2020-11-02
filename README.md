@@ -1586,3 +1586,8 @@ Git Learn<br>
 #### 練習場
 - [Git 練習場](<https://gitbook.tw/playground>)
 - [Visualizing Git Concepts with D3---可練習基礎Git指令](<http://onlywei.github.io/explain-git-with-d3/#checkout>)
+
+#### 免費線上學習資源
+- [GitHub Cheat Sheets --- referenced to Git Official Docs](<https://training.github.com/>)
+- [Visual Git Cheat Sheets --- reference to Git Official Docs](<https://ndpsoftware.com/git-cheatsheet.html>)
+- [Resources to learn Git](<https://ndpsoftware.com/git-cheatsheet.html>)
