@@ -94,7 +94,7 @@ Git Learn<br>
       - [Medium](#medium)
       - [iT邦幫忙](#it邦幫忙)
       - [練習場](#練習場)
-  
+      - [免費線上學習資源](#免費線上學習資源)
   
 ---
 ### 安裝方式
@@ -1590,4 +1590,4 @@ Git Learn<br>
 #### 免費線上學習資源
 - [GitHub Cheat Sheets --- referenced to Git Official Docs](<https://training.github.com/>)
 - [Visual Git Cheat Sheets --- reference to Git Official Docs](<https://ndpsoftware.com/git-cheatsheet.html>)
-- [Resources to learn Git](<https://ndpsoftware.com/git-cheatsheet.html>)
+- [Resources to learn Git](<https://try.github.io/>)
