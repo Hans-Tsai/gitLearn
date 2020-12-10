@@ -178,8 +178,8 @@ Git Learn<br>
   + ![git_add將檔案加入版控中圖解說明](/pic/git%20add將檔案加入版控中圖解說明.png)
   + 如果想將全部檔案一口氣加入暫存區,可以使用--all參數;不論檔案狀態是Untracked files或是Changes not staged for commit,都會一口氣變成Changes to committed
     * $ `git add --all` or $ `git add -A` 
-    * $ `git add .` =>會將整個專案裡的全部異動檔案加到暫存區,不受限這個指令在哪一層目錄執行
-    * $ `git add --all`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
+    * $ `git add --all` =>會將整個專案裡的全部異動檔案加到暫存區,不受限這個指令在哪一層目錄執行
+    * $ `git add .`=>只會把當前執行command的那個目錄以及它的子目錄的異動檔案加到暫存區,所以在哪一層目錄執行這個command很重要
   + 如果想要取消剛剛加入到暫存區(Staging Area)的檔案的話,並將該檔案丟回到工作目錄(Working Directory)中,可以利用以下指令
     * $ `git restore --staged <要從暫存區退回到工作目錄的檔案>`: 這樣就可以把剛剛加入到暫存區(Staging Area)的檔案丟回到工作目錄(Working Directory)中
       * `-S` (=> `--staged`): 指定要從哪個位置(location)`回復`(Restore)到工作目錄(Working Directory)中
