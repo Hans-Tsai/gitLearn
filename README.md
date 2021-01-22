@@ -328,7 +328,7 @@ Git Learn<br>
     * ![Tag物件介紹](/pic/Tag物件介紹.png)
   + 統整: `Tag物件`中的有附註Tag(Annotated Tag)會指向某個`Commit物件`
 #### 分支(branch)操作
-  + [分支基礎操作可參考](`分支(branch)`是什麼?)
+  + [分支基礎操作可參考](#分支branch是什麼)
   + 合併分支的兩種方式($ `git merge` & $ `git rebase`)
     * 方法一 : $ `git merge`
     * $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
