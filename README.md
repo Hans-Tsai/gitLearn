@@ -1443,7 +1443,7 @@ Git Learn<br>
     * [`GitHub Flow` 官方圖解說明](https://guides.github.com/introduction/flow/)    
 - `GitHub Flow`民間介紹
   + GitHub 比 Git 有多兩個服務,一個是`Fork`,另一個是`Pull Request`(簡稱PR),還新增`issue tracking`用法
-    * `issue tracking`: 開發時,可以給專案標記`issue`,還有其他不同標籤,還優化專案。當提交的時候,如果提交訊息中有 **fix #1** 等,可以自動對應到相關編號的`issue`
+    * `issue tracking`: 開發時,可以給專案標記`issue`,還有其他不同標籤,來優化專案。當提交的時候,如果提交訊息中有 **fix #1** 等,可以自動對應到相關編號的`issue`
     * 關於`issue tracking`的用法說明,可參考<br> <https://guides.github.com/features/issues/> or <br> <https://github.com/g0v/dev/wiki/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-Issue-Tracker-%E5%9B%9E%E5%A0%B1%E5%95%8F%E9%A1%8C%E3%80%81%E6%8F%90%E4%BA%A4%E5%BB%BA%E8%AD%B0>
   + `GitHub Flow`的流程說明
     * 先有一個共有的遠端倉庫(remote repository)
@@ -1451,7 +1451,7 @@ Git Learn<br>
     * 從`master分支`拉出新分支,`修改`且`提交`(Commits)
     * 開發好後,再利用`Pull Request`機制來發一個通知回去共有的遠端倉庫(remote repository)的原作者
     * 待審核過後再`合併`(Merge)進原作者的遠端倉庫的`master分支`
-    * 合併後,`Pull Request`保存了當時的修改歷史記錄以及回饋,可以讓任開發人回頭檢視當初情況 
+    * 合併後,`Pull Request`保存了當時的修改歷史記錄以及回饋,可以讓任一開發人回頭檢視當初情況 
   + 以下是`GitHub Flow`民間的流程圖說明
     * ![GitHub Flow流程圖_民間圖解說明](/pic/GitHub%20Flow流程圖_民間圖解說明.png)<br>
       參考圖片出處<https://medium.com/@lf2lf2111/%E4%B8%89%E7%A8%AE%E7%89%88%E6%8E%A7%E6%B5%81%E7%A8%8B-29c82f5d4469>
