@@ -1066,6 +1066,8 @@ Git Learn<br>
       * $ `git stash` 預設就是相當於 $ `git stash push` 
       * `-u` (=> `--include-untracked`): 可以加上這個參數,讓`工作目錄`(working directory)中的`Untracked Files`也一起加入到`Stash`中
       * ![git stash -u 將所有檔案(包含Untracked Files)的當下狀態都儲存起來](/pic/git%20stash%20-u%20將所有檔案(包含Untracked%20Files)的當下狀態都儲存起來.png)
+    * 也可以輸入 $ `git stash save 'xxx description'`: 將"暫存區"(staging area)的檔案都加到`Stash`中，**並能自定義對該 stash 的描述**
+      * E.g. 此方法會回傳 `stash@{<編號>}: On <分支名稱>: <自定義的 stash 描述>` `stash@{0}: On ch02: xxx description`
     * 這時候檢視Git狀態,會發現當下的狀態跟剛`commit`完一樣乾淨
     * $ `git stash list`: 列出所有目前擁有的`Stash`項目
       * 最前面的`stash@{0}`就是這個`Stash`的代名詞
