@@ -331,18 +331,18 @@ Git Learn<br>
   + [分支基礎操作可參考](#分支branch是什麼)
   + 合併分支的兩種方式($ `git merge` & $ `git rebase`)
     * 方法一 : $ `git merge`
-    * $ `git merge <要合併到的分支名稱>`: 可以用來將目前所在的分支(branch)合併到 `<要合併到的分支名稱>`
+    * $ `git merge <要合併掉的分支名稱>`: 可以用來將目前所在的分支(branch)合併(= 吃)掉 `<要合併掉的分支名稱>`
       * 若要合併掉別人的分支是從要被合併掉的分支的開出來的,若要被合併掉的分支沒有修改的話,Git會預設使用快轉模式(fast-forward)來做合併 
-        * $ `git merge --ff <要合併到的分支名稱>`
+        * $ `git merge --ff <要合併掉的分支名稱>`
           * `--ff` (=> 此為Git預設`fast-forward`模式)
         * ![git merge --ff 快轉模式來合併分支的圖解說明](/pic/git%20merge%20--ff%20快轉模式來合併分支的圖解說明.png)<br>
           參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
       * 但若原本的那個分支有修改過的話,這時候Git就不會使用快轉模式(`fast-forward`),此時Git會額外再做出一個新的`Commit物件`來合併這兩個分支
-        * $ `git merge --no-ff <要合併到的分支名稱>`
+        * $ `git merge --no-ff <要合併掉的分支名稱>`
           * `--no-ff` (=> 強制"不要"使用fast-forward模式)
           * ![git merge --no-ff 強制不要使用快轉模式來合併分支的圖解說明](/pic/git%20merge%20--no-ff%20強制不要使用快轉模式來合併分支的圖解說明.png)<br>
             參考圖片出處: <https://backlog.com/git-tutorial/tw/stepup/stepup1_4.html>
-      * $ `git merge --ff-only <要合併到的分支名稱>`
+      * $ `git merge --ff-only <要合併掉的分支名稱>`
         * `--ff-only` (=> 盡可能的優先使用fast-forward模式合併,此時如果無法做到使用fast-forward模式合併的話,Git就會拒絕這次的指令並回傳一個"失敗"的錯誤狀態) 
     * `情境說明`(要用`master分支`來合併`pig分支`)
     * 先新增一個分支(branch): `pig`
